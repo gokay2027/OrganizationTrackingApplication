@@ -23,7 +23,7 @@ namespace Entities.Domain
             EventId = eventId;
         }
 
-        public void UpdateRating(Guid userId, int rate, Guid eventId)
+        public void Update(Guid userId, int rate, Guid eventId)
         {
             UserId = userId;
             Rate = rate;

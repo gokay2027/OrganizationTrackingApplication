@@ -12,11 +12,17 @@ namespace Entities.Domain
         public bool Gender { get; private set; }
 
         //Many to Many itselfs
-        public List<User> Friends = new List<User>();
-        public List<User> Followers = new List<User>();
-        public List<User> Followeds = new List<User>();
+        public List<User> Friends { get; private set; } = new List<User>();
+
+        public List<User> Followers { get; private set; } = new List<User>();
+        public List<User> Followeds { get; private set; } = new List<User>();
 
         public List<Notification> Notifications { get; private set; } = new List<Notification>();
+        public List<Ticket> Tickets { get; private set; } = new List<Ticket>();
+
+        public User()
+        {
+        }
 
         public User(string name, string surname, string email, string password, bool gender)
         {

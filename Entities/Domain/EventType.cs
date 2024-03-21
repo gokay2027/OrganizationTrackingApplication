@@ -9,6 +9,10 @@ namespace Entities.Entities
 
         public List<Event> Events { get; private set; } = new List<Event>();
 
+        public EventType()
+        {
+        }
+
         public EventType(string typeName)
         {
             Name = typeName;

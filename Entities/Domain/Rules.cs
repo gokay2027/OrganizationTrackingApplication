@@ -10,6 +10,10 @@ namespace Entities.Entities
         public Guid EventId { get; private set; }
         public Event Event { get; private set; }
 
+        public Rules()
+        {
+        }
+
         public Rules(string rule, Guid eventId)
         {
             Rule = rule;

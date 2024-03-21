@@ -12,6 +12,10 @@ namespace Entities.Entities
 
         public List<Event> Events { get; private set; } = new List<Event>();
 
+        public Location()
+        {
+        }
+
         public Location(string description, string formattedName, float latitude, float longitude)
         {
             Description = description;
