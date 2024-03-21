@@ -1,8 +1,10 @@
 ﻿using Entities.BaseAggregate.Concrete;
+using Entities.Domain;
 
 namespace Entities.Entities
 {
-    public class Followers : BaseEntity
+    public class Follower : BaseEntity
     {
+        
     }
 }

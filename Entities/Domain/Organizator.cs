@@ -7,5 +7,14 @@ namespace Entities.Entities
     {
         public string Name { get; private set; }
         public List<Event> Events { get; private set; } = new List<Event>();
+
+        public Organizator()
+        {
+        }
+
+        public Organizator(string name)
+        {
+            Name = name;
+        }
     }
 }

@@ -6,7 +6,7 @@ namespace Entities.Domain
     public class Event : BaseEntity
     {
         public string Name { get; private set; }
-        public DateTime DateTime { get; private set; }
+        public DateTime EventTime { get; private set; }
 
         public Guid EventTypeId { get; private set; }
         public EventType EventType { get; private set; }
@@ -17,6 +17,8 @@ namespace Entities.Domain
         public Guid LocationId { get; private set; }
         public Location Location { get; private set; }
 
+        public bool IsCompleted { get; private set; } = false;
+
         public List<Ticket> Tickets { get; private set; } = new List<Ticket>();
         public List<Rules> Rules { get; private set; } = new List<Rules>();
         public List<Rating> Ratings { get; private set; } = new List<Rating>();
@@ -25,13 +27,27 @@ namespace Entities.Domain
         {
         }
 
-        public Event(string name, DateTime dateTime, Guid locationId, Guid eventTypeId, Guid organizatorId)
+        public Event(string name, DateTime eventTime, Guid locationId, Guid eventTypeId, Guid organizatorId)
         {
             Name = name;
-            DateTime = dateTime;
+            EventTime = eventTime;
             LocationId = locationId;
             EventTypeId = eventTypeId;
             OrganizatorId = organizatorId;
+        }
+
+        public void Update(string name, DateTime eventTime, Guid locationId, Guid eventTypeId, Guid organizatorId)
+        {
+            Name = name;
+            EventTime = eventTime;
+            LocationId = locationId;
+            EventTypeId = eventTypeId;
+            OrganizatorId = organizatorId;
+        }
+
+        public void CompleteEvent()
+        {
+            IsCompleted = true;
         }
     }
 }

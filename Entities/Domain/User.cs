@@ -1,4 +1,5 @@
 ﻿using Entities.BaseAggregate.Concrete;
+using Entities.Entities;
 using System.Data;
 
 namespace Entities.Domain
@@ -10,6 +11,8 @@ namespace Entities.Domain
         public string Email { get; private set; }
         public string Password { get; private set; }
         public bool Gender { get; private set; }
+
+        public Guid FollowersId { get; private set; } = Guid.NewGuid();
 
         public User(string name, string surname, string email, string password, bool gender)
         {

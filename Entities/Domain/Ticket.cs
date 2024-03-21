@@ -1,8 +1,6 @@
 ﻿using Entities.BaseAggregate.Concrete;
-using Entities.Domain;
-using System.Data;
 
-namespace Entities.Entities
+namespace Entities.Domain
 {
     public class Ticket : BaseEntity
     {

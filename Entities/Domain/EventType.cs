@@ -5,13 +5,18 @@ namespace Entities.Entities
 {
     public class EventType : BaseEntity
     {
-        public string TypeName { get; private set; }
+        public string Name { get; private set; }
 
         public List<Event> Events { get; private set; } = new List<Event>();
 
         public EventType(string typeName)
         {
-            TypeName = typeName;
+            Name = typeName;
+        }
+
+        public void Update(string name)
+        {
+            Name = name;
         }
     }
 }
