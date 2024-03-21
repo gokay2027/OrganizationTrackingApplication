@@ -6,8 +6,8 @@ namespace Entities.Domain
     {
         public float Price { get; private set; }
 
-        public Guid OwnerId { get; private set; }
-        public User Owner { get; private set; }
+        public Guid? OwnerId { get; private set; }
+        public User? Owner { get; private set; }
 
         public Guid EventId { get; private set; }
         public Event Event { get; private set; }

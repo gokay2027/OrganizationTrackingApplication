@@ -10,9 +10,7 @@ namespace Entities.Entities
         public float Latitude { get; private set; }
         public float Longitude { get; private set; }
 
-
         public List<Event> Events { get; private set; } = new List<Event>();
-        public List<Ticket> Tickets { get; private set; } = new List<Ticket>();
 
         public Location(string description, string formattedName, float latitude, float longitude)
         {

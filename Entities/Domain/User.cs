@@ -1,6 +1,5 @@
 ﻿using Entities.BaseAggregate.Concrete;
 using Entities.Entities;
-using System.Data;
 
 namespace Entities.Domain
 {
@@ -12,7 +11,12 @@ namespace Entities.Domain
         public string Password { get; private set; }
         public bool Gender { get; private set; }
 
-        public Guid FollowersId { get; private set; } = Guid.NewGuid();
+        //Many to Many itselfs
+        public List<User> Friends = new List<User>();
+        public List<User> Followers = new List<User>();
+        public List<User> Followeds = new List<User>();
+
+        public List<Notification> Notifications { get; private set; } = new List<Notification>();
 
         public User(string name, string surname, string email, string password, bool gender)
         {
