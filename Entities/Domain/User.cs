@@ -12,13 +12,15 @@ namespace Entities.Domain
         public bool Gender { get; private set; }
 
         //Many to Many itselfs
-        public List<User> Friends { get; private set; } = new List<User>();
-
-        public List<User> Followers { get; private set; } = new List<User>();
-        public List<User> Followeds { get; private set; } = new List<User>();
+        public List<Friend> FriendOnes { get; private set; } = new List<Friend>();
+        public List<Friend> FriendTwos { get; private set; } = new List<Friend>();
+        
+        public List<Follow> Followers { get; private set; } = new List<Follow>();
+        public List<Follow> Followeds { get; private set; } = new List<Follow>();
 
         public List<Notification> Notifications { get; private set; } = new List<Notification>();
         public List<Ticket> Tickets { get; private set; } = new List<Ticket>();
+        public List<Rating> Ratings { get; private set; } = new List<Rating>();
 
         public User()
         {
