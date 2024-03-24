@@ -1,4 +1,7 @@
-﻿namespace OrganizationTrackingApplicationData.GenericRepository.Abstract
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+
+namespace OrganizationTrackingApplicationData.GenericRepository.Abstract
 {
     //Here, we are creating the IGenericRepository interface as a Generic Interface
     //Here, we are applying the Generic Constraint
@@ -15,6 +18,9 @@
 
         void Delete(Guid id);
 
-        void Save();
+        IEnumerable<T> GetByFilter(Expression<Func<T,bool>> predicate);
+
+        DbSet<T> GetSet();
+
     }
 }

@@ -1,39 +1,55 @@
 ﻿using Entities.BaseAggregate.Concrete;
 using Microsoft.EntityFrameworkCore;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
+using System.Linq.Expressions;
 
 namespace OrganizationTrackingApplicationData.GenericRepository.Concrete
 {
-    public class GenericRepostory : IGenericRepository<BaseEntity>
+    public class GenericRepostory<T> : IGenericRepository<T> where T : BaseEntity
     {
+        private OrganizationTrackingApplicationDbContext _context = null;
+
+        public GenericRepostory(OrganizationTrackingApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().First(a => a.Id == id).Delete();
+            _context.SaveChanges();
         }
 
-        public IEnumerable<BaseEntity> GetAll()
+        public IEnumerable<T> GetAll()
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().ToList();
         }
 
-        public BaseEntity GetById(Guid id)
+        public IEnumerable<T> GetByFilter(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().Where(predicate);
         }
 
-        public void Insert(BaseEntity obj)
+        public T GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return _context.Set<T>().First(a => a.Id.Equals(id));
         }
 
-        public void Save()
+        public void Insert(T obj)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Add(obj);
+            _context.SaveChanges();
         }
 
-        public void Update(BaseEntity obj)
+        public void Update(T obj)
         {
-            throw new NotImplementedException();
+            _context.Entry(obj).State = EntityState.Modified;
+            _context.SaveChanges();
+        }
+
+        public DbSet<T> GetSet()
+        {
+            return _context.Set<T>();
         }
     }
 }
