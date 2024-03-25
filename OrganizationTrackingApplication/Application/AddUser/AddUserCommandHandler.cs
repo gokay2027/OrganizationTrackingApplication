@@ -19,6 +19,7 @@ namespace OrganizationTrackingApplicationApi.Application.AddUser
             var user = new User(request.Name,request.Surname,request.Email,request.Password,request.Gender);
 
             _userRepository.Insert(user);
+            
 
             return new AddUserOutputModel
             {
