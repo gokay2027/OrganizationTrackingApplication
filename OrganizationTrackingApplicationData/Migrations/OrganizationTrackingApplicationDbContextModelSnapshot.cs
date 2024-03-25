@@ -28,6 +28,9 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("EventTime")
                         .HasColumnType("datetime2");
 
@@ -35,6 +38,9 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<Guid>("LocationId")
@@ -46,6 +52,9 @@ namespace OrganizationTrackingApplicationData.Migrations
 
                     b.Property<Guid>("OrganizatorId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -64,11 +73,20 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid?>("FollowedId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("FollowerId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -85,11 +103,20 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("FriendOneId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("FriendTwoId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -106,11 +133,20 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<int>("Rate")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -130,14 +166,23 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<Guid?>("OwnerId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<float>("Price")
                         .HasColumnType("real");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -154,11 +199,17 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Gender")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -173,6 +224,9 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -184,9 +238,18 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -195,33 +258,51 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("903571e4-4496-4216-99df-6f121a133ef5"),
-                            Name = "Concert"
+                            Id = new Guid("b474bc33-c7ae-4abb-9ae6-7d2dce0f1999"),
+                            CreatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5542),
+                            IsDeleted = false,
+                            Name = "Concert",
+                            UpdatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5571)
                         },
                         new
                         {
-                            Id = new Guid("f862b959-e44f-40f5-9c53-f62b6e31991c"),
-                            Name = "Carnival"
+                            Id = new Guid("d4581336-5d2d-404f-9896-9b25bf2a6080"),
+                            CreatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5611),
+                            IsDeleted = false,
+                            Name = "Carnival",
+                            UpdatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5611)
                         },
                         new
                         {
-                            Id = new Guid("c3b33b3f-483a-423e-af09-4c8ce7a6d252"),
-                            Name = "Festival"
+                            Id = new Guid("94e99ee7-f305-4930-95b8-4019a81ad519"),
+                            CreatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5615),
+                            IsDeleted = false,
+                            Name = "Festival",
+                            UpdatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5615)
                         },
                         new
                         {
-                            Id = new Guid("f6c29eb7-ecdb-49eb-a212-3b63bc9bc00f"),
-                            Name = "Meeting"
+                            Id = new Guid("d7a0eff6-f276-47d9-9a27-3b68b95c6c06"),
+                            CreatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5618),
+                            IsDeleted = false,
+                            Name = "Meeting",
+                            UpdatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5619)
                         },
                         new
                         {
-                            Id = new Guid("74213cbf-efe3-43d0-8cc1-68dca8438a23"),
-                            Name = "Activity"
+                            Id = new Guid("864df255-72f9-43a9-afbe-1b26cd6db182"),
+                            CreatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5621),
+                            IsDeleted = false,
+                            Name = "Activity",
+                            UpdatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5622)
                         },
                         new
                         {
-                            Id = new Guid("4f5d2d19-b8a1-4e7a-af4f-e07a92a66bd6"),
-                            Name = "Trip"
+                            Id = new Guid("6a35db41-1b97-4980-871a-56490d8dda4b"),
+                            CreatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5626),
+                            IsDeleted = false,
+                            Name = "Trip",
+                            UpdatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5627)
                         });
                 });
 
@@ -231,6 +312,9 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -239,11 +323,17 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<float>("Latitude")
                         .HasColumnType("real");
 
                     b.Property<float>("Longitude")
                         .HasColumnType("real");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -260,9 +350,18 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Topic")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -280,9 +379,18 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -295,12 +403,21 @@ namespace OrganizationTrackingApplicationData.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Rule")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

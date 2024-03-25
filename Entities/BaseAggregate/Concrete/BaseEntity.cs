@@ -6,11 +6,11 @@ namespace Entities.BaseAggregate.Concrete
     {
         public Guid Id { get; private set; } = Guid.NewGuid();
 
-        public DateTime CreatedDate = DateTime.Now;
+        public DateTime CreatedDate { get; private set; } = DateTime.Now;
 
-        public DateTime UpdatedDate = DateTime.Now;
+        public DateTime UpdatedDate { get; private set; } = DateTime.Now;
 
-        public bool IsDeleted = false;
+        public bool IsDeleted { get; private set; }  = false;
 
         public void Delete()
         {

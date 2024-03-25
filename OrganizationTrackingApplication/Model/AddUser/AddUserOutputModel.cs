@@ -1,8 +1,8 @@
-﻿namespace OrganizationTrackingApplicationApi.Model.AddUser
+﻿using OrganizationTrackingApplicationApi.Model.BaseModel;
+
+namespace OrganizationTrackingApplicationApi.Model.AddUser
 {
-    public class AddUserOutputModel
+    public class AddUserOutputModel:BaseOutputModel
     {
-        public bool IsSuccess { get; set; }
-        public string Message { get; set; }
     }
 }

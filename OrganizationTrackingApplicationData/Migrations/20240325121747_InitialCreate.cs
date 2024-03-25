@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace OrganizationTrackingApplicationData.Migrations
 {
     /// <inheritdoc />
@@ -16,7 +18,10 @@ namespace OrganizationTrackingApplicationData.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -31,7 +36,10 @@ namespace OrganizationTrackingApplicationData.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FormattedName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Latitude = table.Column<float>(type: "real", nullable: false),
-                    Longitude = table.Column<float>(type: "real", nullable: false)
+                    Longitude = table.Column<float>(type: "real", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -43,7 +51,10 @@ namespace OrganizationTrackingApplicationData.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,7 +70,10 @@ namespace OrganizationTrackingApplicationData.Migrations
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Gender = table.Column<bool>(type: "bit", nullable: false)
+                    Gender = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -76,7 +90,10 @@ namespace OrganizationTrackingApplicationData.Migrations
                     EventTypeId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OrganizatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    IsCompleted = table.Column<bool>(type: "bit", nullable: false)
+                    IsCompleted = table.Column<bool>(type: "bit", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -107,7 +124,10 @@ namespace OrganizationTrackingApplicationData.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FollowerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FollowedId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    FollowedId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,7 +151,10 @@ namespace OrganizationTrackingApplicationData.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FriendOneId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FriendTwoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    FriendTwoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,7 +180,10 @@ namespace OrganizationTrackingApplicationData.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Topic = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -177,7 +203,10 @@ namespace OrganizationTrackingApplicationData.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Rate = table.Column<int>(type: "int", nullable: false)
+                    Rate = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -202,7 +231,10 @@ namespace OrganizationTrackingApplicationData.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Rule = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -222,7 +254,10 @@ namespace OrganizationTrackingApplicationData.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Price = table.Column<float>(type: "real", nullable: false),
                     OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -238,6 +273,19 @@ namespace OrganizationTrackingApplicationData.Migrations
                         column: x => x.OwnerId,
                         principalTable: "Users",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "EventTypes",
+                columns: new[] { "Id", "CreatedDate", "IsDeleted", "Name", "UpdatedDate" },
+                values: new object[,]
+                {
+                    { new Guid("6a35db41-1b97-4980-871a-56490d8dda4b"), new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5626), false, "Trip", new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5627) },
+                    { new Guid("864df255-72f9-43a9-afbe-1b26cd6db182"), new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5621), false, "Activity", new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5622) },
+                    { new Guid("94e99ee7-f305-4930-95b8-4019a81ad519"), new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5615), false, "Festival", new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5615) },
+                    { new Guid("b474bc33-c7ae-4abb-9ae6-7d2dce0f1999"), new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5542), false, "Concert", new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5571) },
+                    { new Guid("d4581336-5d2d-404f-9896-9b25bf2a6080"), new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5611), false, "Carnival", new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5611) },
+                    { new Guid("d7a0eff6-f276-47d9-9a27-3b68b95c6c06"), new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5618), false, "Meeting", new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5619) }
                 });
 
             migrationBuilder.CreateIndex(
