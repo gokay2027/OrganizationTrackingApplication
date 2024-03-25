@@ -16,7 +16,7 @@ namespace OrganizationTrackingApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<AddUserOutputModel> AddUser([FromBody] AddUserCommand model)
+        public async Task<AddUserOutputModel> RegisterUser([FromBody] AddUserCommand model)
         {
             return await _mediator.Send(model);
         }
