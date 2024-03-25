@@ -1,4 +1,6 @@
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OrganizationTrackingApplicationApi.Model.AddUser;
 
 namespace OrganizationTrackingApplication.Controllers
 {
@@ -6,10 +8,17 @@ namespace OrganizationTrackingApplication.Controllers
     [Route("[controller]/[Action]")]
     public class OrganizationTrackingApplicationController : ControllerBase
     {
-        [HttpGet]
-        public int Get()
+        private readonly IMediator _mediator;
+
+        public OrganizationTrackingApplicationController(IMediator mediator)
         {
-            return 5;
+            _mediator = mediator;
+        }
+
+        [HttpPost]
+        public async Task<AddUserOutputModel> AddUser([FromBody] AddUserCommand model)
+        {
+            return await _mediator.Send(model);
         }
     }
 }

@@ -5,11 +5,11 @@ using System.Linq.Expressions;
 
 namespace OrganizationTrackingApplicationData.GenericRepository.Concrete
 {
-    public class GenericRepostory<T> : IGenericRepository<T> where T : BaseEntity
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         private OrganizationTrackingApplicationDbContext _context = null;
 
-        public GenericRepostory(OrganizationTrackingApplicationDbContext context)
+        public GenericRepository(OrganizationTrackingApplicationDbContext context)
         {
             _context = context;
         }
