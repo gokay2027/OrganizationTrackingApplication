@@ -8,19 +8,19 @@ namespace OrganizationTrackingApplicationData.GenericRepository.Abstract
     //The constraint is, T is going to be a class
     public interface IGenericRepository<T> where T : class
     {
-        IEnumerable<T> GetAll();
+        Task<IEnumerable<T>> GetAll();
 
-        T GetById(Guid id);
+        Task<T> GetById(Guid id);
 
-        void Insert(T obj);
+        Task Insert(T obj);
 
-        void Update(T obj);
+        Task Update(T obj);
 
-        void Delete(Guid id);
+        Task Delete(Guid id);
 
-        IEnumerable<T> GetByFilter(Expression<Func<T,bool>> predicate);
+        Task<IEnumerable<T>> GetByFilter(Expression<Func<T,bool>> predicate);
 
-        DbSet<T> GetSet();
+        Task<DbSet<T>> GetSet();
 
     }
 }

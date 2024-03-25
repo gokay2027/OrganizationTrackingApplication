@@ -14,40 +14,40 @@ namespace OrganizationTrackingApplicationData.GenericRepository.Concrete
             _context = context;
         }
 
-        public void Delete(Guid id)
+        public async Task Delete(Guid id)
         {
             _context.Set<T>().First(a => a.Id == id).Delete();
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public IEnumerable<T> GetAll()
+        public async Task<IEnumerable<T>> GetAll()
         {
             return _context.Set<T>().ToList();
         }
 
-        public IEnumerable<T> GetByFilter(Expression<Func<T, bool>> predicate)
+        public async Task<IEnumerable<T>> GetByFilter(Expression<Func<T, bool>> predicate)
         {
             return _context.Set<T>().Where(predicate);
         }
 
-        public T GetById(Guid id)
+        public async Task<T> GetById(Guid id)
         {
             return _context.Set<T>().First(a => a.Id.Equals(id));
         }
 
-        public void Insert(T obj)
+        public async Task Insert(T obj)
         {
-            _context.Set<T>().Add(obj);
-            _context.SaveChanges();
+            await _context.Set<T>().AddAsync(obj);
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(T obj)
+        public async Task Update(T obj)
         {
             _context.Entry(obj).State = EntityState.Modified;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public DbSet<T> GetSet()
+        public async Task<DbSet<T>> GetSet()
         {
             return _context.Set<T>();
         }

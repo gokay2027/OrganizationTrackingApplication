@@ -16,10 +16,13 @@ namespace OrganizationTrackingApplicationApi.Application.AddUser
 
         public async Task<AddUserOutputModel> Handle(AddUserCommand request, CancellationToken cancellationToken)
         {
-            var user = new User(request.Name,request.Surname,request.Email,request.Password,request.Gender);
+            var user = new User(request.InputModel.Name,
+                request.InputModel.Surname,
+                request.InputModel.Email,
+                request.InputModel.Password,
+                request.InputModel.Gender);
 
-            _userRepository.Insert(user);
-            
+            await _userRepository.Insert(user);
 
             return new AddUserOutputModel
             {
