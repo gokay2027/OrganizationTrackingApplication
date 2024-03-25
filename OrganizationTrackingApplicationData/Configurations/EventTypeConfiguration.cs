@@ -15,6 +15,12 @@ namespace OrganizationTrackingApplicationData.Configurations
         public void Configure(EntityTypeBuilder<EventType> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.HasData(new EventType("Concert"));
+            builder.HasData(new EventType("Carnival"));
+            builder.HasData(new EventType("Festival"));
+            builder.HasData(new EventType("Meeting"));
+            builder.HasData(new EventType("Activity"));
+            builder.HasData(new EventType("Trip"));
         }
     }
 }
