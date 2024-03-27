@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using Entities.Domain;
+using MediatR;
 using OrganizationTrackingApplicationApi.Model.User.AddUser;
-using OrganizationTrackingApplicationApi.Validation;
+using OrganizationTrackingApplicationApi.Validation.UserValidation;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
-using Entities.Domain;
 
 namespace OrganizationTrackingApplicationApi.Application.UserCommand.AddUser
 {
