@@ -1,5 +1,4 @@
 ﻿using Entities.BaseAggregate.Concrete;
-using Entities.Entities;
 
 namespace Entities.Domain
 {

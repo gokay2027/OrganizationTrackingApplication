@@ -1,7 +1,6 @@
 ﻿using Entities.BaseAggregate.Concrete;
-using Entities.Domain;
 
-namespace Entities.Entities
+namespace Entities.Domain
 {
     public class Organizator : BaseEntity
     {

@@ -1,5 +1,4 @@
 ﻿using Entities.Domain;
-using Entities.Entities;
 using Microsoft.EntityFrameworkCore;
 using OrganizationTrackingApplicationData.Configurations;
 

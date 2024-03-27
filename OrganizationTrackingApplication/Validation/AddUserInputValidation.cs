@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using OrganizationTrackingApplicationApi.Model.AddUser;
+using OrganizationTrackingApplicationApi.Model.User.AddUser;
 
 namespace OrganizationTrackingApplicationApi.Validation
 {

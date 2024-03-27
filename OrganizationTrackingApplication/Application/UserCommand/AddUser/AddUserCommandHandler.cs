@@ -1,10 +1,10 @@
-﻿using Entities.Domain;
-using MediatR;
-using OrganizationTrackingApplicationApi.Model.AddUser;
+﻿using MediatR;
+using OrganizationTrackingApplicationApi.Model.User.AddUser;
 using OrganizationTrackingApplicationApi.Validation;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
+using Entities.Domain;
 
-namespace OrganizationTrackingApplicationApi.Application.AddUser
+namespace OrganizationTrackingApplicationApi.Application.UserCommand.AddUser
 {
     public class AddUserCommandHandler : IRequestHandler<AddUserCommand, AddUserOutputModel>
     {

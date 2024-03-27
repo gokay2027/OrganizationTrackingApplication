@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace OrganizationTrackingApplicationApi.Model.AddUser
+namespace OrganizationTrackingApplicationApi.Model.User.AddUser
 {
     public class AddUserCommand : IRequest<AddUserOutputModel>
     {

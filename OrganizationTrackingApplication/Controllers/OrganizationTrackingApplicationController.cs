@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using OrganizationTrackingApplicationApi.Model.AddUser;
+using OrganizationTrackingApplicationApi.Model.User.AddUser;
 
 namespace OrganizationTrackingApplication.Controllers
 {
