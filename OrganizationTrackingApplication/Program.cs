@@ -1,4 +1,3 @@
-using Entities.Domain;
 using OrganizationTrackingApplicationData;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
 using OrganizationTrackingApplicationData.GenericRepository.Concrete;

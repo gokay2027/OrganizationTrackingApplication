@@ -2,7 +2,7 @@
 
 namespace OrganizationTrackingApplicationApi.Model.User.UpdateUser
 {
-    public class UpdateUserOutputModel:BaseOutputModel
+    public class UpdateUserOutputModel : BaseOutputModel
     {
     }
 }

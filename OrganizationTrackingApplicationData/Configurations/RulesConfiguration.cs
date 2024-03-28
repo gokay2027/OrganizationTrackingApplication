@@ -9,7 +9,7 @@ namespace OrganizationTrackingApplicationData.Configurations
         public void Configure(EntityTypeBuilder<Rules> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.Event).WithMany(x => x.Rules).HasForeignKey(x=>x.EventId);
+            builder.HasOne(x => x.Event).WithMany(x => x.Rules).HasForeignKey(x => x.EventId);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Entities.Domain
         public Follow()
         { }
 
-        public Follow(Guid followerId,Guid followedId)
+        public Follow(Guid followerId, Guid followedId)
         {
             FollowerId = followerId;
             FollowedId = followedId;

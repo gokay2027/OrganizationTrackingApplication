@@ -18,7 +18,7 @@ namespace OrganizationTrackingApplicationData.GenericRepository.Abstract
 
         Task Delete(Guid id);
 
-        Task<IEnumerable<T>> GetByFilter(Expression<Func<T,bool>> predicate);
+        Task<IEnumerable<T>> GetByFilter(Expression<Func<T, bool>> predicate);
 
         Task<DbSet<T>> GetSet();
 

@@ -13,7 +13,7 @@ namespace Entities.Domain
         //Many to Many itselfs
         public List<Friend> FriendOnes { get; private set; } = new List<Friend>();
         public List<Friend> FriendTwos { get; private set; } = new List<Friend>();
-        
+
         public List<Follow> Followers { get; private set; } = new List<Follow>();
         public List<Follow> Followeds { get; private set; } = new List<Follow>();
 

@@ -10,7 +10,7 @@ namespace Entities.BaseAggregate.Concrete
 
         public DateTime UpdatedDate { get; private set; } = DateTime.Now;
 
-        public bool IsDeleted { get; private set; }  = false;
+        public bool IsDeleted { get; private set; } = false;
 
         public void Delete()
         {
