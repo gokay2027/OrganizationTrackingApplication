@@ -1,4 +1,6 @@
 using Entities.Domain;
+using OrganizationTrackingApplicationApi.Application.Query;
+using OrganizationTrackingApplicationApi.Application.Query.Abstract;
 using OrganizationTrackingApplicationData;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
 using OrganizationTrackingApplicationData.GenericRepository.Concrete;
@@ -13,7 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<OrganizationTrackingApplicationDbContext>();
 
-//builder.Services.AddTransient<IGenericRepository<User>,GenericRepository<User>>();
+
+builder.Services.AddTransient<IUserQuery,UserQuery>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));

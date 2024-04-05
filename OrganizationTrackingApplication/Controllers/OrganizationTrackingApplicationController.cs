@@ -1,5 +1,7 @@
+using Entities.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OrganizationTrackingApplicationApi.Application.Query.Abstract;
 using OrganizationTrackingApplicationApi.Model.User.AddUser;
 using OrganizationTrackingApplicationApi.Model.User.ChangePassword;
 using OrganizationTrackingApplicationApi.Model.User.DeleteUser;
@@ -12,10 +14,11 @@ namespace OrganizationTrackingApplication.Controllers
     public class OrganizationTrackingApplicationController : ControllerBase
     {
         private readonly IMediator _mediator;
-
-        public OrganizationTrackingApplicationController(IMediator mediator)
+        private readonly IUserQuery _userQuery;
+        public OrganizationTrackingApplicationController(IMediator mediator, IUserQuery userQuery)
         {
             _mediator = mediator;
+            _userQuery = userQuery;
         }
 
         [HttpPost]
@@ -41,5 +44,12 @@ namespace OrganizationTrackingApplication.Controllers
         {
             return await _mediator.Send(model);
         }
+
+        [HttpGet]
+        public async Task<List<User>> GetAllUsers()
+        {
+            return await _userQuery.GetAllUsers();
+        }
+
     }
 }
