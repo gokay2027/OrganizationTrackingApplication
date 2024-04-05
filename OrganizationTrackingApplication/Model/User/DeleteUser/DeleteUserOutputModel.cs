@@ -2,7 +2,7 @@
 
 namespace OrganizationTrackingApplicationApi.Model.User.DeleteUser
 {
-    public class DeleteUserOutputModel:BaseOutputModel
+    public class DeleteUserOutputModel : BaseOutputModel
     {
     }
 }

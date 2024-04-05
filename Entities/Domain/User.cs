@@ -12,8 +12,9 @@ namespace Entities.Domain
 
         //Many to Many itselfs
         public List<Friend> FriendOnes { get; private set; } = new List<Friend>();
+
         public List<Friend> FriendTwos { get; private set; } = new List<Friend>();
-        
+
         public List<Follow> Followers { get; private set; } = new List<Follow>();
         public List<Follow> Followeds { get; private set; } = new List<Follow>();
 
@@ -34,20 +35,24 @@ namespace Entities.Domain
             Gender = gender;
         }
 
-        public void Update(string name, string surname, string email, string password, bool gender)
+        public void Update(string name, string surname, string email, bool gender)
         {
             Name = name;
             Surname = surname;
-            Email = email;
-            Password = password;
+            Email = email; 
             Gender = gender;
         }
 
-        public void ChangePassword(string oldPassword, string newPassword)
+        public bool ChangePassword(string oldPassword, string newPassword)
         {
             if (oldPassword.Equals(Password))
             {
                 Password = newPassword;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }
