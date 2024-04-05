@@ -37,7 +37,7 @@ namespace OrganizationTrackingApplication.Controllers
         }
 
         [HttpPut]
-        public async Task<ChangePasswordOutputModel> UpdateUser([FromBody] ChangePasswordCommand model)
+        public async Task<ChangePasswordOutputModel> ChanePassword([FromBody] ChangePasswordCommand model)
         {
             return await _mediator.Send(model);
         }

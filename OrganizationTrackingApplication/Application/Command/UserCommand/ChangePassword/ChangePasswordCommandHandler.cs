@@ -1,6 +1,7 @@
 ﻿using Entities.Domain;
 using MediatR;
 using OrganizationTrackingApplicationApi.Model.User.ChangePassword;
+using OrganizationTrackingApplicationApi.Validation.UserValidation;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
 
 namespace OrganizationTrackingApplicationApi.Application.Command.UserCommand.ChangePassword
@@ -16,6 +17,18 @@ namespace OrganizationTrackingApplicationApi.Application.Command.UserCommand.Cha
 
         public async Task<ChangePasswordOutputModel> Handle(ChangePasswordCommand request, CancellationToken cancellationToken)
         {
+            var validation = new ChangePasswordValidation();
+            var validationResult = validation.Validate(request.InputModel);
+
+            if (validationResult.IsValid.Equals(false))
+            {
+                return new ChangePasswordOutputModel
+                {
+                    IsSuccess = false,
+                    Message = validationResult.ToString()
+                };
+            }
+
             try
             {
                 var userToChangePassword = await _userRepository.GetById(request.InputModel.Id);
