@@ -4,7 +4,7 @@ using OrganizationTrackingApplicationApi.Model.User.DeleteUser;
 using OrganizationTrackingApplicationApi.Validation.UserValidation;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
 
-namespace OrganizationTrackingApplicationApi.Application.UserCommand.DeleteUser
+namespace OrganizationTrackingApplicationApi.Application.Command.UserCommand.DeleteUser
 {
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, DeleteUserOutputModel>
     {

@@ -3,7 +3,7 @@ using MediatR;
 using OrganizationTrackingApplicationApi.Model.User.ChangePassword;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
 
-namespace OrganizationTrackingApplicationApi.Application.UserCommand.ChangePassword
+namespace OrganizationTrackingApplicationApi.Application.Command.UserCommand.ChangePassword
 {
     public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, ChangePasswordOutputModel>
     {

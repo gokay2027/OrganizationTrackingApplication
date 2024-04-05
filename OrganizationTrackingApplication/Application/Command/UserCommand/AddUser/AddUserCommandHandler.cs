@@ -4,7 +4,7 @@ using OrganizationTrackingApplicationApi.Model.User.AddUser;
 using OrganizationTrackingApplicationApi.Validation.UserValidation;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
 
-namespace OrganizationTrackingApplicationApi.Application.UserCommand.AddUser
+namespace OrganizationTrackingApplicationApi.Application.Command.UserCommand.AddUser
 {
     public class AddUserCommandHandler : IRequestHandler<AddUserCommand, AddUserOutputModel>
     {

@@ -4,7 +4,7 @@ using OrganizationTrackingApplicationApi.Model.User.UpdateUser;
 using OrganizationTrackingApplicationApi.Validation.UserValidation;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
 
-namespace OrganizationTrackingApplicationApi.Application.UserCommand.UpdateUser
+namespace OrganizationTrackingApplicationApi.Application.Command.UserCommand.UpdateUser
 {
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UpdateUserOutputModel>
     {
