@@ -14,8 +14,8 @@ namespace OrganizationTrackingApplication.Controllers
     public class OrganizationTrackingApplicationController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IUserQuery _userQuery;
-        public OrganizationTrackingApplicationController(IMediator mediator, IUserQuery userQuery)
+        private readonly IOrganizationTrackingApplicationQuery _userQuery;
+        public OrganizationTrackingApplicationController(IMediator mediator, IOrganizationTrackingApplicationQuery userQuery)
         {
             _mediator = mediator;
             _userQuery = userQuery;

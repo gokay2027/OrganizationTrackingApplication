@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<OrganizationTrackingApplicationDbContext>();
 
 
-builder.Services.AddTransient<IUserQuery,UserQuery>();
+builder.Services.AddTransient<IOrganizationTrackingApplicationQuery,OrganizationTrackingApplicationQuery>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
