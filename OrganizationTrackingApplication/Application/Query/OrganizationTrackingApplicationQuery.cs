@@ -126,13 +126,8 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             {
                 var filter = UserFilterBuilder(searchModel);
 
-                var userSet = await _userRepository.GetSet();
-
-                var userList = userSet
-                     .Include(a => a.Followers)
-                     .Include(a => a.Followeds)
-                     .Include(a => a.Tickets)
-                     .Where(filter).ToList();
+                var userSet = await _userRepository.GetByFilter(filter);
+                var userList = userSet.ToList();
 
                 var resultModel = new UserListModel();
 
@@ -161,9 +156,34 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             }
         }
 
-        public Task<LoginUserResultModel> LoginUser(LoginUserModel loginModel)
+        public async Task<UserInformationModel> LoginUser(LoginUserModel loginModel)
         {
-            throw new NotImplementedException();
+            var userSet = await _userRepository.GetSet();
+
+            var user = userSet
+                 .Include(a => a.Followers)
+                 .Include(a => a.Followeds)
+                 .Include(a => a.Tickets)
+                 .Where(a => a.Email.Equals(loginModel.Email) && a.Password.Equals(loginModel.Password))
+                 .First();
+
+            var userInformation = new UserInformationModel()
+            {
+                Name = user.Name,
+                Surname = user.Surname,
+                FollowCount = user.Followeds.Count(),
+                FollowerCount = user.Followers.Count(),
+            };
+
+            foreach (var ticket in user.Tickets)
+            {
+                userInformation.EventsJoined.Add(ticket.Event.Name);
+            }
+
+            userInformation.Message = "User queried successfully";
+            userInformation.IsSuccess = true;
+
+            return userInformation;
         }
 
         private static System.Linq.Expressions.Expression<Func<User, bool>> UserFilterBuilder(UserListSearchModel userSearchModel)

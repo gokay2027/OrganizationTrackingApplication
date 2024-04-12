@@ -39,6 +39,6 @@ namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
         /// </summary>
         /// <param name="loginModel"></param>
         /// <returns></returns>
-        Task<LoginUserResultModel> LoginUser(LoginUserModel loginModel);
+        Task<UserInformationModel> LoginUser(LoginUserModel loginModel);
     }
 }
