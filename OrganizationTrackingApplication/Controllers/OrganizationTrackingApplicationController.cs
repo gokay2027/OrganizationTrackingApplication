@@ -15,6 +15,7 @@ namespace OrganizationTrackingApplication.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IOrganizationTrackingApplicationQuery _userQuery;
+
         public OrganizationTrackingApplicationController(IMediator mediator, IOrganizationTrackingApplicationQuery userQuery)
         {
             _mediator = mediator;
@@ -44,12 +45,5 @@ namespace OrganizationTrackingApplication.Controllers
         {
             return await _mediator.Send(model);
         }
-
-        [HttpGet]
-        public async Task<List<User>> GetAllUsers()
-        {
-            return await _userQuery.GetAllUsers();
-        }
-
     }
 }

@@ -25,7 +25,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
         /// </summary>
         /// <param name="Id"></param>
         /// <returns></returns>
-        Task<UserInformationModel> GetUserInformation(Guid Id);
+        Task<UserInformationModel> GetUserInformation(UserInformationInputModel inputModel);
 
         /// <summary>
         /// Gets user Search result

@@ -1,5 +1,4 @@
 ﻿using Entities.Domain;
-using LinqKit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OrganizationTrackingApplicationApi.Application.Query.Abstract;
@@ -49,13 +48,10 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             }
 
             return eventListModel;
-        
         }
 
         public async Task<EventListModel> GetEventsByFilter(EventSearchModel eventFilter)
         {
-
-
             var filter = EventFilterBuilder(eventFilter);
 
             var eventSet = await _eventRepository.GetSet();
@@ -79,18 +75,90 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                     LocationAdress = item.Location.FormattedName,
                 });
             }
-            
+
             return eventListModel;
         }
 
-        public Task<UserInformationModel> GetUserInformation(Guid Id)
+        public async Task<UserInformationModel> GetUserInformation(UserInformationInputModel inputModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var userSet = await _userRepository.GetSet();
+
+                var user = userSet
+                     .Include(a => a.Followers)
+                     .Include(a => a.Followeds)
+                     .Include(a => a.Tickets)
+                     .Where(a => a.Id.Equals(inputModel.Id))
+                     .First();
+
+                var userInformation = new UserInformationModel()
+                {
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    FollowCount = user.Followeds.Count(),
+                    FollowerCount = user.Followers.Count(),
+                };
+
+                foreach (var ticket in user.Tickets)
+                {
+                    userInformation.EventsJoined.Add(ticket.Event.Name);
+                }
+
+                userInformation.Message = "User queried successfully";
+                userInformation.IsSuccess = true;
+
+                return userInformation;
+            }
+            catch (Exception ex)
+            {
+                return new UserInformationModel()
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
         }
 
-        public Task<UserListModel> GetUserListByFilter(UserListSearchModel searchModel)
+        public async Task<UserListModel> GetUserListByFilter(UserListSearchModel searchModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var filter = UserFilterBuilder(searchModel);
+
+                var userSet = await _userRepository.GetSet();
+
+                var userList = userSet
+                     .Include(a => a.Followers)
+                     .Include(a => a.Followeds)
+                     .Include(a => a.Tickets)
+                     .Where(filter).ToList();
+
+                var resultModel = new UserListModel();
+
+                foreach (var user in userList)
+                {
+                    resultModel.ResultList.Add(new UserItemModel()
+                    {
+                        Id = user.Id,
+                        Name = user.Name,
+                        Surname = user.Surname,
+                    });
+                }
+                resultModel.ItemCount = userList.Count;
+                resultModel.IsSuccess = true;
+                resultModel.Message = "Users queried successfully";
+                return resultModel;
+            }
+            catch (Exception ex)
+            {
+                return new UserListModel
+                {
+                    Message = ex.Message,
+                    IsSuccess = false,
+                    ItemCount = 0,
+                };
+            }
         }
 
         public Task<LoginUserResultModel> LoginUser(LoginUserModel loginModel)
@@ -98,9 +166,22 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             throw new NotImplementedException();
         }
 
+        private static System.Linq.Expressions.Expression<Func<User, bool>> UserFilterBuilder(UserListSearchModel userSearchModel)
+        {
+            var predicateBuilder = LinqKit.PredicateBuilder.New<User>();
+
+            if (!userSearchModel.Name.IsNullOrEmpty())
+                predicateBuilder.And(a => a.Name.Contains(userSearchModel.Name));
+
+            if (!userSearchModel.Email.IsNullOrEmpty())
+                predicateBuilder.And(a => a.Email.Contains(userSearchModel.Email));
+
+            return predicateBuilder;
+        }
+
         private static System.Linq.Expressions.Expression<Func<Event, bool>> EventFilterBuilder(EventSearchModel eventFilter)
         {
-            var predicateBuilder = LinqKit.PredicateBuilder.True<Event>();
+            var predicateBuilder = LinqKit.PredicateBuilder.New<Event>();
 
             if (!eventFilter.LocationAdress.IsNullOrEmpty())
                 predicateBuilder.And(a => a.Location.FormattedName.Contains(eventFilter.LocationAdress));
@@ -116,7 +197,5 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
             return predicateBuilder;
         }
-
-        
     }
 }
