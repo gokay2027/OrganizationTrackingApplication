@@ -40,5 +40,10 @@ namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
         /// <param name="loginModel"></param>
         /// <returns></returns>
         Task<UserInformationModel> LoginUser(LoginUserModel loginModel);
+
+        //Get event by location
+        //Get event's Ratings
+        //Get Organizators
+        //Get Organizators by filter
     }
 }
