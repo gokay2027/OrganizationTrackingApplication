@@ -28,9 +28,11 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             try
             {
                 var eventSet = await _eventRepository.GetSet();
-                var allIncludedEventList = eventSet.Include(a => a.Organizator)
+                var allIncludedEventList = eventSet
+                    .Include(a => a.Organizator)
                     .Include(a => a.EventType)
                     .Include(a => a.Location)
+                    .Include(a => a.Rules)
                     .OrderBy(a => a.CreatedDate)
                     .ToList();
 
@@ -38,6 +40,13 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
                 foreach (var item in allIncludedEventList)
                 {
+                    List<string> rules = new List<string>();
+
+                    item.Rules.ForEach(a =>
+                    {
+                        rules.Add(a.Rule);
+                    });
+
                     eventListModel.EventList.Add(new EventListItem
                     {
                         EventTime = item.EventTime,
@@ -46,6 +55,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                         Name = item.Name,
                         OrganizatorName = item.Organizator.Name,
                         LocationAdress = item.Location.FormattedName,
+                        Rules = rules
                     });
                 }
                 eventListModel.Message = "Events were get successfully";
@@ -72,14 +82,23 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             try
             {
                 var eventSet = await _eventRepository.GetSet();
-                var allIncludedEventList = eventSet.Include(a => a.Organizator)
+                var allIncludedEventList = eventSet
+                    .Include(a => a.Organizator)
                     .Include(a => a.EventType)
                     .Include(a => a.Location)
+                    .Include(a=>a.Rules)
                     .OrderBy(a => a.CreatedDate).Where(filter)
                     .ToList();
 
                 foreach (var item in allIncludedEventList)
                 {
+                    List<string> rules = new List<string>();
+
+                    item.Rules.ForEach(a =>
+                    {
+                        rules.Add(a.Rule);
+                    });
+
                     eventListModel.EventList.Add(new EventListItem
                     {
                         EventTime = item.EventTime,
