@@ -2,9 +2,13 @@ using Entities.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrganizationTrackingApplicationApi.Application.Query.Abstract;
+using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
 using OrganizationTrackingApplicationApi.Model.User.AddUser;
 using OrganizationTrackingApplicationApi.Model.User.ChangePassword;
 using OrganizationTrackingApplicationApi.Model.User.DeleteUser;
+using OrganizationTrackingApplicationApi.Model.User.GetUser;
+using OrganizationTrackingApplicationApi.Model.User.GetUsers;
+using OrganizationTrackingApplicationApi.Model.User.LoginUser;
 using OrganizationTrackingApplicationApi.Model.User.UpdateUser;
 
 namespace OrganizationTrackingApplication.Controllers
@@ -14,12 +18,12 @@ namespace OrganizationTrackingApplication.Controllers
     public class OrganizationTrackingApplicationController : ControllerBase
     {
         private readonly IMediator _mediator;
-        private readonly IOrganizationTrackingApplicationQuery _userQuery;
+        private readonly IOrganizationTrackingApplicationQuery _query;
 
-        public OrganizationTrackingApplicationController(IMediator mediator, IOrganizationTrackingApplicationQuery userQuery)
+        public OrganizationTrackingApplicationController(IMediator mediator, IOrganizationTrackingApplicationQuery query)
         {
             _mediator = mediator;
-            _userQuery = userQuery;
+            _query = query;
         }
 
         [HttpPost]
@@ -44,6 +48,36 @@ namespace OrganizationTrackingApplication.Controllers
         public async Task<ChangePasswordOutputModel> ChanePassword([FromBody] ChangePasswordCommand model)
         {
             return await _mediator.Send(model);
+        }
+
+        [HttpGet]
+        public Task<EventListModel> GetAllEvents()
+        {
+            return _query.GetAllEvents();
+        }
+
+        [HttpGet]
+        public Task<EventListModel> GetEventsByFilter([FromQuery] EventSearchModel eventFilter)
+        {
+            return _query.GetEventsByFilter(eventFilter);
+        }
+
+        [HttpGet]
+        public Task<UserInformationModel> GetUserInformation([FromQuery] UserInformationInputModel inputModel)
+        {
+            return _query.GetUserInformation(inputModel);
+        }
+
+        [HttpGet]
+        public Task<UserListModel> GetUserListByFilter([FromQuery] UserListSearchModel searchModel)
+        {
+            return _query.GetUserListByFilter(searchModel);
+        }
+
+        [HttpPut]
+        public Task<UserInformationModel> LoginUser([FromBody]LoginUserModel loginModel)
+        {
+            return _query.LoginUser(loginModel);
         }
     }
 }

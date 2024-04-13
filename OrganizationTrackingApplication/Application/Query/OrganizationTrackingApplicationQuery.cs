@@ -25,58 +25,83 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
         public async Task<EventListModel> GetAllEvents()
         {
-            var eventSet = await _eventRepository.GetSet();
-            var allIncludedEventList = eventSet.Include(a => a.Organizator)
-                .Include(a => a.EventType)
-                .Include(a => a.Location)
-                .OrderBy(a => a.CreatedDate)
-                .ToList();
-
-            var eventListModel = new EventListModel();
-
-            foreach (var item in allIncludedEventList)
+            try
             {
-                eventListModel.EventList.Add(new EventListItem
-                {
-                    EventTime = item.EventTime,
-                    EventTypeName = item.EventType.Name,
-                    IsCompleted = item.IsCompleted,
-                    Name = item.Name,
-                    OrganizatorName = item.Organizator.Name,
-                    LocationAdress = item.Location.FormattedName,
-                });
-            }
+                var eventSet = await _eventRepository.GetSet();
+                var allIncludedEventList = eventSet.Include(a => a.Organizator)
+                    .Include(a => a.EventType)
+                    .Include(a => a.Location)
+                    .OrderBy(a => a.CreatedDate)
+                    .ToList();
 
-            return eventListModel;
+                var eventListModel = new EventListModel();
+
+                foreach (var item in allIncludedEventList)
+                {
+                    eventListModel.EventList.Add(new EventListItem
+                    {
+                        EventTime = item.EventTime,
+                        EventTypeName = item.EventType.Name,
+                        IsCompleted = item.IsCompleted,
+                        Name = item.Name,
+                        OrganizatorName = item.Organizator.Name,
+                        LocationAdress = item.Location.FormattedName,
+                    });
+                }
+                eventListModel.Message = "Events were get successfully";
+                eventListModel.IsSuccess = true;
+                eventListModel.ItemCount = allIncludedEventList.Count;
+
+                return eventListModel;
+            }
+            catch (Exception ex)
+            {
+                return new EventListModel
+                {
+                    ItemCount = 0,
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
         }
 
         public async Task<EventListModel> GetEventsByFilter(EventSearchModel eventFilter)
         {
             var filter = EventFilterBuilder(eventFilter);
-
-            var eventSet = await _eventRepository.GetSet();
-            var allIncludedEventList = eventSet.Include(a => a.Organizator)
-                .Include(a => a.EventType)
-                .Include(a => a.Location)
-                .OrderBy(a => a.CreatedDate).Where(filter)
-                .ToList();
-
             var eventListModel = new EventListModel();
-
-            foreach (var item in allIncludedEventList)
+            try
             {
-                eventListModel.EventList.Add(new EventListItem
-                {
-                    EventTime = item.EventTime,
-                    EventTypeName = item.EventType.Name,
-                    IsCompleted = item.IsCompleted,
-                    Name = item.Name,
-                    OrganizatorName = item.Organizator.Name,
-                    LocationAdress = item.Location.FormattedName,
-                });
-            }
+                var eventSet = await _eventRepository.GetSet();
+                var allIncludedEventList = eventSet.Include(a => a.Organizator)
+                    .Include(a => a.EventType)
+                    .Include(a => a.Location)
+                    .OrderBy(a => a.CreatedDate).Where(filter)
+                    .ToList();
 
-            return eventListModel;
+                foreach (var item in allIncludedEventList)
+                {
+                    eventListModel.EventList.Add(new EventListItem
+                    {
+                        EventTime = item.EventTime,
+                        EventTypeName = item.EventType.Name,
+                        IsCompleted = item.IsCompleted,
+                        Name = item.Name,
+                        OrganizatorName = item.Organizator.Name,
+                        LocationAdress = item.Location.FormattedName,
+                    });
+                }
+                eventListModel.Message = "Events queried successfully";
+                eventListModel.IsSuccess = true;
+                eventListModel.ItemCount = 0;
+                return eventListModel;
+            }
+            catch (Exception ex)
+            {
+                eventListModel.Message = ex.Message;
+                eventListModel.IsSuccess = false;
+                eventListModel.ItemCount = 0;
+                return eventListModel;
+            }
         }
 
         public async Task<UserInformationModel> GetUserInformation(UserInformationInputModel inputModel)
@@ -169,6 +194,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
             var userInformation = new UserInformationModel()
             {
+                Id = user.Id,
                 Name = user.Name,
                 Surname = user.Surname,
                 FollowCount = user.Followeds.Count(),
