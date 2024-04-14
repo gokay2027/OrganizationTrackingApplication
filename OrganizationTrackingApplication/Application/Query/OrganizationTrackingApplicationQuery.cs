@@ -92,7 +92,8 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                     .Include(a => a.EventType)
                     .Include(a => a.Location)
                     .Include(a => a.Rules)
-                    .OrderBy(a => a.CreatedDate).Where(filter)
+                    .OrderBy(a => a.CreatedDate)
+                    .Where(filter)
                     .ToList();
 
                 foreach (var item in allIncludedEventList)
@@ -400,9 +401,57 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             }
         }
 
-        public Task<EventListModel> GetEventsByLocation(LocationSearchModelForEvent locationSearchModel)
+        public async Task<EventListModel> GetEventsByLocation(LocationSearchModelForEvent locationSearchModel)
         {
-            throw new NotImplementedException();
+            var eventListModel = new EventListModel();
+
+            try
+            {
+                var eventSet = await _eventRepository.GetSet();
+
+                var locationFilter = EventLocationByFilter(locationSearchModel);
+
+                var eventsByLocation = eventSet
+                    .Include(a => a.Organizator)
+                     .Include(a => a.EventType)
+                     .Include(a => a.Location)
+                     .Include(a => a.Rules)
+                     .OrderBy(a => a.CreatedDate)
+                    .Where(locationFilter)
+                    .ToList();
+
+                foreach (var item in eventsByLocation)
+                {
+                    List<string> rules = new List<string>();
+
+                    item.Rules.ForEach(a =>
+                    {
+                        rules.Add(a.Rule);
+                    });
+
+                    eventListModel.EventList.Add(new EventListItem
+                    {
+                        EventTime = item.EventTime,
+                        EventTypeName = item.EventType.Name,
+                        IsCompleted = item.IsCompleted,
+                        Name = item.Name,
+                        OrganizatorName = item.Organizator.Name,
+                        LocationAdress = item.Location.FormattedName,
+                        Rules = rules
+                    });
+                }
+                eventListModel.Message = "Events queried successfully";
+                eventListModel.IsSuccess = true;
+                eventListModel.ItemCount = eventsByLocation.Count;
+                return eventListModel;
+            }
+            catch (Exception ex)
+            {
+                eventListModel.Message = ex.Message;
+                eventListModel.IsSuccess = false;
+                eventListModel.ItemCount = 0;
+                return eventListModel;
+            }
         }
 
         private static System.Linq.Expressions.Expression<Func<User, bool>> UserFilterBuilder(UserListSearchModel userSearchModel)
@@ -444,6 +493,25 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             if (!organizatorSearchModel.Name.IsNullOrEmpty())
             {
                 predicateBuilder.And(a => a.Name.Equals(organizatorSearchModel.Name));
+            }
+
+            return predicateBuilder;
+        }
+
+        private static System.Linq.Expressions.Expression<Func<Event, bool>> EventLocationByFilter(LocationSearchModelForEvent locationSearchModel)
+        {
+            var predicateBuilder = LinqKit.PredicateBuilder.New<Event>();
+
+            if (locationSearchModel.Latitude != null)
+            {
+                predicateBuilder.And(
+                a => a.Location.Longitude + 0.4 > locationSearchModel.Longitude && a.Location.Longitude - 0.4 < locationSearchModel.Longitude);
+            }
+
+            if (locationSearchModel.Longitude == null)
+            {
+                predicateBuilder.And(
+            a => a.Location.Latitude + 0.4 > locationSearchModel.Latitude && a.Location.Latitude - 0.4 < locationSearchModel.Latitude);
             }
 
             return predicateBuilder;

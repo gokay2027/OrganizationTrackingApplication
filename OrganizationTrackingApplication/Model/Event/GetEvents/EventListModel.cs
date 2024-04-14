@@ -15,7 +15,6 @@ namespace OrganizationTrackingApplicationApi.Model.Event.GetEvents
         public string OrganizatorName { get; set; }
         public string LocationAdress { get; set; }
         public bool IsCompleted { get; set; }
-
         public List<string> Rules { get; set; } = new List<string>();
 
     }
