@@ -2,7 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OrganizationTrackingApplicationApi.Application.Query.Abstract;
+using OrganizationTrackingApplicationApi.Model.Event.GetEventByLocation;
 using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
+using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorByFilter;
+using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorById;
 using OrganizationTrackingApplicationApi.Model.User.GetUser;
 using OrganizationTrackingApplicationApi.Model.User.GetUsers;
 using OrganizationTrackingApplicationApi.Model.User.LoginUser;
@@ -14,13 +17,15 @@ namespace OrganizationTrackingApplicationApi.Application.Query
     {
         private readonly IGenericRepository<User> _userRepository;
         private readonly IGenericRepository<Event> _eventRepository;
-        private readonly IGenericRepository<Rating> _ratingRepository;
+        private readonly IGenericRepository<Organizator> _organizatorRepository;
 
-        public OrganizationTrackingApplicationQuery(IGenericRepository<User> userRepository, IGenericRepository<Event> eventRepository, IGenericRepository<Rating> ratingRepository)
+        public OrganizationTrackingApplicationQuery(IGenericRepository<User> userRepository,
+            IGenericRepository<Event> eventRepository,
+            IGenericRepository<Organizator> organizatorRepository)
         {
             _userRepository = userRepository;
             _eventRepository = eventRepository;
-            _ratingRepository = ratingRepository;
+            _organizatorRepository = organizatorRepository;
         }
 
         public async Task<EventListModel> GetAllEvents()
@@ -86,7 +91,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                     .Include(a => a.Organizator)
                     .Include(a => a.EventType)
                     .Include(a => a.Location)
-                    .Include(a=>a.Rules)
+                    .Include(a => a.Rules)
                     .OrderBy(a => a.CreatedDate).Where(filter)
                     .ToList();
 
@@ -232,6 +237,174 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             return userInformation;
         }
 
+        public async Task<OrganizatorListModel> GetOrganizatorsByFilter(OrganizatorSearchModel searchModel)
+        {
+            var filter = OrganizatorFilterBuilder(searchModel);
+            OrganizatorListModel resultModel = new();
+            try
+            {
+                var organizatorSet = await _organizatorRepository.GetSet();
+
+                var organizatorList = organizatorSet
+                    .Include(a => a.Events)
+                    .ThenInclude(a => a.Ratings)
+                    .Where(filter)
+                    .ToList();
+
+                foreach (var organizator in organizatorList)
+                {
+                    var organizatorListItem = new OrganizatorListItemModel
+                    {
+                        Id = organizator.Id,
+                        Name = organizator.Name,
+                    };
+
+                    foreach (var organizatorEvent in organizator.Events)
+                    {
+                        var organizatorEventListItem = new OrganizatorEventListItem
+                        {
+                            Id = organizatorEvent.Id,
+                            Name = organizator.Name,
+                        };
+
+                        if (organizatorEvent.Ratings.Count.Equals(0))
+                        {
+                            organizatorEventListItem.AverageRating = 0;
+                        }
+                        else
+                        {
+                            organizatorEventListItem.AverageRating = (decimal)organizatorEvent.Ratings.Average(a => a.Rate);
+                        }
+                    }
+
+                    resultModel.resultList.Add(organizatorListItem);
+                }
+
+                resultModel.IsSuccess = true;
+                resultModel.ItemCount = organizatorList.Count;
+                resultModel.Message = "Organizators were listed successfully";
+
+                return resultModel;
+            }
+            catch (Exception ex)
+            {
+                resultModel.IsSuccess = false;
+                resultModel.Message = ex.Message;
+                resultModel.ItemCount = 0;
+                return resultModel;
+            }
+        }
+
+        public async Task<OrganizatorListModel> GetAllOrganizators()
+        {
+            OrganizatorListModel resultModel = new();
+            try
+            {
+                var organizatorSet = await _organizatorRepository.GetSet();
+
+                var organizatorList = organizatorSet
+                    .Include(a => a.Events)
+                    .ThenInclude(a => a.Ratings)
+                    .ToList();
+
+                foreach (var organizator in organizatorList)
+                {
+                    var organizatorListItem = new OrganizatorListItemModel
+                    {
+                        Id = organizator.Id,
+                        Name = organizator.Name,
+                    };
+
+                    foreach (var organizatorEvent in organizator.Events)
+                    {
+                        var organizatorEventListItem = new OrganizatorEventListItem
+                        {
+                            Id = organizatorEvent.Id,
+                            Name = organizator.Name,
+                        };
+
+                        if (organizatorEvent.Ratings.Count.Equals(0))
+                        {
+                            organizatorEventListItem.AverageRating = 0;
+                        }
+                        else
+                        {
+                            organizatorEventListItem.AverageRating = (decimal)organizatorEvent.Ratings.Average(a => a.Rate);
+                        }
+                    }
+
+                    resultModel.resultList.Add(organizatorListItem);
+                }
+
+                resultModel.IsSuccess = true;
+                resultModel.ItemCount = organizatorList.Count;
+                resultModel.Message = "Organizators were listed successfully";
+                return resultModel;
+            }
+            catch (Exception ex)
+            {
+                resultModel.IsSuccess = false;
+                resultModel.Message = ex.Message;
+                resultModel.ItemCount = 0;
+                return resultModel;
+            }
+        }
+
+        public async Task<OrganizatorInformationModel> GetOrganizatorById(OrganizatorInformationInputModel searchModel)
+        {
+            OrganizatorInformationModel resultModel = new();
+            try
+            {
+                var organizatorSet = await _organizatorRepository.GetSet();
+
+                var organizator = organizatorSet
+                    .Include(a => a.Events)
+                    .ThenInclude(a => a.Ratings)
+                    .Where(a => a.Id.Equals(searchModel.Id))
+                    .First();
+
+                var organizatorListItem = new OrganizatorInformationModel
+                {
+                    Id = organizator.Id,
+                    Name = organizator.Name,
+                };
+
+                foreach (var organizatorEvent in organizator.Events)
+                {
+                    var organizatorEventListItem = new OrganizatorEventsListItem
+                    {
+                        Id = organizatorEvent.Id,
+                        Name = organizator.Name,
+                    };
+
+                    if (organizatorEvent.Ratings.Count.Equals(0))
+                    {
+                        organizatorEventListItem.AverageRating = 0;
+                    }
+                    else
+                    {
+                        organizatorEventListItem.AverageRating = (decimal)organizatorEvent.Ratings.Average(a => a.Rate);
+                    }
+                }
+
+                resultModel.IsSuccess = true;
+                resultModel.Message = "Organizator queried successfully";
+
+                return resultModel;
+            }
+            catch (Exception ex)
+            {
+                resultModel.IsSuccess = false;
+                resultModel.Message = ex.Message;
+                return resultModel;
+            }
+        }
+
+        public Task<EventListModel> GetEventsByLocation(LocationSearchModelForEvent locationSearchModel)
+        {
+            throw new NotImplementedException();
+        }
+
         private static System.Linq.Expressions.Expression<Func<User, bool>> UserFilterBuilder(UserListSearchModel userSearchModel)
         {
             var predicateBuilder = LinqKit.PredicateBuilder.New<User>();
@@ -260,6 +433,18 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
             if (!eventFilter.EventTypeName.IsNullOrEmpty())
                 predicateBuilder.And(a => a.EventType.Name.Contains(eventFilter.EventTypeName));
+
+            return predicateBuilder;
+        }
+
+        private static System.Linq.Expressions.Expression<Func<Organizator, bool>> OrganizatorFilterBuilder(OrganizatorSearchModel organizatorSearchModel)
+        {
+            var predicateBuilder = LinqKit.PredicateBuilder.New<Organizator>();
+
+            if (!organizatorSearchModel.Name.IsNullOrEmpty())
+            {
+                predicateBuilder.And(a => a.Name.Equals(organizatorSearchModel.Name));
+            }
 
             return predicateBuilder;
         }

@@ -1,4 +1,7 @@
-﻿using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
+﻿using OrganizationTrackingApplicationApi.Model.Event.GetEventByLocation;
+using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
+using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorByFilter;
+using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorById;
 using OrganizationTrackingApplicationApi.Model.User.GetUser;
 using OrganizationTrackingApplicationApi.Model.User.GetUsers;
 using OrganizationTrackingApplicationApi.Model.User.LoginUser;
@@ -41,9 +44,34 @@ namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
         /// <returns></returns>
         Task<UserInformationModel> LoginUser(LoginUserModel loginModel);
 
-        //Get event by location
-        //Get event's Ratings
-        //Get Organizators
-        //Get Organizators by filter
+        /// <summary>
+        /// Gets organiztor list by filter
+        /// </summary>
+        /// <param name="searchModel"></param>
+        /// <returns></returns>
+        Task<OrganizatorListModel> GetOrganizatorsByFilter(OrganizatorSearchModel searchModel);
+
+        /// <summary>
+        /// Gets All Organizators
+        /// </summary>
+        /// <returns></returns>
+        Task<OrganizatorListModel> GetAllOrganizators();
+
+        /// <summary>
+        /// Gets Organizator by Id
+        /// </summary>
+        /// <param name="searchModel"></param>
+        /// <returns></returns>
+        Task<OrganizatorInformationModel> GetOrganizatorById(OrganizatorInformationInputModel searchModel);
+
+
+        /// <summary>
+        /// Gets events by Location from the google map api data
+        /// </summary>
+        /// <returns></returns>
+        Task<EventListModel> GetEventsByLocation(LocationSearchModelForEvent locationSearchModel);
+
+    
+    
     }
 }

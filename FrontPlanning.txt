@@ -10,7 +10,7 @@ Searchin Events
 
 Searching People
 
-Profile Page (Like instagram profile page but joined events, followers and followeds will be shown)
+Profile Page (Like instagram profile page but joined events, followers and followeds will be shown, ratings of user)
 
 Event Page (Shows how many people will attend and how many tickets there are available and location, shows rules)
 
