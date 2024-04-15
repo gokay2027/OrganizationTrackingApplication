@@ -2,7 +2,10 @@ using Entities.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrganizationTrackingApplicationApi.Application.Query.Abstract;
+using OrganizationTrackingApplicationApi.Model.Event.AddEvent;
 using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
+using OrganizationTrackingApplicationApi.Model.Location.AddLocation;
+using OrganizationTrackingApplicationApi.Model.Organizator.AddOrganizator;
 using OrganizationTrackingApplicationApi.Model.User.AddUser;
 using OrganizationTrackingApplicationApi.Model.User.ChangePassword;
 using OrganizationTrackingApplicationApi.Model.User.DeleteUser;
@@ -79,5 +82,24 @@ namespace OrganizationTrackingApplication.Controllers
         {
             return _query.LoginUser(loginModel);
         }
+
+        [HttpPost]
+        public async Task<AddLocationOutputModel> AddLocation([FromBody] AddLocationCommand model)
+        {
+            return await _mediator.Send(model);
+        }
+
+        [HttpPost]
+        public async Task<AddEventOutputModel> AddEvent([FromBody] AddEventCommand model)
+        {
+            return await _mediator.Send(model);
+        }
+
+        [HttpPost]
+        public async Task<AddOrganizatorOutputModel> AddOrganizator([FromBody] AddOrganizatorCommand model)
+        {
+            return await _mediator.Send(model);
+        }
+
     }
 }

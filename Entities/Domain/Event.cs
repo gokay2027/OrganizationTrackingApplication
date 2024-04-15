@@ -48,5 +48,22 @@ namespace Entities.Domain
         {
             IsCompleted = true;
         }
+
+        public void AddCreatedTicketForEvent(int ticketNumber, int price)
+        {
+            for (int i = 0; i < ticketNumber; i++)
+            {
+                Ticket ticket = new(price, this.Id);
+                Tickets.Add(ticket);
+            }
+        }
+
+        public void AddRuleForEvent(List<string> rules)
+        {
+            foreach (string rule in rules)
+            {
+                Rules.Add(new Rules(rule, this.Id));
+            }
+        }
     }
 }

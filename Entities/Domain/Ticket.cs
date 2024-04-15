@@ -25,6 +25,12 @@ namespace Entities.Domain
             EventId = eventId;
         }
 
+        public Ticket(float price, Guid eventId)
+        {
+            Price = price;
+            EventId = eventId;
+        }
+
         public void Update(float price, Guid ownerId, Guid eventId)
         {
             Price = price;
