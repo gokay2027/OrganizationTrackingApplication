@@ -1,0 +1,21 @@
+Register Page
+
+Login Page
+
+Listing Events
+
+Listing People
+
+Searchin Events
+
+Searching People
+
+Profile Page (Like instagram profile page but joined events, followers and followeds will be shown, ratings of user)
+
+Event Page (Shows how many people will attend and how many tickets there are available and location, shows rules)
+
+Organizators Listing/Searching Page
+
+Organizator page (Shows events which were arranged by the organizator)
+
+Rating Events

@@ -1,9 +1,10 @@
 ﻿using Entities.Domain;
 using MediatR;
 using OrganizationTrackingApplicationApi.Model.User.UpdateUser;
+using OrganizationTrackingApplicationApi.Validation.UserValidation;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
 
-namespace OrganizationTrackingApplicationApi.Application.UserCommand.UpdateUser
+namespace OrganizationTrackingApplicationApi.Application.Command.UserCommand.UpdateUser
 {
     public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UpdateUserOutputModel>
     {
@@ -16,25 +17,36 @@ namespace OrganizationTrackingApplicationApi.Application.UserCommand.UpdateUser
 
         public async Task<UpdateUserOutputModel> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
+            var validation = new UpdateUserInputValidation();
+
+            var validationResult = validation.Validate(request.InputModel);
+
+            if (validationResult.IsValid.Equals(false))
+            {
+                return new UpdateUserOutputModel()
+                {
+                    IsSuccess = false,
+                    Message = validationResult.ToString(),
+                };
+            }
+
             try
             {
                 var userToBeUpdated = await _userRepository.GetById(request.InputModel.Id);
 
-                var inputModel = request.InputModel;
-
-                userToBeUpdated.Update(inputModel.Name, inputModel.Surname, inputModel.Email, inputModel.Password, inputModel.Gender);
+                userToBeUpdated.Update(request.InputModel.Name, request.InputModel.Surname, request.InputModel.Email, request.InputModel.Gender);
 
                 await _userRepository.Update(userToBeUpdated);
 
-                return new UpdateUserOutputModel
+                return new UpdateUserOutputModel()
                 {
                     IsSuccess = true,
-                    Message = "User updated successfully"
+                    Message = "User has been updated successfully"
                 };
             }
             catch (Exception ex)
             {
-                return new UpdateUserOutputModel
+                return new UpdateUserOutputModel()
                 {
                     IsSuccess = false,
                     Message = ex.InnerException.Message

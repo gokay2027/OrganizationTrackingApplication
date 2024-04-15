@@ -11,23 +11,26 @@ namespace Entities.Domain
         public Event Event { get; private set; }
 
         public int Rate { get; private set; }
+        public string Comment { get; private set; }
 
         public Rating()
         {
         }
 
-        public Rating(Guid userId, int rate, Guid eventId)
+        public Rating(Guid userId, int rate, string comment, Guid eventId)
         {
             UserId = userId;
             Rate = rate;
             EventId = eventId;
+            Comment = comment;
         }
 
-        public void Update(Guid userId, int rate, Guid eventId)
+        public void Update(Guid userId, int rate, string comment, Guid eventId)
         {
             UserId = userId;
             Rate = rate;
             EventId = eventId;
+            Comment = comment;
         }
     }
 }

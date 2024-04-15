@@ -1,9 +1,10 @@
 ﻿using Entities.Domain;
 using MediatR;
 using OrganizationTrackingApplicationApi.Model.User.DeleteUser;
+using OrganizationTrackingApplicationApi.Validation.UserValidation;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
 
-namespace OrganizationTrackingApplicationApi.Application.UserCommand.DeleteUser
+namespace OrganizationTrackingApplicationApi.Application.Command.UserCommand.DeleteUser
 {
     public class DeleteUserCommandHandler : IRequestHandler<DeleteUserCommand, DeleteUserOutputModel>
     {
@@ -16,6 +17,19 @@ namespace OrganizationTrackingApplicationApi.Application.UserCommand.DeleteUser
 
         public async Task<DeleteUserOutputModel> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
+            var validation = new DeleteUserInputValidation();
+
+            var validationResult = validation.Validate(request.InputModel);
+
+            if (validationResult.IsValid.Equals(false))
+            {
+                return new DeleteUserOutputModel()
+                {
+                    IsSuccess = false,
+                    Message = validationResult.ToString(),
+                };
+            }
+
             try
             {
                 await _userRepository.Delete(request.InputModel.Id);

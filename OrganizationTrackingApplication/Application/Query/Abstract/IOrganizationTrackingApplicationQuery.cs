@@ -1,0 +1,77 @@
+﻿using OrganizationTrackingApplicationApi.Model.Event.GetEventByLocation;
+using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
+using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorByFilter;
+using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorById;
+using OrganizationTrackingApplicationApi.Model.User.GetUser;
+using OrganizationTrackingApplicationApi.Model.User.GetUsers;
+using OrganizationTrackingApplicationApi.Model.User.LoginUser;
+
+namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
+{
+    public interface IOrganizationTrackingApplicationQuery
+    {
+        /// <summary>
+        /// Gets All events
+        /// </summary>
+        /// <returns></returns>
+        Task<EventListModel> GetAllEvents();
+
+        /// <summary>
+        /// Gets events by Filter
+        /// </summary>
+        /// <param name="eventFilter"></param>
+        /// <returns></returns>
+        Task<EventListModel> GetEventsByFilter(EventSearchModel eventFilter);
+
+        /// <summary>
+        /// Gets user information by Id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        Task<UserInformationModel> GetUserInformation(UserInformationInputModel inputModel);
+
+        /// <summary>
+        /// Gets user Search result
+        /// </summary>
+        /// <param name="searchModel"></param>
+        /// <returns></returns>
+        Task<UserListModel> GetUserListByFilter(UserListSearchModel searchModel);
+
+        /// <summary>
+        /// Login for user
+        /// </summary>
+        /// <param name="loginModel"></param>
+        /// <returns></returns>
+        Task<UserInformationModel> LoginUser(LoginUserModel loginModel);
+
+        /// <summary>
+        /// Gets organiztor list by filter
+        /// </summary>
+        /// <param name="searchModel"></param>
+        /// <returns></returns>
+        Task<OrganizatorListModel> GetOrganizatorsByFilter(OrganizatorSearchModel searchModel);
+
+        /// <summary>
+        /// Gets All Organizators
+        /// </summary>
+        /// <returns></returns>
+        Task<OrganizatorListModel> GetAllOrganizators();
+
+        /// <summary>
+        /// Gets Organizator by Id
+        /// </summary>
+        /// <param name="searchModel"></param>
+        /// <returns></returns>
+        Task<OrganizatorInformationModel> GetOrganizatorById(OrganizatorInformationInputModel searchModel);
+
+
+        /// <summary>
+        /// Gets events by Location from the google map api data
+        /// </summary>
+        /// <returns></returns>
+        Task<EventListModel> GetEventsByLocation(LocationSearchModelForEvent locationSearchModel);
+
+    
+    
+    }
+}
