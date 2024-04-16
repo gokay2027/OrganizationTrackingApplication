@@ -22,5 +22,6 @@ namespace OrganizationTrackingApplicationData.GenericRepository.Abstract
 
         Task<DbSet<T>> GetSet();
 
+        Task SaveChangesAsync();
     }
 }

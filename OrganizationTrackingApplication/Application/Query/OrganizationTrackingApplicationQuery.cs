@@ -4,6 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using OrganizationTrackingApplicationApi.Application.Query.Abstract;
 using OrganizationTrackingApplicationApi.Model.Event.GetEventByLocation;
 using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
+using OrganizationTrackingApplicationApi.Model.EventType;
+using OrganizationTrackingApplicationApi.Model.Location.GetAllLocations;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorByFilter;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorById;
 using OrganizationTrackingApplicationApi.Model.User.GetUser;
@@ -18,14 +20,20 @@ namespace OrganizationTrackingApplicationApi.Application.Query
         private readonly IGenericRepository<User> _userRepository;
         private readonly IGenericRepository<Event> _eventRepository;
         private readonly IGenericRepository<Organizator> _organizatorRepository;
+        private readonly IGenericRepository<Location> _locationRepository;
+        private readonly IGenericRepository<EventType> _eventTypeRepository;
 
         public OrganizationTrackingApplicationQuery(IGenericRepository<User> userRepository,
             IGenericRepository<Event> eventRepository,
-            IGenericRepository<Organizator> organizatorRepository)
+            IGenericRepository<Organizator> organizatorRepository,
+            IGenericRepository<Location> locationRepository,
+            IGenericRepository<EventType> eventTypeRepository)
         {
             _userRepository = userRepository;
             _eventRepository = eventRepository;
             _organizatorRepository = organizatorRepository;
+            _locationRepository = locationRepository;
+            _eventTypeRepository = eventTypeRepository;
         }
 
         public async Task<EventListModel> GetAllEvents()
@@ -278,7 +286,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                         }
                     }
 
-                    resultModel.resultList.Add(organizatorListItem);
+                    resultModel.ResultList.Add(organizatorListItem);
                 }
 
                 resultModel.IsSuccess = true;
@@ -334,7 +342,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                         }
                     }
 
-                    resultModel.resultList.Add(organizatorListItem);
+                    resultModel.ResultList.Add(organizatorListItem);
                 }
 
                 resultModel.IsSuccess = true;
@@ -451,6 +459,68 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                 eventListModel.IsSuccess = false;
                 eventListModel.ItemCount = 0;
                 return eventListModel;
+            }
+        }
+
+        public async Task<GetAllLocationsListModel> GetAllLocations()
+        {
+            GetAllLocationsListModel resultModel = new();
+
+            try
+            {
+                var allLocations = await _locationRepository.GetAll();
+                foreach (var location in allLocations)
+                {
+                    resultModel.ResultList.Add(new LocationListItem
+                    {
+                        Id = location.Id,
+                        FormattedName = location.FormattedName,
+                        Description = location.Description,
+                        Latitude = location.Latitude,
+                        Longitude = location.Longitude,
+                    });
+                }
+                resultModel.IsSuccess = true;
+                resultModel.ItemCount = allLocations.Count();
+                resultModel.Message = "Locations queried successfully";
+                return resultModel;
+            }
+            catch (Exception ex)
+            {
+                resultModel.Message = ex.Message;
+                resultModel.IsSuccess = false;
+                resultModel.ItemCount = 0;
+                return resultModel;
+            }
+        }
+
+        public async Task<GetAllEventTypesListModel> GetAllEventTypes()
+        {
+            GetAllEventTypesListModel resultModel = new();
+            try
+            {
+                var eventTypes = await _eventTypeRepository.GetAll();
+
+                foreach (var eventType in eventTypes)
+                {
+                    resultModel.ResultList.Add(new EventTypeListItem
+                    {
+                        Id = eventType.Id,
+                        Name = eventType.Name,
+                    });
+                }
+
+                resultModel.IsSuccess = true;
+                resultModel.Message = "Event types queried Successfully";
+                resultModel.ItemCount = eventTypes.Count();
+                return resultModel;
+            }
+            catch (Exception ex)
+            {
+                resultModel.Message = ex.Message;
+                resultModel.IsSuccess = false;
+                resultModel.ItemCount = 0;
+                return resultModel;
             }
         }
 

@@ -4,7 +4,7 @@ namespace OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorByF
 {
     public class OrganizatorListModel : BaseListOutputModel
     {
-        public List<OrganizatorListItemModel> resultList = new List<OrganizatorListItemModel>();
+        public List<OrganizatorListItemModel> ResultList { get; set; } = new List<OrganizatorListItemModel>();
     }
 
     public class OrganizatorListItemModel

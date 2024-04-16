@@ -1,5 +1,7 @@
 ﻿using OrganizationTrackingApplicationApi.Model.Event.GetEventByLocation;
 using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
+using OrganizationTrackingApplicationApi.Model.EventType;
+using OrganizationTrackingApplicationApi.Model.Location.GetAllLocations;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorByFilter;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorById;
 using OrganizationTrackingApplicationApi.Model.User.GetUser;
@@ -71,7 +73,19 @@ namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
         /// <returns></returns>
         Task<EventListModel> GetEventsByLocation(LocationSearchModelForEvent locationSearchModel);
 
-    
+
+        /// <summary>
+        /// Gets All Locations
+        /// </summary>
+        /// <returns></returns>
+        Task<GetAllLocationsListModel> GetAllLocations();
+
+
+        /// <summary>
+        /// Gets all event types
+        /// </summary>
+        /// <returns></returns>
+        Task<GetAllEventTypesListModel> GetAllEventTypes();
     
     }
 }

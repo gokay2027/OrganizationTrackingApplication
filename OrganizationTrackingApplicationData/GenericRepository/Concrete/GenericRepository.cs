@@ -51,5 +51,10 @@ namespace OrganizationTrackingApplicationData.GenericRepository.Concrete
         {
             return _context.Set<T>();
         }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }
