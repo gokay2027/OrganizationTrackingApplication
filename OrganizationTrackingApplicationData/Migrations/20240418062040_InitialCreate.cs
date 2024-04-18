@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -118,6 +119,28 @@ namespace OrganizationTrackingApplicationData.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Balances",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Credit = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Balances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Balances_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Follows",
                 columns: table => new
                 {
@@ -203,6 +226,7 @@ namespace OrganizationTrackingApplicationData.Migrations
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Rate = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -254,6 +278,7 @@ namespace OrganizationTrackingApplicationData.Migrations
                     Price = table.Column<float>(type: "real", nullable: false),
                     OwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -279,13 +304,19 @@ namespace OrganizationTrackingApplicationData.Migrations
                 columns: new[] { "Id", "CreatedDate", "IsDeleted", "Name", "UpdatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("6a35db41-1b97-4980-871a-56490d8dda4b"), new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5626), false, "Trip", new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5627) },
-                    { new Guid("864df255-72f9-43a9-afbe-1b26cd6db182"), new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5621), false, "Activity", new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5622) },
-                    { new Guid("94e99ee7-f305-4930-95b8-4019a81ad519"), new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5615), false, "Festival", new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5615) },
-                    { new Guid("b474bc33-c7ae-4abb-9ae6-7d2dce0f1999"), new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5542), false, "Concert", new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5571) },
-                    { new Guid("d4581336-5d2d-404f-9896-9b25bf2a6080"), new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5611), false, "Carnival", new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5611) },
-                    { new Guid("d7a0eff6-f276-47d9-9a27-3b68b95c6c06"), new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5618), false, "Meeting", new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5619) }
+                    { new Guid("13f49a79-07b7-4099-8a51-5a8734b5ef87"), new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9616), false, "Carnival", new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9616) },
+                    { new Guid("35af94ac-25ca-4a42-8108-9d07218c9237"), new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9629), false, "Meeting", new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9629) },
+                    { new Guid("43b3a288-2069-4613-a039-2ffe8925dccf"), new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9619), false, "Festival", new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9619) },
+                    { new Guid("775a4bfe-9f07-44f1-8483-997dada427db"), new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9637), false, "Trip", new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9637) },
+                    { new Guid("816c7159-9bdd-4377-87d9-64513b1374b4"), new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9586), false, "Concert", new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9597) },
+                    { new Guid("a56a92d9-5d80-4256-98e7-7715ea6ec82f"), new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9632), false, "Activity", new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9632) }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Balances_UserId",
+                table: "Balances",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Events_EventTypeId",
@@ -356,6 +387,9 @@ namespace OrganizationTrackingApplicationData.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Balances");
+
             migrationBuilder.DropTable(
                 name: "Follows");
 

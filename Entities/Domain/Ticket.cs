@@ -38,8 +38,13 @@ namespace Entities.Domain
             EventId = eventId;
         }
 
-        public void UseTicket()
+        /// <summary>
+        /// Buy ticket
+        /// </summary>
+        /// <param name="ownerId"></param>
+        public void BuyTicket(Guid ownerId)
         {
+            OwnerId = ownerId;
             IsAvailable = false;
         }
     }

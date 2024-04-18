@@ -12,7 +12,7 @@ using OrganizationTrackingApplicationData;
 namespace OrganizationTrackingApplicationData.Migrations
 {
     [DbContext(typeof(OrganizationTrackingApplicationDbContext))]
-    [Migration("20240325121747_InitialCreate")]
+    [Migration("20240418062040_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,6 +24,35 @@ namespace OrganizationTrackingApplicationData.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Entities.Domain.Balance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Credit")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Balances");
+                });
 
             modelBuilder.Entity("Entities.Domain.Event", b =>
                 {
@@ -68,6 +97,80 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.HasIndex("OrganizatorId");
 
                     b.ToTable("Events");
+                });
+
+            modelBuilder.Entity("Entities.Domain.EventType", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EventTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("816c7159-9bdd-4377-87d9-64513b1374b4"),
+                            CreatedDate = new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9586),
+                            IsDeleted = false,
+                            Name = "Concert",
+                            UpdatedDate = new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9597)
+                        },
+                        new
+                        {
+                            Id = new Guid("13f49a79-07b7-4099-8a51-5a8734b5ef87"),
+                            CreatedDate = new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9616),
+                            IsDeleted = false,
+                            Name = "Carnival",
+                            UpdatedDate = new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9616)
+                        },
+                        new
+                        {
+                            Id = new Guid("43b3a288-2069-4613-a039-2ffe8925dccf"),
+                            CreatedDate = new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9619),
+                            IsDeleted = false,
+                            Name = "Festival",
+                            UpdatedDate = new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9619)
+                        },
+                        new
+                        {
+                            Id = new Guid("35af94ac-25ca-4a42-8108-9d07218c9237"),
+                            CreatedDate = new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9629),
+                            IsDeleted = false,
+                            Name = "Meeting",
+                            UpdatedDate = new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9629)
+                        },
+                        new
+                        {
+                            Id = new Guid("a56a92d9-5d80-4256-98e7-7715ea6ec82f"),
+                            CreatedDate = new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9632),
+                            IsDeleted = false,
+                            Name = "Activity",
+                            UpdatedDate = new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9632)
+                        },
+                        new
+                        {
+                            Id = new Guid("775a4bfe-9f07-44f1-8483-997dada427db"),
+                            CreatedDate = new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9637),
+                            IsDeleted = false,
+                            Name = "Trip",
+                            UpdatedDate = new DateTime(2024, 4, 18, 9, 20, 40, 93, DateTimeKind.Local).AddTicks(9637)
+                        });
                 });
 
             modelBuilder.Entity("Entities.Domain.Follow", b =>
@@ -130,11 +233,106 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.ToTable("Friends");
                 });
 
+            modelBuilder.Entity("Entities.Domain.Location", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FormattedName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("Latitude")
+                        .HasColumnType("real");
+
+                    b.Property<float>("Longitude")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Locations");
+                });
+
+            modelBuilder.Entity("Entities.Domain.Notification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Topic")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
+                });
+
+            modelBuilder.Entity("Entities.Domain.Organizator", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Organizators");
+                });
+
             modelBuilder.Entity("Entities.Domain.Rating", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Comment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
@@ -163,6 +361,35 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.ToTable("Ratings");
                 });
 
+            modelBuilder.Entity("Entities.Domain.Rules", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Rule")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("Rules");
+                });
+
             modelBuilder.Entity("Entities.Domain.Ticket", b =>
                 {
                     b.Property<Guid>("Id")
@@ -174,6 +401,9 @@ namespace OrganizationTrackingApplicationData.Migrations
 
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -235,215 +465,32 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Entities.Entities.EventType", b =>
+            modelBuilder.Entity("Entities.Domain.Balance", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.HasOne("Entities.Domain.User", "User")
+                        .WithOne("Balance")
+                        .HasForeignKey("Entities.Domain.Balance", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("EventTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b474bc33-c7ae-4abb-9ae6-7d2dce0f1999"),
-                            CreatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5542),
-                            IsDeleted = false,
-                            Name = "Concert",
-                            UpdatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5571)
-                        },
-                        new
-                        {
-                            Id = new Guid("d4581336-5d2d-404f-9896-9b25bf2a6080"),
-                            CreatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5611),
-                            IsDeleted = false,
-                            Name = "Carnival",
-                            UpdatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5611)
-                        },
-                        new
-                        {
-                            Id = new Guid("94e99ee7-f305-4930-95b8-4019a81ad519"),
-                            CreatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5615),
-                            IsDeleted = false,
-                            Name = "Festival",
-                            UpdatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5615)
-                        },
-                        new
-                        {
-                            Id = new Guid("d7a0eff6-f276-47d9-9a27-3b68b95c6c06"),
-                            CreatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5618),
-                            IsDeleted = false,
-                            Name = "Meeting",
-                            UpdatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5619)
-                        },
-                        new
-                        {
-                            Id = new Guid("864df255-72f9-43a9-afbe-1b26cd6db182"),
-                            CreatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5621),
-                            IsDeleted = false,
-                            Name = "Activity",
-                            UpdatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5622)
-                        },
-                        new
-                        {
-                            Id = new Guid("6a35db41-1b97-4980-871a-56490d8dda4b"),
-                            CreatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5626),
-                            IsDeleted = false,
-                            Name = "Trip",
-                            UpdatedDate = new DateTime(2024, 3, 25, 15, 17, 47, 30, DateTimeKind.Local).AddTicks(5627)
-                        });
-                });
-
-            modelBuilder.Entity("Entities.Entities.Location", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FormattedName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<float>("Latitude")
-                        .HasColumnType("real");
-
-                    b.Property<float>("Longitude")
-                        .HasColumnType("real");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Locations");
-                });
-
-            modelBuilder.Entity("Entities.Entities.Notification", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Topic")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Notifications");
-                });
-
-            modelBuilder.Entity("Entities.Entities.Organizator", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Organizators");
-                });
-
-            modelBuilder.Entity("Entities.Entities.Rules", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("EventId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Rule")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EventId");
-
-                    b.ToTable("Rules");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Domain.Event", b =>
                 {
-                    b.HasOne("Entities.Entities.EventType", "EventType")
+                    b.HasOne("Entities.Domain.EventType", "EventType")
                         .WithMany("Events")
                         .HasForeignKey("EventTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Entities.Location", "Location")
+                    b.HasOne("Entities.Domain.Location", "Location")
                         .WithMany("Events")
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Entities.Entities.Organizator", "Organizator")
+                    b.HasOne("Entities.Domain.Organizator", "Organizator")
                         .WithMany("Events")
                         .HasForeignKey("OrganizatorId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -492,6 +539,17 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.Navigation("FriendTwo");
                 });
 
+            modelBuilder.Entity("Entities.Domain.Notification", b =>
+                {
+                    b.HasOne("Entities.Domain.User", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Entities.Domain.Rating", b =>
                 {
                     b.HasOne("Entities.Domain.Event", "Event")
@@ -511,6 +569,17 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Entities.Domain.Rules", b =>
+                {
+                    b.HasOne("Entities.Domain.Event", "Event")
+                        .WithMany("Rules")
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
             modelBuilder.Entity("Entities.Domain.Ticket", b =>
                 {
                     b.HasOne("Entities.Domain.Event", "Event")
@@ -528,28 +597,6 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("Entities.Entities.Notification", b =>
-                {
-                    b.HasOne("Entities.Domain.User", "User")
-                        .WithMany("Notifications")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Entities.Entities.Rules", b =>
-                {
-                    b.HasOne("Entities.Domain.Event", "Event")
-                        .WithMany("Rules")
-                        .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Event");
-                });
-
             modelBuilder.Entity("Entities.Domain.Event", b =>
                 {
                     b.Navigation("Ratings");
@@ -559,8 +606,26 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.Navigation("Tickets");
                 });
 
+            modelBuilder.Entity("Entities.Domain.EventType", b =>
+                {
+                    b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("Entities.Domain.Location", b =>
+                {
+                    b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("Entities.Domain.Organizator", b =>
+                {
+                    b.Navigation("Events");
+                });
+
             modelBuilder.Entity("Entities.Domain.User", b =>
                 {
+                    b.Navigation("Balance")
+                        .IsRequired();
+
                     b.Navigation("Followeds");
 
                     b.Navigation("Followers");
@@ -574,21 +639,6 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.Navigation("Ratings");
 
                     b.Navigation("Tickets");
-                });
-
-            modelBuilder.Entity("Entities.Entities.EventType", b =>
-                {
-                    b.Navigation("Events");
-                });
-
-            modelBuilder.Entity("Entities.Entities.Location", b =>
-                {
-                    b.Navigation("Events");
-                });
-
-            modelBuilder.Entity("Entities.Entities.Organizator", b =>
-                {
-                    b.Navigation("Events");
                 });
 #pragma warning restore 612, 618
         }

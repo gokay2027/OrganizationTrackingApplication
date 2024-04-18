@@ -9,44 +9,62 @@ namespace OrganizationTrackingApplicationApi.Application.Command.TicketCommand.B
     public class BuyTicketCommandHandler : IRequestHandler<BuyTicketCommand, BuyTicketOutputModel>
     {
         private readonly IGenericRepository<Event> _eventRepository;
+        private readonly IGenericRepository<User> _userRepository;
 
-        public BuyTicketCommandHandler(IGenericRepository<Event> eventRepository)
+        public BuyTicketCommandHandler(IGenericRepository<Event> eventRepository, IGenericRepository<User> userRepository)
         {
             _eventRepository = eventRepository;
+            _userRepository = userRepository;
         }
 
         public async Task<BuyTicketOutputModel> Handle(BuyTicketCommand request, CancellationToken cancellationToken)
         {
             try
             {
+                var userSet = await _userRepository.GetSet();
+                var userWithBalance = userSet
+                    .Include(a => a.Balance)
+                    .First(a => a.Id.Equals(request.UserId));
+
                 var eventSet = await _eventRepository.GetSet();
                 var eventsWithTicket = eventSet
                     .Include(a => a.Tickets)
                     .Where(a => a.Id.Equals(request.EventId))
                     .First();
 
-                var availableTicket = eventsWithTicket.Tickets.Where(a => a.IsAvailable.Equals(true)).FirstOrDefault();
+                var availableTicket = eventsWithTicket.Tickets.Find(a => a.IsAvailable.Equals(true));
 
-                //Ticketin owner idsini nulldan user idye çek
-                //availableitisini false yap
                 if (availableTicket != null)
                 {
-                    availableTicket.Update(availableTicket.Price, request.UserId, request.EventId);
-                    availableTicket.UseTicket();
-                    await _eventRepository.SaveChangesAsync();
+                    if (availableTicket.Price < userWithBalance.Balance.Credit)
+                    {
+                        availableTicket.BuyTicket(request.UserId);
+                        userWithBalance.Balance.SpendCredit(availableTicket.Price);
 
+                        await _eventRepository.SaveChangesAsync();
+                        return new BuyTicketOutputModel()
+                        {
+                            IsSuccess = true,
+                            Message = "Ticket has been bought successfully"
+                        };
+                    }
+                    else
+                    {
+                        return new BuyTicketOutputModel()
+                        {
+                            IsSuccess = false,
+                            Message = "Not enough balance"
+                        };
+                    }
+                }
+                else
+                {
                     return new BuyTicketOutputModel()
                     {
                         IsSuccess = true,
-                        Message = "Ticket has been bought successfully"
+                        Message = "There is no ticket available"
                     };
                 }
-
-                return new BuyTicketOutputModel()
-                {
-                    IsSuccess = true,
-                    Message = "Ticket could not be bought"
-                };
             }
             catch (Exception ex)
             {

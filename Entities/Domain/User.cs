@@ -10,6 +10,9 @@ namespace Entities.Domain
         public string Password { get; private set; }
         public bool Gender { get; private set; }
 
+        //One to one
+        public Balance Balance { get; private set; }
+
         //Many to Many itselfs
         public List<Friend> FriendOnes { get; private set; } = new List<Friend>();
 
@@ -33,13 +36,14 @@ namespace Entities.Domain
             Email = email;
             Password = password;
             Gender = gender;
+            Balance = new Balance(Id);
         }
 
         public void Update(string name, string surname, string email, bool gender)
         {
             Name = name;
             Surname = surname;
-            Email = email; 
+            Email = email;
             Gender = gender;
         }
 

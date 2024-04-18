@@ -23,6 +23,8 @@ namespace OrganizationTrackingApplicationData
             new TicketConfiguration().Configure(modelBuilder.Entity<Ticket>());
             new FriendConfiguration().Configure(modelBuilder.Entity<Friend>());
             new FollowConfiguration().Configure(modelBuilder.Entity<Follow>());
+            new LocationConfiguration().Configure(modelBuilder.Entity<Location>());
+            new BalanceConfiguration().Configure(modelBuilder.Entity<Balance>());
         }
 
         public DbSet<User> Users { get; set; }
@@ -36,5 +38,6 @@ namespace OrganizationTrackingApplicationData
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<Friend> Friends { get; set; }
         public DbSet<Follow> Follows { get; set; }
+        public DbSet<Balance> Balances { get; set; }
     }
 }

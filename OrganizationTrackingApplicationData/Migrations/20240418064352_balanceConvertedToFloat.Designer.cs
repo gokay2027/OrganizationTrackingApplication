@@ -12,8 +12,8 @@ using OrganizationTrackingApplicationData;
 namespace OrganizationTrackingApplicationData.Migrations
 {
     [DbContext(typeof(OrganizationTrackingApplicationDbContext))]
-    [Migration("20240414152101_CommentColumnAddedForRating")]
-    partial class CommentColumnAddedForRating
+    [Migration("20240418064352_balanceConvertedToFloat")]
+    partial class balanceConvertedToFloat
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,35 @@ namespace OrganizationTrackingApplicationData.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Entities.Domain.Balance", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("Credit")
+                        .HasColumnType("real");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Balances");
+                });
 
             modelBuilder.Entity("Entities.Domain.Event", b =>
                 {
@@ -96,51 +125,51 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d538a8db-8328-49f5-97c7-182f9f1f17f4"),
-                            CreatedDate = new DateTime(2024, 4, 14, 18, 21, 0, 717, DateTimeKind.Local).AddTicks(7135),
+                            Id = new Guid("0bbb3d4b-0a9f-4583-9bcd-659e2a1608a6"),
+                            CreatedDate = new DateTime(2024, 4, 18, 9, 43, 52, 340, DateTimeKind.Local).AddTicks(7822),
                             IsDeleted = false,
                             Name = "Concert",
-                            UpdatedDate = new DateTime(2024, 4, 14, 18, 21, 0, 717, DateTimeKind.Local).AddTicks(7144)
+                            UpdatedDate = new DateTime(2024, 4, 18, 9, 43, 52, 340, DateTimeKind.Local).AddTicks(7835)
                         },
                         new
                         {
-                            Id = new Guid("e7a7f309-6bff-4464-9a66-7a707277f789"),
-                            CreatedDate = new DateTime(2024, 4, 14, 18, 21, 0, 717, DateTimeKind.Local).AddTicks(7161),
+                            Id = new Guid("8737ae07-cad9-433a-aee2-07cdbd931175"),
+                            CreatedDate = new DateTime(2024, 4, 18, 9, 43, 52, 340, DateTimeKind.Local).AddTicks(7874),
                             IsDeleted = false,
                             Name = "Carnival",
-                            UpdatedDate = new DateTime(2024, 4, 14, 18, 21, 0, 717, DateTimeKind.Local).AddTicks(7161)
+                            UpdatedDate = new DateTime(2024, 4, 18, 9, 43, 52, 340, DateTimeKind.Local).AddTicks(7874)
                         },
                         new
                         {
-                            Id = new Guid("f06209c0-9699-4153-865a-a7034620329a"),
-                            CreatedDate = new DateTime(2024, 4, 14, 18, 21, 0, 717, DateTimeKind.Local).AddTicks(7165),
+                            Id = new Guid("29ab5469-71a7-4605-85ab-82b874d96b73"),
+                            CreatedDate = new DateTime(2024, 4, 18, 9, 43, 52, 340, DateTimeKind.Local).AddTicks(7884),
                             IsDeleted = false,
                             Name = "Festival",
-                            UpdatedDate = new DateTime(2024, 4, 14, 18, 21, 0, 717, DateTimeKind.Local).AddTicks(7165)
+                            UpdatedDate = new DateTime(2024, 4, 18, 9, 43, 52, 340, DateTimeKind.Local).AddTicks(7885)
                         },
                         new
                         {
-                            Id = new Guid("5a21c558-901a-4e25-b22a-9533d0d1d771"),
-                            CreatedDate = new DateTime(2024, 4, 14, 18, 21, 0, 717, DateTimeKind.Local).AddTicks(7168),
+                            Id = new Guid("00e5313a-b20d-4c2e-9a3f-c08c13c83ebb"),
+                            CreatedDate = new DateTime(2024, 4, 18, 9, 43, 52, 340, DateTimeKind.Local).AddTicks(7888),
                             IsDeleted = false,
                             Name = "Meeting",
-                            UpdatedDate = new DateTime(2024, 4, 14, 18, 21, 0, 717, DateTimeKind.Local).AddTicks(7168)
+                            UpdatedDate = new DateTime(2024, 4, 18, 9, 43, 52, 340, DateTimeKind.Local).AddTicks(7888)
                         },
                         new
                         {
-                            Id = new Guid("d310eed9-2f56-4459-85ee-d49dad4612e7"),
-                            CreatedDate = new DateTime(2024, 4, 14, 18, 21, 0, 717, DateTimeKind.Local).AddTicks(7171),
+                            Id = new Guid("105b5611-e833-40a3-8916-ff56b5c2ba7c"),
+                            CreatedDate = new DateTime(2024, 4, 18, 9, 43, 52, 340, DateTimeKind.Local).AddTicks(7891),
                             IsDeleted = false,
                             Name = "Activity",
-                            UpdatedDate = new DateTime(2024, 4, 14, 18, 21, 0, 717, DateTimeKind.Local).AddTicks(7172)
+                            UpdatedDate = new DateTime(2024, 4, 18, 9, 43, 52, 340, DateTimeKind.Local).AddTicks(7891)
                         },
                         new
                         {
-                            Id = new Guid("3c798a1b-942f-4519-9651-fb1f3ab6413c"),
-                            CreatedDate = new DateTime(2024, 4, 14, 18, 21, 0, 717, DateTimeKind.Local).AddTicks(7176),
+                            Id = new Guid("f91a6be4-2da5-4a60-8b93-d6f651e71fb6"),
+                            CreatedDate = new DateTime(2024, 4, 18, 9, 43, 52, 340, DateTimeKind.Local).AddTicks(7896),
                             IsDeleted = false,
                             Name = "Trip",
-                            UpdatedDate = new DateTime(2024, 4, 14, 18, 21, 0, 717, DateTimeKind.Local).AddTicks(7176)
+                            UpdatedDate = new DateTime(2024, 4, 18, 9, 43, 52, 340, DateTimeKind.Local).AddTicks(7896)
                         });
                 });
 
@@ -373,6 +402,9 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -431,6 +463,17 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Entities.Domain.Balance", b =>
+                {
+                    b.HasOne("Entities.Domain.User", "User")
+                        .WithOne("Balance")
+                        .HasForeignKey("Entities.Domain.Balance", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Entities.Domain.Event", b =>
@@ -580,6 +623,9 @@ namespace OrganizationTrackingApplicationData.Migrations
 
             modelBuilder.Entity("Entities.Domain.User", b =>
                 {
+                    b.Navigation("Balance")
+                        .IsRequired();
+
                     b.Navigation("Followeds");
 
                     b.Navigation("Followers");
