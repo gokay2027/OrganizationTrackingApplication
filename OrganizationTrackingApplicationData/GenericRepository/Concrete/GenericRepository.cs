@@ -22,7 +22,10 @@ namespace OrganizationTrackingApplicationData.GenericRepository.Concrete
 
         public async Task<IEnumerable<T>> GetAll()
         {
-            return _context.Set<T>().ToList();
+            return _context.Set<T>()
+                .Where(a => a.IsDeleted.Equals(false))
+                .OrderByDescending(a => a.CreatedDate)
+                .ToList();
         }
 
         public async Task<IEnumerable<T>> GetByFilter(Expression<Func<T, bool>> predicate)
