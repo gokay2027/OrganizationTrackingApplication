@@ -20,12 +20,15 @@ namespace OrganizationTrackingApplicationApi.Application.Command.EventCommand.Co
 
         public async Task<CompleteEventOutputModel> Handle(CompleteEventCommand request, CancellationToken cancellationToken)
         {
+            var resultModel = new CompleteEventOutputModel();
+
             try
             {
                 var eventSet = await _eventRepository.GetSet();
                 var eventWithTickets = eventSet.Include(a => a.Tickets);
 
                 var @event = eventWithTickets.First(a => a.Id.Equals(request.EventId));
+
                 if (@event != null)
                 {
                     foreach (var ticket in @event.Tickets)
@@ -35,28 +38,21 @@ namespace OrganizationTrackingApplicationApi.Application.Command.EventCommand.Co
                     @event.CompleteEvent();
                     await _eventRepository.SaveChangesAsync();
 
-                    return new CompleteEventOutputModel()
-                    {
-                        IsSuccess = true,
-                        Message = "Event was completed successfully"
-                    };
+                    resultModel.IsSuccess = true;
+                    resultModel.Message = "Event Completed successfully";
                 }
                 else
                 {
-                    return new CompleteEventOutputModel()
-                    {
-                        IsSuccess = false,
-                        Message = "Event could not be found"
-                    };
+                    resultModel.IsSuccess = true;
+                    resultModel.Message = "Event could not be found";
                 }
+                return resultModel;
             }
             catch (Exception ex)
             {
-                return new CompleteEventOutputModel()
-                {
-                    Message = ex.Message,
-                    IsSuccess = false
-                };
+                resultModel.Message = ex.Message;
+                resultModel.IsSuccess = false;
+                return resultModel;
             }
         }
     }
