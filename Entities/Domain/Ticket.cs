@@ -47,5 +47,10 @@ namespace Entities.Domain
             OwnerId = ownerId;
             IsAvailable = false;
         }
+
+        public void SetTicketAvailability(bool availability)
+        {
+            IsAvailable = availability;
+        }
     }
 }
