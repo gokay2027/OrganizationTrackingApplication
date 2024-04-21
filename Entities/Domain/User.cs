@@ -59,5 +59,23 @@ namespace Entities.Domain
                 return false;
             }
         }
+
+        /// <summary>
+        /// Follow person
+        /// </summary>
+        /// <param name="personToBefollowedId"></param>
+        public async Task FollowPerson(Guid personToBefollowedId)
+        {
+            Followeds.Add(new Follow(this.Id, personToBefollowedId));
+        }
+
+        /// <summary>
+        /// Unfollow person
+        /// </summary>
+        /// <param name="personToBeUnFollowed"></param>
+        public void UnfollowPerson(Guid personToBeUnFollowed)
+        {
+            Followeds.Remove(Followeds.First(a => a.Equals(personToBeUnFollowed)));
+        }
     }
 }

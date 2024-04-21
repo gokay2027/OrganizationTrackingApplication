@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrganizationTrackingApplicationApi.Model.Event.AddEvent;
+using OrganizationTrackingApplicationApi.Model.Follow.FollowPerson;
 using OrganizationTrackingApplicationApi.Model.Location.AddLocation;
 using OrganizationTrackingApplicationApi.Model.Location.UpdateLocation;
 using OrganizationTrackingApplicationApi.Model.Organizator.AddOrganizator;
@@ -75,6 +76,12 @@ namespace OrganizationTrackingApplicationApi.Controllers
 
         [HttpPost]
         public async Task<AddRuleToEventOutputModel> AddRuleToEvent([FromBody] AddRuleToEventCommand model)
+        {
+            return await _mediator.Send(model);
+        }
+
+        [HttpPost]
+        public async Task<FollowPersonOutputModel> FollowPerson([FromBody] FollowPersonCommand model)
         {
             return await _mediator.Send(model);
         }
