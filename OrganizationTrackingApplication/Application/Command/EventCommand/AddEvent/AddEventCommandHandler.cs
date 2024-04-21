@@ -27,7 +27,7 @@ namespace OrganizationTrackingApplicationApi.Application.Command.EventCommand.Ad
 
                 eventToBeAdded.AddCreatedTicketForEvent(request.TicketNumber, request.TicketPrice);
 
-                eventToBeAdded.AddRuleForEvent(request.Rules);
+                eventToBeAdded.AddRulesForEvent(request.Rules);
 
                 await _eventRepository.Insert(eventToBeAdded);
 

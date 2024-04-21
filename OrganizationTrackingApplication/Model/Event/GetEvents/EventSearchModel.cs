@@ -7,5 +7,6 @@
         public string? EventTypeName { get; set; }
         public string? OrganizatorName { get; set; }
         public string? LocationAdress { get; set; }
+        public int Radius {  get; set; }
     }
 }

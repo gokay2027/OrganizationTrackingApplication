@@ -58,12 +58,17 @@ namespace Entities.Domain
             }
         }
 
-        public void AddRuleForEvent(List<string> rules)
+        public void AddRulesForEvent(List<string> rules)
         {
             foreach (string rule in rules)
             {
                 Rules.Add(new Rules(rule, this.Id));
             }
+        }
+
+        public void AddRuleToEvent(string rule)
+        {
+            Rules.Add(new Domain.Rules(rule, this.Id));
         }
     }
 }

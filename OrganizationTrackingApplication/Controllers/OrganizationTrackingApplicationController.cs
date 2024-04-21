@@ -7,9 +7,11 @@ using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
 using OrganizationTrackingApplicationApi.Model.EventType;
 using OrganizationTrackingApplicationApi.Model.Location.AddLocation;
 using OrganizationTrackingApplicationApi.Model.Location.GetAllLocations;
+using OrganizationTrackingApplicationApi.Model.Location.UpdateLocation;
 using OrganizationTrackingApplicationApi.Model.Organizator.AddOrganizator;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorByFilter;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorById;
+using OrganizationTrackingApplicationApi.Model.Rule.AddRuleToEvent;
 using OrganizationTrackingApplicationApi.Model.User.AddUser;
 using OrganizationTrackingApplicationApi.Model.User.ChangePassword;
 using OrganizationTrackingApplicationApi.Model.User.DeleteUser;
@@ -143,6 +145,18 @@ namespace OrganizationTrackingApplication.Controllers
 
         [HttpPost]
         public async Task<AddOrganizatorOutputModel> AddOrganizator([FromBody] AddOrganizatorCommand model)
+        {
+            return await _mediator.Send(model);
+        }
+
+        [HttpPut]
+        public async Task<UpdateLocationOutputModel> UpdateLocation([FromBody] UpdateLocationCommand model)
+        {
+            return await _mediator.Send(model);
+        }
+
+        [HttpPut]
+        public async Task<AddRuleToEventOutputModel> UpdateLocation([FromBody] AddRuleToEventCommand model)
         {
             return await _mediator.Send(model);
         }

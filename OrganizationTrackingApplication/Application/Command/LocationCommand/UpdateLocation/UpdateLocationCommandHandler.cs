@@ -14,10 +14,27 @@ namespace OrganizationTrackingApplicationApi.Application.Command.LocationCommand
             _locationRepository = locationRepository;
         }
 
-        public Task<UpdateLocationOutputModel> Handle(UpdateLocationCommand request, CancellationToken cancellationToken)
+        public async Task<UpdateLocationOutputModel> Handle(UpdateLocationCommand request, CancellationToken cancellationToken)
         {
-            
-            return null;
+            var output = new UpdateLocationOutputModel();
+            try
+            {
+                var location = await _locationRepository.GetById(request.Id);
+
+                location.Update(request.Description, location.FormattedName, location.Latitude, location.Longitude);
+
+                await _locationRepository.Update(location);
+
+                output.Message = "Location updated successfully";
+                output.IsSuccess = true;
+                return output;
+            }
+            catch (Exception ex)
+            {
+                output.Message = ex.Message;
+                output.IsSuccess = false;
+                return output;
+            }
         }
     }
 }

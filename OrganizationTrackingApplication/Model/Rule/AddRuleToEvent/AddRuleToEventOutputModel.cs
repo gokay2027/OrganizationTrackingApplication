@@ -1,6 +1,8 @@
-﻿namespace OrganizationTrackingApplicationApi.Model.Rule.AddRuleToEvent
+﻿using OrganizationTrackingApplicationApi.Model.BaseModel;
+
+namespace OrganizationTrackingApplicationApi.Model.Rule.AddRuleToEvent
 {
-    public class AddRuleToEventOutputModel
+    public class AddRuleToEventOutputModel : BaseOutputModel
     {
     }
 }

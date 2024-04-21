@@ -553,6 +553,12 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             if (!eventFilter.EventTypeName.IsNullOrEmpty())
                 predicateBuilder.And(a => a.EventType.Name.Contains(eventFilter.EventTypeName));
 
+            if (!eventFilter.Radius.Equals(null))
+            {
+                predicateBuilder.And(a => a.Location.Latitude <= a.Location.Latitude + eventFilter.Radius
+                && a.Location.Longitude <= a.Location.Longitude + eventFilter.Radius);
+            }
+
             return predicateBuilder;
         }
 

@@ -1,6 +1,10 @@
-﻿namespace OrganizationTrackingApplicationApi.Model.Rule.AddRuleToEvent
+﻿using MediatR;
+
+namespace OrganizationTrackingApplicationApi.Model.Rule.AddRuleToEvent
 {
-    public class AddRuleToEventCommand
+    public class AddRuleToEventCommand : IRequest<AddRuleToEventOutputModel>
     {
+        public Guid EventId { get; set; }
+        public string RuleDescription { get; set; }
     }
 }
