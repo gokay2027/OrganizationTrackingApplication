@@ -1,6 +1,8 @@
-﻿namespace OrganizationTrackingApplicationApi.Model.Follow.UnfollowPerson
+﻿using OrganizationTrackingApplicationApi.Model.BaseModel;
+
+namespace OrganizationTrackingApplicationApi.Model.Follow.UnfollowPerson
 {
-    public class UnfollowPersonOutputModel
+    public class UnfollowPersonOutputModel : BaseOutputModel
     {
     }
 }
