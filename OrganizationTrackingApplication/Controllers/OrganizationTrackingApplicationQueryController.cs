@@ -1,37 +1,25 @@
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OrganizationTrackingApplicationApi.Application.Query.Abstract;
-using OrganizationTrackingApplicationApi.Model.Event.AddEvent;
 using OrganizationTrackingApplicationApi.Model.Event.GetEventByLocation;
 using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
 using OrganizationTrackingApplicationApi.Model.EventType;
-using OrganizationTrackingApplicationApi.Model.Location.AddLocation;
 using OrganizationTrackingApplicationApi.Model.Location.GetAllLocations;
-using OrganizationTrackingApplicationApi.Model.Location.UpdateLocation;
-using OrganizationTrackingApplicationApi.Model.Organizator.AddOrganizator;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorByFilter;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorById;
-using OrganizationTrackingApplicationApi.Model.Rule.AddRuleToEvent;
-using OrganizationTrackingApplicationApi.Model.User.AddUser;
-using OrganizationTrackingApplicationApi.Model.User.ChangePassword;
-using OrganizationTrackingApplicationApi.Model.User.DeleteUser;
 using OrganizationTrackingApplicationApi.Model.User.GetUser;
 using OrganizationTrackingApplicationApi.Model.User.GetUsers;
 using OrganizationTrackingApplicationApi.Model.User.LoginUser;
-using OrganizationTrackingApplicationApi.Model.User.UpdateUser;
 
 namespace OrganizationTrackingApplication.Controllers
 {
     [ApiController]
     [Route("[controller]/[Action]")]
-    public class OrganizationTrackingApplicationController : ControllerBase
+    public class OrganizationTrackingApplicationQueryController : ControllerBase
     {
-        private readonly IMediator _mediator;
         private readonly IOrganizationTrackingApplicationQuery _query;
 
-        public OrganizationTrackingApplicationController(IMediator mediator, IOrganizationTrackingApplicationQuery query)
+        public OrganizationTrackingApplicationQueryController(IOrganizationTrackingApplicationQuery query)
         {
-            _mediator = mediator;
             _query = query;
         }
 
@@ -104,63 +92,5 @@ namespace OrganizationTrackingApplication.Controllers
         }
 
         #endregion Queries
-
-        #region Commands
-
-        [HttpPost]
-        public async Task<AddUserOutputModel> RegisterUser([FromBody] AddUserCommand model)
-        {
-            return await _mediator.Send(model);
-        }
-
-        [HttpPut]
-        public async Task<DeleteUserOutputModel> DeleteUser([FromBody] DeleteUserCommand model)
-        {
-            return await _mediator.Send(model);
-        }
-
-        [HttpPut]
-        public async Task<UpdateUserOutputModel> UpdateUser([FromBody] UpdateUserCommand model)
-        {
-            return await _mediator.Send(model);
-        }
-
-        [HttpPut]
-        public async Task<ChangePasswordOutputModel> ChanePassword([FromBody] ChangePasswordCommand model)
-        {
-            return await _mediator.Send(model);
-        }
-
-        [HttpPost]
-        public async Task<AddLocationOutputModel> AddLocation([FromBody] AddLocationCommand model)
-        {
-            return await _mediator.Send(model);
-        }
-
-        [HttpPost]
-        public async Task<AddEventOutputModel> AddEvent([FromBody] AddEventCommand model)
-        {
-            return await _mediator.Send(model);
-        }
-
-        [HttpPost]
-        public async Task<AddOrganizatorOutputModel> AddOrganizator([FromBody] AddOrganizatorCommand model)
-        {
-            return await _mediator.Send(model);
-        }
-
-        [HttpPut]
-        public async Task<UpdateLocationOutputModel> UpdateLocation([FromBody] UpdateLocationCommand model)
-        {
-            return await _mediator.Send(model);
-        }
-
-        [HttpPut]
-        public async Task<AddRuleToEventOutputModel> UpdateLocation([FromBody] AddRuleToEventCommand model)
-        {
-            return await _mediator.Send(model);
-        }
-
-        #endregion Commands
     }
 }
