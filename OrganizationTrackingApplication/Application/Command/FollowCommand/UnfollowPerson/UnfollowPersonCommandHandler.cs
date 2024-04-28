@@ -14,9 +14,16 @@ namespace OrganizationTrackingApplicationApi.Application.Command.FollowCommand.U
             _followRepository = followRepository;
         }
 
-        public Task<UnfollowPersonOutputModel> Handle(UnfollowPersonCommand request, CancellationToken cancellationToken)
+        public async Task<UnfollowPersonOutputModel> Handle(UnfollowPersonCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-        }
+            var personToBeUnfollowed = await _followRepository.GetById(request.FollowId);
+            personToBeUnfollowed.Delete();
+
+            return new UnfollowPersonOutputModel
+            {
+                IsSuccess = true,
+                Message = "Person unfollowed successfully",
+            };
     }
+}
 }

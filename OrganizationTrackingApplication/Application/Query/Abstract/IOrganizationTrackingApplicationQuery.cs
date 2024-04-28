@@ -87,5 +87,8 @@ namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
         /// <returns></returns>
         Task<GetAllEventTypesListModel> GetAllEventTypes();
     
+
+
+
     }
 }

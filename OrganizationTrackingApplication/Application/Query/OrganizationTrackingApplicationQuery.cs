@@ -524,6 +524,9 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             }
         }
 
+        
+
+
         private static System.Linq.Expressions.Expression<Func<User, bool>> UserFilterBuilder(UserListSearchModel userSearchModel)
         {
             var predicateBuilder = LinqKit.PredicateBuilder.New<User>();

@@ -16,7 +16,6 @@ namespace OrganizationTrackingApplicationApi.Application.Command.LocationCommand
 
         public async Task<AddLocationOutputModel> Handle(AddLocationCommand request, CancellationToken cancellationToken)
         {
-
             try
             {
                 await _locationRepository.Insert(new Location(request.Description, request.FormattedName, request.Latitude, request.Longitude));
@@ -28,17 +27,12 @@ namespace OrganizationTrackingApplicationApi.Application.Command.LocationCommand
             }
             catch (Exception ex)
             {
-
                 return new AddLocationOutputModel()
                 {
                     IsSuccess = false,
-                    Message=ex.Message,
+                    Message = ex.Message,
                 };
             }
-           
-
-
-            throw new NotImplementedException();
         }
     }
 }
