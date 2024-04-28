@@ -1,8 +1,7 @@
 ﻿namespace OrganizationTrackingApplicationApi.Model.Follow.GetFollows
 {
-    public class GetFollowsOutputModel
+    public class UserFollowsSearchModel
     {
-         
-
+        public Guid UserId { get; set; }
     }
 }

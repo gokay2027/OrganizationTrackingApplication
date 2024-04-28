@@ -1,6 +1,7 @@
 ﻿using OrganizationTrackingApplicationApi.Model.Event.GetEventByLocation;
 using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
 using OrganizationTrackingApplicationApi.Model.EventType;
+using OrganizationTrackingApplicationApi.Model.Follow.GetFollows;
 using OrganizationTrackingApplicationApi.Model.Location.GetAllLocations;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorByFilter;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorById;
@@ -66,13 +67,11 @@ namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
         /// <returns></returns>
         Task<OrganizatorInformationModel> GetOrganizatorById(OrganizatorInformationInputModel searchModel);
 
-
         /// <summary>
         /// Gets events by Location from the google map api data
         /// </summary>
         /// <returns></returns>
         Task<EventListModel> GetEventsByLocation(LocationSearchModelForEvent locationSearchModel);
-
 
         /// <summary>
         /// Gets All Locations
@@ -80,15 +79,18 @@ namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
         /// <returns></returns>
         Task<GetAllLocationsListModel> GetAllLocations();
 
-
         /// <summary>
         /// Gets all event types
         /// </summary>
         /// <returns></returns>
         Task<GetAllEventTypesListModel> GetAllEventTypes();
-    
 
 
-
+        /// <summary>
+        /// Gets user's follows by user Id
+        /// </summary>
+        /// <param name="searchModel"></param>
+        /// <returns></returns>
+        Task<GetFollowsListModel> GetFollowsList(UserFollowsSearchModel searchModel);
     }
 }

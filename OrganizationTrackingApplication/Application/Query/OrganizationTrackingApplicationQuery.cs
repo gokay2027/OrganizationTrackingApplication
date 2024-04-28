@@ -5,6 +5,7 @@ using OrganizationTrackingApplicationApi.Application.Query.Abstract;
 using OrganizationTrackingApplicationApi.Model.Event.GetEventByLocation;
 using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
 using OrganizationTrackingApplicationApi.Model.EventType;
+using OrganizationTrackingApplicationApi.Model.Follow.GetFollows;
 using OrganizationTrackingApplicationApi.Model.Location.GetAllLocations;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorByFilter;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorById;
@@ -524,8 +525,48 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             }
         }
 
-        
+        public async Task<GetFollowsListModel> GetFollowsList(UserFollowsSearchModel searchModel)
+        {
+            var userSet = await _userRepository.GetSet();
 
+            var resultSet = userSet
+                .Include(a => a.Followeds).ThenInclude(a => a.Follower)
+                .Include(a => a.Followers).ThenInclude(a => a.Followed)
+                .First(u => u.Id.Equals(searchModel.UserId));
+
+            var followerList = new List<FollowInformationListItem>();
+            var followedList = new List<FollowInformationListItem>();
+
+            // aae1d398-55cf-4e7d-873b-b7f3f5f32e74
+            resultSet.Followers.ForEach(f =>
+            {
+                var userName = f.Followed.Name + " " + f.Followed.Surname;
+                var followId = f.Id;
+
+                followedList.Add(new FollowInformationListItem { UserName = userName, FollowId = followId });
+            });
+
+            resultSet.Followeds.ForEach(f =>
+            {
+                var userName = f.Follower.Name + " " + f.Follower.Surname;
+                var followId = f.Id;
+
+                followerList.Add(new FollowInformationListItem { UserName = userName, FollowId = followId });
+            });
+
+            var result = new GetFollowsListModel
+            {
+                FollowedList = followedList,
+                FollowerList = followerList,
+                FollowedCount = followedList.Count,
+                FollowerCount = followerList.Count,
+                IsSuccess = true,
+                ItemCount = followedList.Count + followerList.Count,
+                Message = "Follows queried successfully"
+            };
+
+            return result;
+        }
 
         private static System.Linq.Expressions.Expression<Func<User, bool>> UserFilterBuilder(UserListSearchModel userSearchModel)
         {

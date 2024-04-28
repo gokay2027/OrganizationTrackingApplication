@@ -3,6 +3,7 @@ using OrganizationTrackingApplicationApi.Application.Query.Abstract;
 using OrganizationTrackingApplicationApi.Model.Event.GetEventByLocation;
 using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
 using OrganizationTrackingApplicationApi.Model.EventType;
+using OrganizationTrackingApplicationApi.Model.Follow.GetFollows;
 using OrganizationTrackingApplicationApi.Model.Location.GetAllLocations;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorByFilter;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorById;
@@ -89,6 +90,12 @@ namespace OrganizationTrackingApplication.Controllers
         public Task<GetAllEventTypesListModel> GetAllEventTypes()
         {
             return _query.GetAllEventTypes();
+        }
+
+        [HttpGet]
+        public Task<GetFollowsListModel> GetFollowsList([FromQuery] UserFollowsSearchModel searchModel)
+        {
+            return _query.GetFollowsList(searchModel);
         }
 
         #endregion Queries
