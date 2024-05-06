@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OrganizationTrackingApplicationData\OrganizationTrackingApplicationData.csproj" />
+    <ProjectReference Include="..\OrganizationTrackingApplicationTest\OrganizationTrackingApplicationTest.csproj" />
   </ItemGroup>
 
 </Project>
