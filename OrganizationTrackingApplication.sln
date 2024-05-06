@@ -13,6 +13,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrganizationTrackingApplicationData", "OrganizationTrackingApplicationData\OrganizationTrackingApplicationData.csproj", "{AA09C36F-26BE-4F69-AE92-8DDE456298DA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrganizationTrackingApplicationTest", "OrganizationTrackingApplicationTest\OrganizationTrackingApplicationTest.csproj", "{74BCFD53-7005-44E3-81D1-90884E817DF6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AA09C36F-26BE-4F69-AE92-8DDE456298DA} = {AA09C36F-26BE-4F69-AE92-8DDE456298DA}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3F1FAA0-F415-44B9-933B-F904343FBAAE}"
 	ProjectSection(SolutionItems) = preProject
