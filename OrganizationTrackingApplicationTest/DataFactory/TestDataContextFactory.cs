@@ -38,6 +38,11 @@ public class TestDataContextFactory
     protected void InitialData(OrganizationTrackingApplicationDbContext context)
     {
         context.Users.AddAsync(new Entities.Domain.User("Gokay", "Dinç", "gokay123@gmail.com", "1234", true));
+        context.Users.AddAsync(new Entities.Domain.User("Mehmet Baran", "Selçuk", "mehmet123@gmail.com", "12345", true));
+        context.Users.AddAsync(new Entities.Domain.User("Cihan", "Özata", "cihan123@gmail.com", "123456", true));
+
+
+
         context.SaveChangesAsync();
     }
 }
