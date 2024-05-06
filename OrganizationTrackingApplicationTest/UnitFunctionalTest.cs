@@ -19,7 +19,8 @@ namespace OrganizationTrackingApplicationTest
         public async Task AddUser()
         {
             await _userRepo.Insert(new User("asdsa", "adsa", "asdasd", "asadasad", false));
-            var aa = await _userRepo.GetAll();
+            var resultList = await _userRepo.GetAll();
+            Assert.True(resultList.Count() > 0);
         }
     }
 }
