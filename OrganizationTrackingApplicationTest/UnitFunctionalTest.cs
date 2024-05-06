@@ -6,13 +6,13 @@ namespace OrganizationTrackingApplicationTest
 {
     public class UnitFunctionalTest : TestDataContextFactory
     {
-        private readonly ITestGenericRepository<User> _userRepository;
+        private readonly IGenericRepository<User> _userRepository;
 
         public UnitFunctionalTest()
         {
             var context = GetContext();
             InitialData(context);
-            _userRepository = new TestGenericRepository<User>(context);
+            _userRepository = new GenericRepository<User>(context);
         }
 
         [Fact]
