@@ -6,20 +6,20 @@ namespace OrganizationTrackingApplicationTest
 {
     public class UnitFunctionalTest : TestDataContextFactory
     {
-        private readonly ITestGenericRepository<User> _userRepo;
+        private readonly ITestGenericRepository<User> _userRepository;
 
         public UnitFunctionalTest()
         {
             var context = GetContext();
             InitialData(context);
-            _userRepo = new TestGenericRepository<User>(context);
+            _userRepository = new TestGenericRepository<User>(context);
         }
 
         [Fact]
         public async Task AddUser()
         {
-            await _userRepo.Insert(new User("asdsa", "adsa", "asdasd", "asadasad", false));
-            var resultList = await _userRepo.GetAll();
+            await _userRepository.Insert(new User("asdsa", "adsa", "asdasd", "asadasad", false));
+            var resultList = await _userRepository.GetAll();
             Assert.True(resultList.Count() > 0);
         }
     }
