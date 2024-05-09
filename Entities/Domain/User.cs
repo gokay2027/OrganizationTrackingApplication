@@ -12,6 +12,7 @@ namespace Entities.Domain
 
         //One to one
         public Balance Balance { get; private set; }
+
         public Organizator Organizator { get; private set; }
 
         //Many to Many itselfs
@@ -38,6 +39,7 @@ namespace Entities.Domain
             Password = password;
             Gender = gender;
             Balance = new Balance(Id);
+            Organizator = new Organizator(name + " " + surname, Id);
         }
 
         public void Update(string name, string surname, string email, bool gender)

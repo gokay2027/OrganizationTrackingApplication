@@ -37,11 +37,9 @@ public class TestDataContextFactory
     /// <param name="context"></param>
     protected void InitialData(OrganizationTrackingApplicationDbContext context)
     {
-        context.Users.AddAsync(new Entities.Domain.User("Gokay", "Dinç", "gokay123@gmail.com", "1234", true));
-        context.Users.AddAsync(new Entities.Domain.User("Mehmet Baran", "Selçuk", "mehmet123@gmail.com", "12345", true));
-        context.Users.AddAsync(new Entities.Domain.User("Cihan", "Özata", "cihan123@gmail.com", "123456", true));
-
-
+        context.Users.AddAsync(new Entities.Domain.User("Kral", "Şakir", "gokay123@gmail.com", "1234", true));
+        context.Users.AddAsync(new Entities.Domain.User("Polat", "Alemdar", "mehmet123@gmail.com", "12345", true));
+        context.Users.AddAsync(new Entities.Domain.User("Yakışıklı", "Güvenlik", "cihan123@gmail.com", "123456", true));
 
         context.SaveChangesAsync();
     }

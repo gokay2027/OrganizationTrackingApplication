@@ -4,8 +4,6 @@ namespace Entities.Domain
 {
     public class Organizator : BaseEntity
     {
-        
-
         public string Name { get; private set; }
         public List<Event> Events { get; private set; } = new List<Event>();
 
