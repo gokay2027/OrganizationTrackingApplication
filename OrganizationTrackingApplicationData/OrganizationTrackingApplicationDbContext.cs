@@ -6,6 +6,10 @@ namespace OrganizationTrackingApplicationData
 {
     public class OrganizationTrackingApplicationDbContext : DbContext
     {
+        public OrganizationTrackingApplicationDbContext()
+        {
+        }
+
         public OrganizationTrackingApplicationDbContext(DbContextOptions<OrganizationTrackingApplicationDbContext> options) : base(options)
         {
         }

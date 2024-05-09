@@ -9,6 +9,7 @@ namespace OrganizationTrackingApplicationData.Configurations
         public void Configure(EntityTypeBuilder<Organizator> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.HasOne(a => a.User).WithOne(a => a.Organizator);
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OrganizationTrackingApplicationData;
 
@@ -11,9 +12,11 @@ using OrganizationTrackingApplicationData;
 namespace OrganizationTrackingApplicationData.Migrations
 {
     [DbContext(typeof(OrganizationTrackingApplicationDbContext))]
-    partial class OrganizationTrackingApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240509062742_OrganizatorPropertyAddedForUser")]
+    partial class OrganizatorPropertyAddedForUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,51 +125,51 @@ namespace OrganizationTrackingApplicationData.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("80f1ff1e-e193-450b-bb4d-eb5512b8bcbe"),
-                            CreatedDate = new DateTime(2024, 5, 9, 9, 29, 22, 152, DateTimeKind.Local).AddTicks(4012),
+                            Id = new Guid("154e605e-afc8-4f0a-9abf-07aaa0b1fef3"),
+                            CreatedDate = new DateTime(2024, 5, 9, 9, 27, 41, 758, DateTimeKind.Local).AddTicks(3556),
                             IsDeleted = false,
                             Name = "Concert",
-                            UpdatedDate = new DateTime(2024, 5, 9, 9, 29, 22, 152, DateTimeKind.Local).AddTicks(4022)
+                            UpdatedDate = new DateTime(2024, 5, 9, 9, 27, 41, 758, DateTimeKind.Local).AddTicks(3569)
                         },
                         new
                         {
-                            Id = new Guid("40719827-6bbc-4f7b-a2ed-0fc4a0884a00"),
-                            CreatedDate = new DateTime(2024, 5, 9, 9, 29, 22, 152, DateTimeKind.Local).AddTicks(4038),
+                            Id = new Guid("7b5dc9ee-433e-4dca-8b25-5b2911caf1eb"),
+                            CreatedDate = new DateTime(2024, 5, 9, 9, 27, 41, 758, DateTimeKind.Local).AddTicks(3586),
                             IsDeleted = false,
                             Name = "Carnival",
-                            UpdatedDate = new DateTime(2024, 5, 9, 9, 29, 22, 152, DateTimeKind.Local).AddTicks(4039)
+                            UpdatedDate = new DateTime(2024, 5, 9, 9, 27, 41, 758, DateTimeKind.Local).AddTicks(3586)
                         },
                         new
                         {
-                            Id = new Guid("6387336e-fec2-4542-b8f7-3c86793c5f4b"),
-                            CreatedDate = new DateTime(2024, 5, 9, 9, 29, 22, 152, DateTimeKind.Local).AddTicks(4042),
+                            Id = new Guid("f7010d6e-643a-4c0c-85dc-a10af453699c"),
+                            CreatedDate = new DateTime(2024, 5, 9, 9, 27, 41, 758, DateTimeKind.Local).AddTicks(3590),
                             IsDeleted = false,
                             Name = "Festival",
-                            UpdatedDate = new DateTime(2024, 5, 9, 9, 29, 22, 152, DateTimeKind.Local).AddTicks(4042)
+                            UpdatedDate = new DateTime(2024, 5, 9, 9, 27, 41, 758, DateTimeKind.Local).AddTicks(3590)
                         },
                         new
                         {
-                            Id = new Guid("fc3c8dcb-4a91-4e4f-a449-fdd04a2e372b"),
-                            CreatedDate = new DateTime(2024, 5, 9, 9, 29, 22, 152, DateTimeKind.Local).AddTicks(4045),
+                            Id = new Guid("53c4dcb0-da06-4e1b-bc4a-bcf2eeae22c6"),
+                            CreatedDate = new DateTime(2024, 5, 9, 9, 27, 41, 758, DateTimeKind.Local).AddTicks(3593),
                             IsDeleted = false,
                             Name = "Meeting",
-                            UpdatedDate = new DateTime(2024, 5, 9, 9, 29, 22, 152, DateTimeKind.Local).AddTicks(4045)
+                            UpdatedDate = new DateTime(2024, 5, 9, 9, 27, 41, 758, DateTimeKind.Local).AddTicks(3593)
                         },
                         new
                         {
-                            Id = new Guid("8120e94b-27c6-47d4-9821-d5d8d2d4bc02"),
-                            CreatedDate = new DateTime(2024, 5, 9, 9, 29, 22, 152, DateTimeKind.Local).AddTicks(4048),
+                            Id = new Guid("1d3c2a0c-6023-42d1-8b7a-6fdd49f4ca49"),
+                            CreatedDate = new DateTime(2024, 5, 9, 9, 27, 41, 758, DateTimeKind.Local).AddTicks(3608),
                             IsDeleted = false,
                             Name = "Activity",
-                            UpdatedDate = new DateTime(2024, 5, 9, 9, 29, 22, 152, DateTimeKind.Local).AddTicks(4048)
+                            UpdatedDate = new DateTime(2024, 5, 9, 9, 27, 41, 758, DateTimeKind.Local).AddTicks(3608)
                         },
                         new
                         {
-                            Id = new Guid("cbb9dc7b-25aa-48d9-b4b7-0825609f31e9"),
-                            CreatedDate = new DateTime(2024, 5, 9, 9, 29, 22, 152, DateTimeKind.Local).AddTicks(4052),
+                            Id = new Guid("a3bf1923-6699-4c4b-90d8-ef06cecfe33f"),
+                            CreatedDate = new DateTime(2024, 5, 9, 9, 27, 41, 758, DateTimeKind.Local).AddTicks(3612),
                             IsDeleted = false,
                             Name = "Trip",
-                            UpdatedDate = new DateTime(2024, 5, 9, 9, 29, 22, 152, DateTimeKind.Local).AddTicks(4053)
+                            UpdatedDate = new DateTime(2024, 5, 9, 9, 27, 41, 758, DateTimeKind.Local).AddTicks(3613)
                         });
                 });
 
