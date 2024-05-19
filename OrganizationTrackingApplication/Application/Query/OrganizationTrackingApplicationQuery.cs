@@ -225,7 +225,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                  .Include(a => a.Followeds)
                  .Include(a => a.Tickets)
                  .Where(a => a.Email.Equals(loginModel.Email) && a.Password.Equals(loginModel.Password))
-                 .First();
+                 .FirstOrDefault();
 
             var userInformation = new UserInformationModel()
             {
