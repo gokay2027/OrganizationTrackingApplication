@@ -1,32 +1,32 @@
 ﻿using Entities.Domain;
-using MediatR;
-using OrganizationTrackingApplicationApi.Model.Event.AddEvent;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
 using System.Data.Entity;
-using System.Linq.Expressions;
 
 namespace OrganizationTrackingApplicationApi.Application.DummyCommand
 {
-    public class DummyCommand:IDummyCommand
+    public class DummyCommand : IDummyCommand
     {
         private readonly IGenericRepository<Event> _eventRepository;
         private readonly IGenericRepository<User> _userRepository;
         private readonly IGenericRepository<Ticket> _ticketRepository;
         private readonly IGenericRepository<EventType> _eventTypeRepository;
         private readonly IGenericRepository<Location> _locationRepository;
+        private readonly IGenericRepository<Rating> _ratingRepository;
 
         public DummyCommand(
-            IGenericRepository<Event> eventRepository, 
-            IGenericRepository<User> userRepository, 
-            IGenericRepository<Ticket> ticketRepository, 
-            IGenericRepository<EventType> eventTypeRepository, 
-            IGenericRepository<Location> locationRepository)
+            IGenericRepository<Event> eventRepository,
+            IGenericRepository<User> userRepository,
+            IGenericRepository<Ticket> ticketRepository,
+            IGenericRepository<EventType> eventTypeRepository,
+            IGenericRepository<Location> locationRepository,
+            IGenericRepository<Rating> ratingRepository)
         {
             _eventRepository = eventRepository;
             _userRepository = userRepository;
             _ticketRepository = ticketRepository;
             _eventTypeRepository = eventTypeRepository;
             _locationRepository = locationRepository;
+            _ratingRepository = ratingRepository;
         }
 
         public async Task AddDummyData()
@@ -109,7 +109,6 @@ namespace OrganizationTrackingApplicationApi.Application.DummyCommand
                 var allUsersAsOrganizator = await _userRepository.GetSet();
                 var allUserWithOrg = allUsersAsOrganizator.Include(a => a.Organizator).ToList();
 
-
                 var allLocations = await _locationRepository.GetAll();
 
                 var alleventTypes = await _eventTypeRepository.GetAll();
@@ -119,14 +118,11 @@ namespace OrganizationTrackingApplicationApi.Application.DummyCommand
                 datecount++;
             }
 
-
             var eventSet = await _eventRepository.GetSet();
             var allEventsWithTickets =
                eventSet.Include(e => e.Tickets)
                .Include(a => a.EventType)
                .ToList();
-
-
 
             var allUsersRep = await _userRepository.GetAll();
             var allUsers = allUsersRep.ToList();
@@ -200,12 +196,24 @@ namespace OrganizationTrackingApplicationApi.Application.DummyCommand
                 }
             }
 
-            //Concert ortalama rastgele
-            //Carnival 18-30 yaş arası kız ağırlıklı
-            //festival 18-25 yaş arası erkek ağırlıklı
-            //Activity 25-40 arası yetişkin kız
-            //meeting 30-45 arası rastgele
-            //trip 18-50 arası kadın ağırlıklı
+            Concert ortalama rastgele
+            Carnival 18 - 30 yaş arası kız ağırlıklı
+            festival 18 - 25 yaş arası erkek ağırlıklı
+            Activity 25 - 40 arası yetişkin kız
+            meeting 30 - 45 arası rastgele
+            trip 18 - 50 arası kadın ağırlıklı
+
+            var ticketSet = await _ticketRepository.GetByFilter(t=>!t.OwnerId.Equals(null));
+            var ticketList = ticketSet.ToList();
+
+            Random rndom = new Random();
+
+            foreach (var ticket in ticketList)
+            {
+                var minInterval = (int)rndom.NextInt64(1, 6);
+                var ratePoint = PointCreate(minInterval);
+                await _ratingRepository.Insert(new Rating(ticket.OwnerId, ratePoint, "Comment", ticket.EventId));
+            }
         }
 
         private static T GetRandomElement<T>(List<T> list)
@@ -242,6 +250,14 @@ namespace OrganizationTrackingApplicationApi.Application.DummyCommand
             List<User> result = selectedFemales.Concat(selectedOthers).OrderBy(x => random.Next()).ToList();
 
             return result;
+        }
+
+        public static int PointCreate(int minValue)
+        {
+            Random random = new Random();
+            // 1 ile 5 arasında rastgele bir double değer üret
+            int randomValue = (int)random.NextInt64(minValue, 5); // NextDouble 0 (dahil) ile 1 (hariç) arasında bir değer döndürür
+            return randomValue;
         }
     }
 }
