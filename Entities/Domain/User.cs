@@ -9,6 +9,7 @@ namespace Entities.Domain
         public string Email { get; private set; }
         public string Password { get; private set; }
         public bool Gender { get; private set; }
+        public int? Age { get; private set; }
 
         //One to one
         public Balance Balance { get; private set; }
@@ -31,13 +32,14 @@ namespace Entities.Domain
         {
         }
 
-        public User(string name, string surname, string email, string password, bool gender)
+        public User(string name, string surname, string email, string password, bool gender,int? age)
         {
             Name = name;
             Surname = surname;
             Email = email;
             Password = password;
             Gender = gender;
+            Age = age;
             Balance = new Balance(Id);
             Organizator = new Organizator(name + " " + surname, Id);
         }

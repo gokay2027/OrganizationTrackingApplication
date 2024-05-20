@@ -35,6 +35,21 @@ namespace Entities.Domain
             OrganizatorId = organizatorId;
         }
 
+        public Event(string name, DateTime eventTime, Guid locationId, Guid eventTypeId, Guid organizatorId,int price,int ticketNumber)
+        {
+            Name = name;
+            EventTime = eventTime;
+            LocationId = locationId;
+            EventTypeId = eventTypeId;
+            OrganizatorId = organizatorId;
+
+            for(int i = 0; i < ticketNumber; i++)
+            {
+                Ticket t = new Ticket(price,Id);
+                Tickets.Add(t);
+            }
+        }
+
         public void Update(string name, DateTime eventTime, Guid locationId, Guid eventTypeId, Guid organizatorId)
         {
             Name = name;
