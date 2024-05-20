@@ -1,4 +1,5 @@
 using Entities.Domain;
+using OrganizationTrackingApplicationApi.Application.DummyCommand;
 using OrganizationTrackingApplicationApi.Application.Query;
 using OrganizationTrackingApplicationApi.Application.Query.Abstract;
 using OrganizationTrackingApplicationData;
@@ -16,6 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<OrganizationTrackingApplicationDbContext>();
 
 builder.Services.AddTransient<IOrganizationTrackingApplicationQuery, OrganizationTrackingApplicationQuery>();
+builder.Services.AddTransient<IDummyCommand, DummyCommand>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));

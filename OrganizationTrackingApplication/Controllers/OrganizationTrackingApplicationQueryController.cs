@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using OrganizationTrackingApplicationApi.Application.DummyCommand;
 using OrganizationTrackingApplicationApi.Application.Query.Abstract;
 using OrganizationTrackingApplicationApi.Model.Event.GetEventByLocation;
 using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
@@ -18,10 +19,12 @@ namespace OrganizationTrackingApplication.Controllers
     public class OrganizationTrackingApplicationQueryController : ControllerBase
     {
         private readonly IOrganizationTrackingApplicationQuery _query;
+        private readonly IDummyCommand _dummyCommand;
 
-        public OrganizationTrackingApplicationQueryController(IOrganizationTrackingApplicationQuery query)
+        public OrganizationTrackingApplicationQueryController(IOrganizationTrackingApplicationQuery query, IDummyCommand dummyCommand)
         {
             _query = query;
+            _dummyCommand = dummyCommand;
         }
 
         #region Queries
@@ -96,6 +99,13 @@ namespace OrganizationTrackingApplication.Controllers
         public Task<GetFollowsListModel> GetFollowsList([FromQuery] UserFollowsSearchModel searchModel)
         {
             return _query.GetFollowsList(searchModel);
+        }
+
+
+        [HttpPost]
+        public async Task DummyData()
+        {
+            await _dummyCommand.AddDummyData();
         }
 
         #endregion Queries

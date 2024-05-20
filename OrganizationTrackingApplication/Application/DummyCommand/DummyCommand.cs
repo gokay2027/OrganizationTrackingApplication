@@ -2,10 +2,12 @@
 using MediatR;
 using OrganizationTrackingApplicationApi.Model.Event.AddEvent;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
+using System.Data.Entity;
+using System.Linq.Expressions;
 
 namespace OrganizationTrackingApplicationApi.Application.DummyCommand
 {
-    public class DummyCommand
+    public class DummyCommand:IDummyCommand
     {
         private readonly IGenericRepository<Event> _eventRepository;
         private readonly IGenericRepository<User> _userRepository;
@@ -13,7 +15,12 @@ namespace OrganizationTrackingApplicationApi.Application.DummyCommand
         private readonly IGenericRepository<EventType> _eventTypeRepository;
         private readonly IGenericRepository<Location> _locationRepository;
 
-        public DummyCommand(IGenericRepository<Event> eventRepository, IGenericRepository<User> userRepository, IGenericRepository<Ticket> ticketRepository, IGenericRepository<EventType> eventTypeRepository, IGenericRepository<Location> locationRepository)
+        public DummyCommand(
+            IGenericRepository<Event> eventRepository, 
+            IGenericRepository<User> userRepository, 
+            IGenericRepository<Ticket> ticketRepository, 
+            IGenericRepository<EventType> eventTypeRepository, 
+            IGenericRepository<Location> locationRepository)
         {
             _eventRepository = eventRepository;
             _userRepository = userRepository;
@@ -99,34 +106,106 @@ namespace OrganizationTrackingApplicationApi.Application.DummyCommand
             int datecount = 1;
             foreach (var date in resultDates)
             {
-                var allUsers = await _userRepository.GetAll();
-                var topusers = allUsers.Take(15).ToList();
+                var allUsersAsOrganizator = await _userRepository.GetSet();
+                var allUserWithOrg = allUsersAsOrganizator.Include(a => a.Organizator).ToList();
+
 
                 var allLocations = await _locationRepository.GetAll();
 
                 var alleventTypes = await _eventTypeRepository.GetAll();
 
-                new Event("Event " + datecount, date, GetRandomElement(allLocations.ToList()).Id, GetRandomElement(alleventTypes.ToList()).Id, GetRandomElement(allUsers.ToList()).Id, (int)new Random().NextInt64(50, 500), (int)new Random().NextInt64(150, 500));
+                var eventToAdded = new Event("Event " + datecount, date, GetRandomElement(allLocations.ToList()).Id, GetRandomElement(alleventTypes.ToList()).Id, GetRandomElement(allUserWithOrg).Organizator.Id, (int)new Random().NextInt64(50, 250), (int)new Random().NextInt64(150, 250));
+                await _eventRepository.Insert(eventToAdded);
                 datecount++;
             }
 
 
-            var teenagers = await _userRepository.GetByFilter(u => u.Age > 18 && u.Age < 30);
-
-            var teenagerGirls = teenagers.Where(a => a.Gender.Equals(false));
-            var teenagerBoys = teenagers.Where(a => a.Gender.Equals(true));
-
-            var teenagerGirlsRateCount = teenagerGirls.Count() * 0.64;
-            var resultTeenagerGirls = teenagerGirls.Take((int) teenagerGirlsRateCount);
-
-            var teenagerBoysRateCount = teenagerBoys.Count() * 0.22;
-            var resultTeenagerBoys = teenagerBoys.Take((int) teenagerBoysRateCount);
+            var eventSet = await _eventRepository.GetSet();
+            var allEventsWithTickets =
+               eventSet.Include(e => e.Tickets)
+               .Include(a => a.EventType)
+               .ToList();
 
 
 
+            var allUsersRep = await _userRepository.GetAll();
+            var allUsers = allUsersRep.ToList();
 
+            foreach (var eventToBeDone in allEventsWithTickets)
+            {
+                if (eventToBeDone.EventType.Name.Equals("Concert"))
+                {
+                    var usersForConcert = GetRandomUsers(allUsers, eventToBeDone.Tickets.Count, 22, 35, 45);
 
+                    for (int i = 0; i < usersForConcert.Count; i++)
+                    {
+                        eventToBeDone.Tickets.ElementAt(i).BuyTicket(usersForConcert.ElementAt(i).Id);
+                        await _ticketRepository.SaveChangesAsync();
+                    }
+                }
 
+                if (eventToBeDone.EventType.Name.Equals("Carnival"))
+                {
+                    var usersForConcert = GetRandomUsers(allUsers, eventToBeDone.Tickets.Count, 18, 30, 65);
+
+                    for (int i = 0; i < usersForConcert.Count; i++)
+                    {
+                        eventToBeDone.Tickets.ElementAt(i).BuyTicket(usersForConcert.ElementAt(i).Id);
+                        await _ticketRepository.SaveChangesAsync();
+                    }
+                }
+
+                if (eventToBeDone.EventType.Name.Equals("Activity"))
+                {
+                    var usersForConcert = GetRandomUsers(allUsers, eventToBeDone.Tickets.Count, 25, 40, 68);
+
+                    for (int i = 0; i < usersForConcert.Count; i++)
+                    {
+                        eventToBeDone.Tickets.ElementAt(i).BuyTicket(usersForConcert.ElementAt(i).Id);
+                        await _ticketRepository.SaveChangesAsync();
+                    }
+                }
+
+                if (eventToBeDone.EventType.Name.Equals("Festival"))
+                {
+                    var usersForConcert = GetRandomUsers(allUsers, eventToBeDone.Tickets.Count, 18, 25, 34);
+
+                    for (int i = 0; i < usersForConcert.Count; i++)
+                    {
+                        eventToBeDone.Tickets.ElementAt(i).BuyTicket(usersForConcert.ElementAt(i).Id);
+                        await _ticketRepository.SaveChangesAsync();
+                    }
+                }
+
+                if (eventToBeDone.EventType.Name.Equals("Meeting"))
+                {
+                    var usersForConcert = GetRandomUsers(allUsers, eventToBeDone.Tickets.Count, 30, 45, 50);
+
+                    for (int i = 0; i < usersForConcert.Count; i++)
+                    {
+                        eventToBeDone.Tickets.ElementAt(i).BuyTicket(usersForConcert.ElementAt(i).Id);
+                        await _ticketRepository.SaveChangesAsync();
+                    }
+                }
+
+                if (eventToBeDone.EventType.Name.Equals("Trip"))
+                {
+                    var usersForConcert = GetRandomUsers(allUsers, eventToBeDone.Tickets.Count, 19, 45, 65);
+
+                    for (int i = 0; i < usersForConcert.Count; i++)
+                    {
+                        eventToBeDone.Tickets.ElementAt(i).BuyTicket(usersForConcert.ElementAt(i).Id);
+                        await _ticketRepository.SaveChangesAsync();
+                    }
+                }
+            }
+
+            //Concert ortalama rastgele
+            //Carnival 18-30 yaş arası kız ağırlıklı
+            //festival 18-25 yaş arası erkek ağırlıklı
+            //Activity 25-40 arası yetişkin kız
+            //meeting 30-45 arası rastgele
+            //trip 18-50 arası kadın ağırlıklı
         }
 
         private static T GetRandomElement<T>(List<T> list)
@@ -134,6 +213,35 @@ namespace OrganizationTrackingApplicationApi.Application.DummyCommand
             Random rnd = new Random();
             int index = rnd.Next(list.Count);
             return list[index];
+        }
+
+        public static List<T> GetRandomElements<T>(List<T> list, int elementsCount)
+        {
+            Random random = new Random();
+            return list.OrderBy(x => random.Next()).Take(elementsCount).ToList();
+        }
+
+        public static List<User> GetRandomUsers(List<User> users, int numberOfUsers, int minAge, int maxAge, int femalePercentage)
+        {
+            Random random = new Random();
+            // Yaş aralığına göre kullanıcıları filtrele
+            List<User> filteredUsers = users.Where(u => u.Age >= minAge && u.Age <= maxAge).ToList();
+
+            // Kadın kullanıcıların oranını hesapla ve seç
+            int femaleCount = (int)Math.Ceiling(numberOfUsers * (femalePercentage / 100.0));
+            femaleCount = Math.Min(femaleCount, filteredUsers.Count(u => u.Gender)); // Toplam kadın sayısını aşmamak için
+
+            // Rastgele seçilen kadın kullanıcıları al
+            List<User> selectedFemales = filteredUsers.Where(u => u.Gender).OrderBy(x => random.Next()).Take(femaleCount).ToList();
+            // Kadın kullanıcıları listeden çıkar
+            filteredUsers = filteredUsers.Except(selectedFemales).ToList();
+            // Geri kalan kullanıcılar arasından rastgele seçim yap
+            List<User> selectedOthers = filteredUsers.OrderBy(x => random.Next()).Take(numberOfUsers - femaleCount).ToList();
+
+            // Sonuç listesini oluştur ve karıştır
+            List<User> result = selectedFemales.Concat(selectedOthers).OrderBy(x => random.Next()).ToList();
+
+            return result;
         }
     }
 }
