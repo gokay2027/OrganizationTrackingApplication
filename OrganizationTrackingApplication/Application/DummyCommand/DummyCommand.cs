@@ -196,12 +196,12 @@ namespace OrganizationTrackingApplicationApi.Application.DummyCommand
                 }
             }
 
-            Concert ortalama rastgele
-            Carnival 18 - 30 yaş arası kız ağırlıklı
-            festival 18 - 25 yaş arası erkek ağırlıklı
-            Activity 25 - 40 arası yetişkin kız
-            meeting 30 - 45 arası rastgele
-            trip 18 - 50 arası kadın ağırlıklı
+            //Concert ortalama rastgele
+            //Carnival 18 - 30 yaş arası kız ağırlıklı
+            //festival 18 - 25 yaş arası erkek ağırlıklı
+            //Activity 25 - 40 arası yetişkin kız
+            //meeting 30 - 45 arası rastgele
+            //trip 18 - 50 arası kadın ağırlıklı
 
             var ticketSet = await _ticketRepository.GetByFilter(t=>!t.OwnerId.Equals(null));
             var ticketList = ticketSet.ToList();
