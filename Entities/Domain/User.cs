@@ -32,7 +32,7 @@ namespace Entities.Domain
         {
         }
 
-        public User(string name, string surname, string email, string password, bool gender,int? age)
+        public User(string name, string surname, string email, string password, bool gender, int? age = 18)
         {
             Name = name;
             Surname = surname;

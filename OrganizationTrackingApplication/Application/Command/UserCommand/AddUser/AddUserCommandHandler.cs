@@ -27,7 +27,7 @@ namespace OrganizationTrackingApplicationApi.Application.Command.UserCommand.Add
                    request.InputModel.Surname,
                    request.InputModel.Email,
                    request.InputModel.Password,
-                   request.InputModel.Gender,20);
+                   request.InputModel.Gender);
 
                     await _userRepository.Insert(user);
 
