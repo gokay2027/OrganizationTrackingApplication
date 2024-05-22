@@ -15,7 +15,7 @@ namespace OrganizationTrackingApplicationApi.Controllers
 {
     [ApiController]
     [Route("[controller]/[Action]")]
-    public class OrganizationTrackingApplicationCommandController
+    public class OrganizationTrackingApplicationCommandController : ControllerBase
     {
         private readonly IMediator _mediator;
 

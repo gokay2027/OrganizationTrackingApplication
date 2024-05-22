@@ -92,5 +92,11 @@ namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
         /// <param name="searchModel"></param>
         /// <returns></returns>
         Task<GetFollowsListModel> GetFollowsList(UserFollowsSearchModel searchModel);
+
+        /// <summary>
+        /// Provides data for event suggestion
+        /// </summary>
+        /// <returns></returns>
+        Task SuggestEventDataForML(); 
     }
 }

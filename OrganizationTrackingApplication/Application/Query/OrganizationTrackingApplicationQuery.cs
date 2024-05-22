@@ -7,6 +7,7 @@ using OrganizationTrackingApplicationApi.Model.Event.GetEvents;
 using OrganizationTrackingApplicationApi.Model.EventType;
 using OrganizationTrackingApplicationApi.Model.Follow.GetFollows;
 using OrganizationTrackingApplicationApi.Model.Location.GetAllLocations;
+using OrganizationTrackingApplicationApi.Model.MLData.SuggestEvent;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorByFilter;
 using OrganizationTrackingApplicationApi.Model.Organizator.GetOrganizatorById;
 using OrganizationTrackingApplicationApi.Model.User.GetUser;
@@ -23,18 +24,24 @@ namespace OrganizationTrackingApplicationApi.Application.Query
         private readonly IGenericRepository<Organizator> _organizatorRepository;
         private readonly IGenericRepository<Location> _locationRepository;
         private readonly IGenericRepository<EventType> _eventTypeRepository;
+        private readonly IGenericRepository<Ticket> _ticketRepository;
+        private readonly IGenericRepository<Rating> _ratingRepository;
 
         public OrganizationTrackingApplicationQuery(IGenericRepository<User> userRepository,
             IGenericRepository<Event> eventRepository,
             IGenericRepository<Organizator> organizatorRepository,
             IGenericRepository<Location> locationRepository,
-            IGenericRepository<EventType> eventTypeRepository)
+            IGenericRepository<EventType> eventTypeRepository,
+            IGenericRepository<Ticket> ticketRepository,
+            IGenericRepository<Rating> ratingRepository)
         {
             _userRepository = userRepository;
             _eventRepository = eventRepository;
             _organizatorRepository = organizatorRepository;
             _locationRepository = locationRepository;
             _eventTypeRepository = eventTypeRepository;
+            _ticketRepository = ticketRepository;
+            _ratingRepository = ratingRepository;
         }
 
         public async Task<EventListModel> GetAllEvents()
@@ -566,6 +573,44 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             };
 
             return result;
+        }
+
+        //Gender
+        //EventType
+        //Age
+        //event rating
+        //Event attendance
+        //Ticket Price
+        //location
+        //Day (weekend Or weekday)
+        public async Task SuggestEventDataForML()
+        {
+            var ticketSet = await _ticketRepository.GetSet();
+
+            var dataForML = ticketSet
+                .Include(a => a.Owner)
+                .Include(a => a.Event)
+                .ThenInclude(b => b.EventType);
+
+            var resultModel = new MLSuggestEventDataListOutputModel();
+
+            foreach (var data in dataForML)
+            {
+                var eventRateRepo = await _ratingRepository.GetByFilter(a => a.UserId.Equals(data.Owner.Id));
+                var rating = eventRateRepo.FirstOrDefault();
+                resultModel.ResultList.Add(new MLSuggestEventDataListItem()
+                {
+                    Age = data.Owner.Age,
+                    eventType = data.Event.EventType.Name,
+                    EventDate = data.Event.EventTime.ToString(),
+                    Gender = data.Owner.Gender,
+                    TicketPrice = (int)data.Price,
+                    UserId = data.OwnerId,
+                    UserEventRate = rating.Rate
+                });
+            }
+
+            string csv = String.Join(",", resultModel.ResultList);
         }
 
         private static System.Linq.Expressions.Expression<Func<User, bool>> UserFilterBuilder(UserListSearchModel userSearchModel)
