@@ -585,19 +585,18 @@ namespace OrganizationTrackingApplicationApi.Application.Query
         //Day (weekend Or weekday)
         public async Task SuggestEventDataForML()
         {
+            var resultModel = new MLSuggestEventDataListOutputModel();
+
             var ticketSet = await _ticketRepository.GetSet();
 
             var dataForML = ticketSet
-                .Include(a => a.Owner)
-                .Include(a => a.Event)
-                .ThenInclude(b => b.EventType);
-
-            var resultModel = new MLSuggestEventDataListOutputModel();
+                .Include(a => a.Owner).ThenInclude(o=>o.Ratings)
+                .Include(a => a.Event).ThenInclude(b => b.EventType)
+                .ToList();
 
             foreach (var data in dataForML)
             {
-                var eventRateRepo = await _ratingRepository.GetByFilter(a => a.UserId.Equals(data.Owner.Id));
-                var rating = eventRateRepo.FirstOrDefault();
+                var rating = data.Owner.Ratings.Find(a=>a.EventId.Equals(data.Event.Id));
                 resultModel.ResultList.Add(new MLSuggestEventDataListItem()
                 {
                     Age = data.Owner.Age,
@@ -606,11 +605,24 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                     Gender = data.Owner.Gender,
                     TicketPrice = (int)data.Price,
                     UserId = data.OwnerId,
-                    UserEventRate = rating.Rate
+                    UserEventRate = rating.Rate,
+                    IsWeekend = 
+                    data.Event.EventTime.DayOfWeek.ToString().Equals(DayOfWeek.Saturday) 
+                    || 
+                    data.Event.EventTime.DayOfWeek.ToString().Equals(DayOfWeek.Sunday)
                 });
             }
 
-            string csv = String.Join(",", resultModel.ResultList);
+            var qq = resultModel.ResultList.Select(a => a.IsWeekend).Where(b=>b.Equals(true)).Count();
+
+            var xx = "asd";
+            //using (StreamWriter writer = new StreamWriter("myfile.csv"))
+            //{
+            //    foreach (var data in resultModel.ResultList)
+            //    {
+            //        writer.WriteLine($"{data.UserId};{data.Age};{data.eventType};{data.EventDate};{data.Gender};{data.TicketPrice};{data.UserEventRate};{data.IsWeekend}");
+            //    }
+            //}
         }
 
         private static System.Linq.Expressions.Expression<Func<User, bool>> UserFilterBuilder(UserListSearchModel userSearchModel)

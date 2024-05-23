@@ -11,6 +11,7 @@
     <PackageReference Include="LinqKit" Version="1.2.5" />
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="PredicateBuilder" Version="1.0.0" />
+    <PackageReference Include="ServiceStack.Text" Version="8.2.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 

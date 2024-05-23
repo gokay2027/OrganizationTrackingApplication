@@ -16,5 +16,6 @@ namespace OrganizationTrackingApplicationApi.Model.MLData.SuggestEvent
         public int UserEventRate { get; set; }
         public int? TicketPrice { get; set; }
         public string EventDate { get; set; }
+        public bool IsWeekend { get; set; }
     }
 }

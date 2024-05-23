@@ -18,9 +18,10 @@ namespace OrganizationTrackingApplicationApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult EventSuggestionDataForML()
+        public async Task<IActionResult> EventSuggestionDataForML()
         {
-            return null;
+            await _query.SuggestEventDataForML();
+            return Ok();
         }
 
         [HttpPost]
