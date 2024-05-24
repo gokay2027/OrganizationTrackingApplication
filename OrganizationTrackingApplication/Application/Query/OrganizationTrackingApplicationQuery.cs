@@ -14,6 +14,7 @@ using OrganizationTrackingApplicationApi.Model.User.GetUser;
 using OrganizationTrackingApplicationApi.Model.User.GetUsers;
 using OrganizationTrackingApplicationApi.Model.User.LoginUser;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
+using System.Runtime.InteropServices;
 
 namespace OrganizationTrackingApplicationApi.Application.Query
 {
@@ -611,7 +612,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                 });
             }
 
-            using (StreamWriter writer = new StreamWriter("MLSuggestionData.csv"))
+            using (StreamWriter writer = new StreamWriter(GetCSVPathToBeSaved("MLSuggestionData")))
             {
                 writer.WriteLine("userId;age;eventType;eventDate;gender;ticketPrice;userEventRate;isWeekend");
                 foreach (var data in resultModel.ResultList)
@@ -619,6 +620,15 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                     writer.WriteLine($"{data.UserId};{data.Age};{data.eventType};{data.EventDate};{data.Gender};{data.TicketPrice};{data.UserEventRate};{data.IsWeekend}");
                 }
             }
+        }
+
+        //Event Type
+        //Is weekend
+        //Event Attendance
+        //Price
+        public Task SuggestTicketPriceDataForML()
+        {
+            throw new NotImplementedException();
         }
 
         private static System.Linq.Expressions.Expression<Func<User, bool>> UserFilterBuilder(UserListSearchModel userSearchModel)
@@ -694,5 +704,23 @@ namespace OrganizationTrackingApplicationApi.Application.Query
         {
             return (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday);
         }
+
+        private static string GetCSVPathToBeSaved(string CSVName)
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string savePath = "";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                savePath = path + "/" + CSVName + ".csv";
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                savePath = path + "\\" + CSVName + ".csv";
+            }
+
+            return savePath;
+        }
+
+
     }
 }

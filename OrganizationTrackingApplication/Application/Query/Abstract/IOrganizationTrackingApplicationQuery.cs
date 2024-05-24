@@ -85,7 +85,6 @@ namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
         /// <returns></returns>
         Task<GetAllEventTypesListModel> GetAllEventTypes();
 
-
         /// <summary>
         /// Gets user's follows by user Id
         /// </summary>
@@ -97,6 +96,12 @@ namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
         /// Provides data for event suggestion
         /// </summary>
         /// <returns></returns>
-        Task SuggestEventDataForML(); 
+        Task SuggestEventDataForML();
+
+        /// <summary>
+        /// Provides data for ticket price suggestion
+        /// </summary>
+        /// <returns></returns>
+        Task SuggestTicketPriceDataForML();
     }
 }
