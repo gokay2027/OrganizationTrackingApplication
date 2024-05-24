@@ -51,57 +51,7 @@ namespace OrganizationTrackingApplicationApi.Application.DummyCommand
                 await _locationRepository.Insert(location);
             }
 
-            Random rnd = new Random();
-            List<DateTime> allDates = new List<DateTime>();
-            DateTime startDate = new DateTime(2024, 5, 1);
-            DateTime endDate = new DateTime(2024, 12, 31);
-
-            // Yaz ayları ve diğer aylar listeleri
-            List<int> summerMonths = new List<int> { 6, 7, 8 }; // Haziran, Temmuz, Ağustos
-            List<int> otherMonths = new List<int> { 5, 9, 10, 11, 12 }; // Mayıs, Eylül, Ekim, Kasım, Aralık
-
-            // Tüm tarihler listesini oluştur
-            while (startDate <= endDate)
-            {
-                allDates.Add(startDate);
-                startDate = startDate.AddDays(1);
-            }
-
-            // Tarihleri rastgele karıştır
-            allDates = allDates.OrderBy(date => rnd.Next()).ToList();
-
-            // 50 tarih seçimi
-            int totalDates = 50;
-            int summerDatesCount = (int)(totalDates * 0.67);
-            int otherDatesCount = totalDates - summerDatesCount;
-
-            List<DateTime> summerDates = new List<DateTime>();
-            List<DateTime> otherDates = new List<DateTime>();
-
-            // Yaz ayları için tarihler
-            foreach (var date in allDates)
-            {
-                if (summerDatesCount == 0) break;
-                if (summerMonths.Contains(date.Month))
-                {
-                    summerDates.Add(date);
-                    summerDatesCount--;
-                }
-            }
-
-            // Diğer aylar için tarihler
-            foreach (var date in allDates)
-            {
-                if (otherDatesCount == 0) break;
-                if (otherMonths.Contains(date.Month))
-                {
-                    otherDates.Add(date);
-                    otherDatesCount--;
-                }
-            }
-
-            // Yaz aylarından ve diğer aylardan oluşturulan tarihleri birleştir ve sıralar
-            List<DateTime> resultDates = summerDates.Concat(otherDates).OrderBy(date => date).ToList();
+            var resultDates = GenerateRandomDates(50);
 
             int datecount = 1;
             foreach (var date in resultDates)
@@ -203,7 +153,7 @@ namespace OrganizationTrackingApplicationApi.Application.DummyCommand
             //meeting 30 - 45 arası rastgele
             //trip 18 - 50 arası kadın ağırlıklı
 
-            var ticketSet = await _ticketRepository.GetByFilter(t=>!t.OwnerId.Equals(null));
+            var ticketSet = await _ticketRepository.GetByFilter(t => !t.OwnerId.Equals(null));
             var ticketList = ticketSet.ToList();
 
             Random rndom = new Random();
@@ -258,6 +208,47 @@ namespace OrganizationTrackingApplicationApi.Application.DummyCommand
             // 1 ile 5 arasında rastgele bir double değer üret
             int randomValue = (int)random.NextInt64(minValue, 5); // NextDouble 0 (dahil) ile 1 (hariç) arasında bir değer döndürür
             return randomValue;
+        }
+
+        public static List<DateTime> GenerateRandomDates(int numberOfDates)
+        {
+            List<DateTime> dates = new List<DateTime>();
+            Random rnd = new Random();
+            int summerDatesCount = 0;
+            int weekendSummerDatesCount = 0;
+
+            while (dates.Count < numberOfDates)
+            {
+                DateTime randomDate = new DateTime(2024, rnd.Next(1, 13), rnd.Next(1, 29));
+                if (IsSummer(randomDate) && summerDatesCount < (int)(numberOfDates * 0.68))
+                {
+                    if (IsWeekend(randomDate) && weekendSummerDatesCount < (int)(summerDatesCount * 0.72))
+                    {
+                        dates.Add(randomDate);
+                        weekendSummerDatesCount++;
+                    }
+                    else if (!IsWeekend(randomDate))
+                    {
+                        dates.Add(randomDate);
+                    }
+                    summerDatesCount++;
+                }
+                else if (!IsSummer(randomDate))
+                {
+                    dates.Add(randomDate);
+                }
+            }
+            return dates;
+        }
+
+        private static bool IsSummer(DateTime date)
+        {
+            return (date.Month >= 6 && date.Month <= 8);
+        }
+
+        private static bool IsWeekend(DateTime date)
+        {
+            return (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday);
         }
     }
 }
