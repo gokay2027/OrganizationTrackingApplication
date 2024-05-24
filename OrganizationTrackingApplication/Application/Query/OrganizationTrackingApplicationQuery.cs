@@ -626,8 +626,11 @@ namespace OrganizationTrackingApplicationApi.Application.Query
         //Is weekend
         //Event Attendance
         //Price
-        public Task SuggestTicketPriceDataForML()
+        public async Task SuggestTicketPriceDataForML()
         {
+
+
+
             throw new NotImplementedException();
         }
 
