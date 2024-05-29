@@ -2,6 +2,7 @@
 using MediatR;
 using OrganizationTrackingApplicationApi.Model.Event.AddEventWithModelCommand;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
+using System.Data.Entity;
 
 namespace OrganizationTrackingApplicationApi.Application.Command.EventCommand.AddEventWithModel
 {
@@ -28,11 +29,11 @@ namespace OrganizationTrackingApplicationApi.Application.Command.EventCommand.Ad
 
                 await _locationRepository.Insert(locationToBeAdded);
 
-                var user = await _userRepository.GetById(request.CreatedById);
+                var organizatorSet = await _organizatorRepository.GetSet();
 
-                var organizatorResult = await _organizatorRepository.GetByFilter(a => a.UserId.Equals(user.Id));
-
-                var organizator = organizatorResult.FirstOrDefault();
+                var organizator = organizatorSet
+                    .Include(a => a.User)
+                    .FirstOrDefault(a => a.UserId.Equals(request.CreatedById));
 
                 DateTime eventDate = DateTime.Parse(request.EventTime, null, System.Globalization.DateTimeStyles.RoundtripKind);
 
