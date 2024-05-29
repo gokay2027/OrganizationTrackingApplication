@@ -1,6 +1,5 @@
 ﻿using Entities.Domain;
 using MediatR;
-using OrganizationTrackingApplicationApi.Model.Event.AddEvent;
 using OrganizationTrackingApplicationApi.Model.Event.AddEventWithModelCommand;
 using OrganizationTrackingApplicationData.GenericRepository.Abstract;
 using System.Data.Entity;
@@ -24,7 +23,7 @@ namespace OrganizationTrackingApplicationApi.Application.Command.EventCommand.Ad
         {
             try
             {
-                var locationToBeAdded = new Location(request.AdressDescription, request.FormattedAddressName, request.Latitude, request.Longitude);
+                var locationToBeAdded = new Location(request.AddressDescription, request.FormattedAddressName, request.Latitude, request.Longitude);
 
                 var userSet = await _userRepository.GetSet();
 
@@ -33,7 +32,7 @@ namespace OrganizationTrackingApplicationApi.Application.Command.EventCommand.Ad
                 DateTime eventDate = DateTime.ParseExact(request.EventTime, "yyyy-MM-dd HH:mm:ss,fff",
                                            System.Globalization.CultureInfo.InvariantCulture);
 
-                var eventToBeAdded = new Event(request.EventName, eventDate, locationToBeAdded.Id, request.EventTypeId, user.Organizator.Id);
+                var eventToBeAdded = new Event(request.EventName, eventDate, locationToBeAdded.Id, request.EventTypeId, user.Organizator.Id, request.TicketPrice, request.TicketNumber);
 
                 await _eventRepository.Insert(eventToBeAdded);
 

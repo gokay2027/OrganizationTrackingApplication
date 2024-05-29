@@ -6,7 +6,7 @@ namespace OrganizationTrackingApplicationApi.Model.Event.AddEventWithModelComman
     {
         public string EventName { get; set; }
 
-        public string AdressDescription { get; set; }
+        public string AddressDescription { get; set; }
 
         public string FormattedAddressName { get; set; }    
 
@@ -21,5 +21,9 @@ namespace OrganizationTrackingApplicationApi.Model.Event.AddEventWithModelComman
         public float Longitude { get; set; }
 
         public Guid CreatedById { get; set; }
+
+        public int TicketPrice { get; set; }
+
+        public int TicketNumber { get; set; }
     }
 }
