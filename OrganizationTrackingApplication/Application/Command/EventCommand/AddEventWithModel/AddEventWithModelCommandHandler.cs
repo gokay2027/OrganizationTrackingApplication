@@ -29,8 +29,7 @@ namespace OrganizationTrackingApplicationApi.Application.Command.EventCommand.Ad
 
                 var user = userSet.Include(u => u.Organizator).FirstOrDefault(a => a.Id.Equals(request.CreatedById));
 
-                DateTime eventDate = DateTime.ParseExact(request.EventTime, "yyyy-MM-dd HH:mm:ss,fff",
-                                           System.Globalization.CultureInfo.InvariantCulture);
+                DateTime eventDate = DateTime.Parse(request.EventTime, null, System.Globalization.DateTimeStyles.RoundtripKind);
 
                 var eventToBeAdded = new Event(request.EventName, eventDate, locationToBeAdded.Id, request.EventTypeId, user.Organizator.Id, request.TicketPrice, request.TicketNumber);
 
