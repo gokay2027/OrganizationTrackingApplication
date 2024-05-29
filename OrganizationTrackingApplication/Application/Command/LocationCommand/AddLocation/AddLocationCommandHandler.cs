@@ -18,9 +18,11 @@ namespace OrganizationTrackingApplicationApi.Application.Command.LocationCommand
         {
             try
             {
-                await _locationRepository.Insert(new Location(request.Description, request.FormattedName, request.Latitude, request.Longitude));
+                var locationToBeAdded = new Location(request.Description, request.FormattedName, request.Latitude, request.Longitude);
+                await _locationRepository.Insert(locationToBeAdded);
                 return new AddLocationOutputModel()
                 {
+                    DataId = locationToBeAdded.Id,
                     IsSuccess = true,
                     Message = "Location has been added successfully"
                 };
