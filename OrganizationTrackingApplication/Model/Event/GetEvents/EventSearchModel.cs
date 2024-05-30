@@ -8,5 +8,8 @@
         public string? OrganizatorName { get; set; }
         public string? LocationAdress { get; set; }
         public int Radius {  get; set; }
+        public float? Latitude { get; set; }
+        public float? Longitude { get; set; }
+
     }
 }
