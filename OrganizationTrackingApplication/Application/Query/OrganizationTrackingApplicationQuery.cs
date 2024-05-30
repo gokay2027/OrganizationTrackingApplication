@@ -124,6 +124,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
                     eventListModel.EventList.Add(new EventListItem
                     {
+                        Id=item.Id,
                         EventTime = item.EventTime,
                         EventTypeName = item.EventType.Name,
                         IsCompleted = item.IsCompleted,
