@@ -51,7 +51,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             {
                 var eventSet = await _eventRepository.GetSet();
                 var allIncludedEventList = eventSet
-                    .Include(a => a.Organizator)
+                    .Include(a => a.Organizator).ThenInclude(o => o.User)
                     .Include(a => a.EventType)
                     .Include(a => a.Location)
                     .Include(a => a.Rules)
@@ -71,6 +71,11 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
                     eventListModel.EventList.Add(new EventListItem
                     {
+                        Id = item.Id,
+                        CreatorId = item.Organizator.User.Id,
+                        CreatorNameSurname = item.Organizator.User.Name + " " + item.Organizator.User.Surname,
+                        Latitude = item.Location.Latitude,
+                        Longitude = item.Location.Longitude,
                         EventTime = item.EventTime,
                         EventTypeName = item.EventType.Name,
                         IsCompleted = item.IsCompleted,
@@ -105,7 +110,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             {
                 var eventSet = await _eventRepository.GetSet();
                 var allIncludedEventList = eventSet
-                    .Include(a => a.Organizator)
+                    .Include(a => a.Organizator).ThenInclude(o => o.User)
                     .Include(a => a.EventType)
                     .Include(a => a.Location)
                     .Include(a => a.Rules)
@@ -124,7 +129,11 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
                     eventListModel.EventList.Add(new EventListItem
                     {
-                        Id=item.Id,
+                        Id = item.Id,
+                        CreatorId = item.Organizator.User.Id,
+                        CreatorNameSurname = item.Organizator.User.Name + " " + item.Organizator.User.Surname,
+                        Latitude = item.Location.Latitude,
+                        Longitude = item.Location.Longitude,
                         EventTime = item.EventTime,
                         EventTypeName = item.EventType.Name,
                         IsCompleted = item.IsCompleted,
@@ -430,7 +439,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                 var locationFilter = EventLocationByFilter(locationSearchModel);
 
                 var eventsByLocation = eventSet
-                    .Include(a => a.Organizator)
+                    .Include(a => a.Organizator).ThenInclude(o => o.User)
                      .Include(a => a.EventType)
                      .Include(a => a.Location)
                      .Include(a => a.Rules)
@@ -449,6 +458,11 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
                     eventListModel.EventList.Add(new EventListItem
                     {
+                        Id = item.Id,
+                        CreatorId = item.Organizator.User.Id,
+                        CreatorNameSurname = item.Organizator.User.Name + " " + item.Organizator.User.Surname,
+                        Latitude = item.Location.Latitude,
+                        Longitude = item.Location.Longitude,
                         EventTime = item.EventTime,
                         EventTypeName = item.EventType.Name,
                         IsCompleted = item.IsCompleted,
@@ -629,9 +643,6 @@ namespace OrganizationTrackingApplicationApi.Application.Query
         //Price
         public async Task SuggestTicketPriceDataForML()
         {
-
-
-
             throw new NotImplementedException();
         }
 
@@ -724,7 +735,5 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
             return savePath;
         }
-
-
     }
 }
