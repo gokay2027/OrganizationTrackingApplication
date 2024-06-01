@@ -696,7 +696,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                 predicateBuilder.And(a => a.EventType.Name.Contains(eventFilter.EventTypeName));
 
             //Buraya bakılacak sıkıntı olabilir
-            if (!eventFilter.Radius.Equals(0) && !eventFilter.Longitude.Equals(null) && !eventFilter.Latitude.Equals(null))
+            if (!eventFilter.Radius.Equals(null) && !eventFilter.Longitude.Equals(null) && !eventFilter.Latitude.Equals(null))
             {
                 predicateBuilder.And(a => a.Location.Longitude + eventFilter.Radius * (0.0018) > eventFilter.Longitude && a.Location.Longitude - eventFilter.Radius * (0.0018) < eventFilter.Longitude);
 
