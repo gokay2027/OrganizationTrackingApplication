@@ -661,6 +661,8 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
         private static System.Linq.Expressions.Expression<Func<Event, bool>> EventFilterBuilder(EventSearchModel eventFilter)
         {
+
+            
             var predicateBuilder = LinqKit.PredicateBuilder.New<Event>();
 
             if (!eventFilter.LocationAdress.IsNullOrEmpty())
@@ -675,12 +677,12 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             if (!eventFilter.EventTypeName.IsNullOrEmpty())
                 predicateBuilder.And(a => a.EventType.Name.Contains(eventFilter.EventTypeName));
 
-            //if (!eventFilter.Radius.Equals(null) && eventFilter.Longitude.Equals(null) && eventFilter.Latitude.Equals(null))
-            //{
-            //    predicateBuilder.And(a => a.Location.Longitude + eventFilter.Radius * (0.0018) > eventFilter.Longitude && a.Location.Longitude - eventFilter.Radius * (0.0018) < eventFilter.Longitude);
+            if (!eventFilter.Radius.Equals(null) && !eventFilter.Longitude.Equals(null) && !eventFilter.Latitude.Equals(null))
+            {
+                predicateBuilder.And(a => a.Location.Longitude + eventFilter.Radius * (0.0018) > eventFilter.Longitude && a.Location.Longitude - eventFilter.Radius * (0.0018) < eventFilter.Longitude);
 
-            //    predicateBuilder.And(a => a.Location.Latitude + eventFilter.Radius * (0.0018) > eventFilter.Latitude && a.Location.Latitude - eventFilter.Radius * (0.0018) < eventFilter.Latitude);
-            //}
+                predicateBuilder.And(a => a.Location.Latitude + eventFilter.Radius * (0.0018)> eventFilter.Latitude && a.Location.Latitude - eventFilter.Radius * (0.0018) < eventFilter.Latitude);
+            }
 
             return predicateBuilder;
         }
