@@ -18,7 +18,7 @@ namespace OrganizationTrackingApplicationApi.Model.Event.GetEvents
         public string CreatorNameSurname { get; set; }
         public float Longitude { get; set; }
         public float Latitude { get; set; }
-
+        public bool IsUserJoined { get; set; }
         public string EventTypeName { get; set; }
         public string OrganizatorName { get; set; }
         public string LocationAdress { get; set; }

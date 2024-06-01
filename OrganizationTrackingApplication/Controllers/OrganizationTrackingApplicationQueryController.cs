@@ -28,12 +28,6 @@ namespace OrganizationTrackingApplication.Controllers
         #region Queries
 
         [HttpGet]
-        public Task<EventListModel> GetAllEvents()
-        {
-            return _query.GetAllEvents();
-        }
-
-        [HttpGet]
         public Task<EventListModel> GetEventsByFilter([FromQuery] EventSearchModel searchModel)
         {
             return _query.GetEventsByFilter(searchModel);

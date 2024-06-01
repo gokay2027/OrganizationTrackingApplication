@@ -17,7 +17,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query.Abstract
         /// Gets All events
         /// </summary>
         /// <returns></returns>
-        Task<EventListModel> GetAllEvents();
+        Task<EventListModel> GetAllEvents(Guid? userId);
 
         /// <summary>
         /// Gets events by Filter

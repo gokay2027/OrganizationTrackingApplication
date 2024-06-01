@@ -45,7 +45,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             _ratingRepository = ratingRepository;
         }
 
-        public async Task<EventListModel> GetAllEvents()
+        public async Task<EventListModel> GetAllEvents(Guid? userId)
         {
             try
             {
@@ -82,8 +82,9 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                         Name = item.Name,
                         OrganizatorName = item.Organizator.Name,
                         LocationAdress = item.Location.FormattedName,
+                        Rules = rules,
                         EventDescription = item.EventDescription,
-                        Rules = rules
+                        IsUserJoined = item.Tickets.Where(a => a.OwnerId.Equals(userId)).Count() > 0
                     });
                 }
                 eventListModel.Message = "Events were get successfully";
@@ -114,10 +115,9 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                 eventFilter.EventDate.Equals(null) &&
                 eventFilter.EventTypeName.IsNullOrEmpty() &&
                 !eventFilter.JoinedEventsByUserId.HasValue &&
-                !eventFilter.CreatedEventsByUserId.HasValue &&
-                !eventFilter.IsJoined.HasValue)
+                !eventFilter.CreatedEventsByUserId.HasValue)
             {
-                return await GetAllEvents();
+                return await GetAllEvents(eventFilter.UserId);
             }
             else
             {
@@ -160,6 +160,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                             LocationAdress = item.Location.FormattedName,
                             Rules = rules,
                             EventDescription = item.EventDescription,
+                            IsUserJoined = item.Tickets.Where(a => a.OwnerId.Equals(eventFilter.UserId)).Count() > 0
                         });
                     }
                     eventListModel.Message = "Events queried successfully";
@@ -702,23 +703,28 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
                 predicateBuilder.And(a => a.Location.Latitude + eventFilter.Radius * (0.0018) > eventFilter.Latitude && a.Location.Latitude - eventFilter.Radius * (0.0018) < eventFilter.Latitude);
             }
-
-            if (eventFilter.IsJoined.HasValue)
+            //Filtre doluluk kontrolü dışında getall için
+            if (eventFilter.UserId.HasValue)
             {
-                if (eventFilter.IsJoined.Equals(true) && eventFilter.JoinedEventsByUserId.HasValue)
-                {
-                    predicateBuilder.And(a => a.Tickets.Where(t => t.OwnerId.Equals(eventFilter.JoinedEventsByUserId)).Count() > 0);
-                }
-
-                if (eventFilter.IsJoined.Equals(false) && eventFilter.CreatedEventsByUserId.HasValue)
-                {
-                    predicateBuilder.And(a => a.Organizator.UserId.Equals(eventFilter.CreatedEventsByUserId));
-                }
+                predicateBuilder.And(a => a.Tickets.Where(t => t.OwnerId.Equals(eventFilter.JoinedEventsByUserId)).Count() > 0);
             }
 
-            
+            if (eventFilter.UserId.Equals(true) && eventFilter.JoinedEventsByUserId.HasValue)
+            {
+                predicateBuilder.And(a => a.Tickets.Where(t => t.OwnerId.Equals(eventFilter.JoinedEventsByUserId)).Count() > 0);
+            }
+
+            if (eventFilter.UserId.Equals(false) && eventFilter.CreatedEventsByUserId.HasValue)
+            {
+                predicateBuilder.And(a => a.Organizator.UserId.Equals(eventFilter.CreatedEventsByUserId));
+            }
 
             return predicateBuilder;
+        }
+
+        private static bool CheckEventForUserJoint(Guid userId, Guid eventId)
+        {
+            return false;
         }
 
         private static System.Linq.Expressions.Expression<Func<Organizator, bool>> OrganizatorFilterBuilder(OrganizatorSearchModel organizatorSearchModel)
