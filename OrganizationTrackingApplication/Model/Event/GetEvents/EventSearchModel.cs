@@ -12,5 +12,6 @@
         public float? Longitude { get; set; }
         public Guid? JoinedEventsByUserId { get; set; }
         public Guid? CreatedEventsByUserId { get; set; }
+        public bool? IsJoined { get; set; }
     }
 }

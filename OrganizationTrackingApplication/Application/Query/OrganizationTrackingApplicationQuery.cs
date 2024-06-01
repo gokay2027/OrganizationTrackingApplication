@@ -114,7 +114,8 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                 eventFilter.EventDate.Equals(null) &&
                 eventFilter.EventTypeName.IsNullOrEmpty() &&
                 !eventFilter.JoinedEventsByUserId.HasValue &&
-                !eventFilter.CreatedEventsByUserId.HasValue)
+                !eventFilter.CreatedEventsByUserId.HasValue &&
+                !eventFilter.IsJoined.HasValue)
             {
                 return await GetAllEvents();
             }
@@ -701,15 +702,20 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                 predicateBuilder.And(a => a.Location.Latitude + eventFilter.Radius * (0.0018) > eventFilter.Latitude && a.Location.Latitude - eventFilter.Radius * (0.0018) < eventFilter.Latitude);
             }
 
-            if (eventFilter.JoinedEventsByUserId.HasValue)
+            if (eventFilter.IsJoined.HasValue)
             {
-                predicateBuilder.And(a => a.Tickets.Where(t => t.OwnerId.Equals(eventFilter.JoinedEventsByUserId)).Count() > 0);
+                if (eventFilter.IsJoined.Equals(true) && eventFilter.JoinedEventsByUserId.HasValue)
+                {
+                    predicateBuilder.And(a => a.Tickets.Where(t => t.OwnerId.Equals(eventFilter.JoinedEventsByUserId)).Count() > 0);
+                }
+
+                if (eventFilter.IsJoined.Equals(false) && eventFilter.CreatedEventsByUserId.HasValue)
+                {
+                    predicateBuilder.And(a => a.Organizator.UserId.Equals(eventFilter.CreatedEventsByUserId));
+                }
             }
 
-            if (eventFilter.CreatedEventsByUserId.HasValue)
-            {
-                predicateBuilder.And(a => a.Organizator.UserId.Equals(eventFilter.CreatedEventsByUserId));
-            }
+            
 
             return predicateBuilder;
         }
