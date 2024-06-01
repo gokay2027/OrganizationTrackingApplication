@@ -7,6 +7,7 @@ using OrganizationTrackingApplicationApi.Model.Location.AddLocation;
 using OrganizationTrackingApplicationApi.Model.Location.UpdateLocation;
 using OrganizationTrackingApplicationApi.Model.Organizator.AddOrganizator;
 using OrganizationTrackingApplicationApi.Model.Rule.AddRuleToEvent;
+using OrganizationTrackingApplicationApi.Model.Ticket.BuyTicket;
 using OrganizationTrackingApplicationApi.Model.User.AddUser;
 using OrganizationTrackingApplicationApi.Model.User.ChangePassword;
 using OrganizationTrackingApplicationApi.Model.User.DeleteUser;
@@ -35,6 +36,12 @@ namespace OrganizationTrackingApplicationApi.Controllers
 
         [HttpPut]
         public async Task<DeleteUserOutputModel> DeleteUser([FromBody] DeleteUserCommand model)
+        {
+            return await _mediator.Send(model);
+        }
+
+        [HttpPut]
+        public async Task<BuyTicketOutputModel> BuyTicket([FromBody] BuyTicketCommand model)
         {
             return await _mediator.Send(model);
         }
