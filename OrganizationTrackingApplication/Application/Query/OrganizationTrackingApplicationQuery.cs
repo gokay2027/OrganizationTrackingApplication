@@ -112,7 +112,9 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                 eventFilter.OrganizatorName.IsNullOrEmpty() &&
                 eventFilter.LocationAdress.IsNullOrEmpty() &&
                 eventFilter.EventDate.Equals(null) &&
-                eventFilter.EventTypeName.IsNullOrEmpty())
+                eventFilter.EventTypeName.IsNullOrEmpty() &&
+                !eventFilter.JoinedEventsByUserId.HasValue &&
+                !eventFilter.CreatedEventsByUserId.HasValue)
             {
                 return await GetAllEvents();
             }
@@ -128,6 +130,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                         .Include(a => a.EventType)
                         .Include(a => a.Location)
                         .Include(a => a.Rules)
+                        .Include(a => a.Tickets)
                         .OrderBy(a => a.CreatedDate)
                         .Where(filter)
                         .ToList();
@@ -160,7 +163,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                     }
                     eventListModel.Message = "Events queried successfully";
                     eventListModel.IsSuccess = true;
-                    eventListModel.ItemCount = 0;
+                    eventListModel.ItemCount = eventListModel.EventList.Count;
                     return eventListModel;
                 }
                 catch (Exception ex)
@@ -696,6 +699,16 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                 predicateBuilder.And(a => a.Location.Longitude + eventFilter.Radius * (0.0018) > eventFilter.Longitude && a.Location.Longitude - eventFilter.Radius * (0.0018) < eventFilter.Longitude);
 
                 predicateBuilder.And(a => a.Location.Latitude + eventFilter.Radius * (0.0018) > eventFilter.Latitude && a.Location.Latitude - eventFilter.Radius * (0.0018) < eventFilter.Latitude);
+            }
+
+            if (eventFilter.JoinedEventsByUserId.HasValue)
+            {
+                predicateBuilder.And(a => a.Tickets.Where(t => t.OwnerId.Equals(eventFilter.JoinedEventsByUserId)).Count() > 0);
+            }
+
+            if (eventFilter.CreatedEventsByUserId.HasValue)
+            {
+                predicateBuilder.And(a => a.Organizator.UserId.Equals(eventFilter.CreatedEventsByUserId));
             }
 
             return predicateBuilder;
