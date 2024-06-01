@@ -104,56 +104,70 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
         public async Task<EventListModel> GetEventsByFilter(EventSearchModel eventFilter)
         {
-            var filter = EventFilterBuilder(eventFilter);
-            var eventListModel = new EventListModel();
-            try
+            if (eventFilter.Radius.Equals(0) &&
+                eventFilter.EventName.IsNullOrEmpty() &&
+                eventFilter.Longitude.Equals(null) &&
+                eventFilter.Latitude.Equals(null) &&
+                eventFilter.OrganizatorName.IsNullOrEmpty() &&
+                eventFilter.LocationAdress.IsNullOrEmpty() &&
+                eventFilter.EventDate.Equals(null) &&
+                eventFilter.EventTypeName.IsNullOrEmpty())
             {
-                var eventSet = await _eventRepository.GetSet();
-                var allIncludedEventList = eventSet
-                    .Include(a => a.Organizator).ThenInclude(o => o.User)
-                    .Include(a => a.EventType)
-                    .Include(a => a.Location)
-                    .Include(a => a.Rules)
-                    .OrderBy(a => a.CreatedDate)
-                    .Where(filter)
-                    .ToList();
-
-                foreach (var item in allIncludedEventList)
-                {
-                    List<string> rules = new List<string>();
-
-                    item.Rules.ForEach(a =>
-                    {
-                        rules.Add(a.Rule);
-                    });
-
-                    eventListModel.EventList.Add(new EventListItem
-                    {
-                        Id = item.Id,
-                        CreatorId = item.Organizator.User.Id,
-                        CreatorNameSurname = item.Organizator.User.Name + " " + item.Organizator.User.Surname,
-                        Latitude = item.Location.Latitude,
-                        Longitude = item.Location.Longitude,
-                        EventTime = item.EventTime,
-                        EventTypeName = item.EventType.Name,
-                        IsCompleted = item.IsCompleted,
-                        Name = item.Name,
-                        OrganizatorName = item.Organizator.Name,
-                        LocationAdress = item.Location.FormattedName,
-                        Rules = rules
-                    });
-                }
-                eventListModel.Message = "Events queried successfully";
-                eventListModel.IsSuccess = true;
-                eventListModel.ItemCount = 0;
-                return eventListModel;
+                return await GetAllEvents();
             }
-            catch (Exception ex)
+            else
             {
-                eventListModel.Message = ex.Message;
-                eventListModel.IsSuccess = false;
-                eventListModel.ItemCount = 0;
-                return eventListModel;
+                var filter = EventFilterBuilder(eventFilter);
+                var eventListModel = new EventListModel();
+                try
+                {
+                    var eventSet = await _eventRepository.GetSet();
+                    var allIncludedEventList = eventSet
+                        .Include(a => a.Organizator).ThenInclude(o => o.User)
+                        .Include(a => a.EventType)
+                        .Include(a => a.Location)
+                        .Include(a => a.Rules)
+                        .OrderBy(a => a.CreatedDate)
+                        .Where(filter)
+                        .ToList();
+
+                    foreach (var item in allIncludedEventList)
+                    {
+                        List<string> rules = new List<string>();
+
+                        item.Rules.ForEach(a =>
+                        {
+                            rules.Add(a.Rule);
+                        });
+
+                        eventListModel.EventList.Add(new EventListItem
+                        {
+                            Id = item.Id,
+                            CreatorId = item.Organizator.User.Id,
+                            CreatorNameSurname = item.Organizator.User.Name + " " + item.Organizator.User.Surname,
+                            Latitude = item.Location.Latitude,
+                            Longitude = item.Location.Longitude,
+                            EventTime = item.EventTime,
+                            EventTypeName = item.EventType.Name,
+                            IsCompleted = item.IsCompleted,
+                            Name = item.Name,
+                            OrganizatorName = item.Organizator.Name,
+                            LocationAdress = item.Location.FormattedName,
+                            Rules = rules
+                        });
+                    }
+                    eventListModel.Message = "Events queried successfully";
+                    eventListModel.IsSuccess = true;
+                    eventListModel.ItemCount = 0;
+                    return eventListModel;
+                }
+                catch (Exception ex)
+                {
+                    eventListModel.Message = ex.Message;
+                    eventListModel.IsSuccess = false;
+                    eventListModel.ItemCount = 0;
+                    return eventListModel;
+                }
             }
         }
 
@@ -661,8 +675,6 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
         private static System.Linq.Expressions.Expression<Func<Event, bool>> EventFilterBuilder(EventSearchModel eventFilter)
         {
-
-            
             var predicateBuilder = LinqKit.PredicateBuilder.New<Event>();
 
             if (!eventFilter.LocationAdress.IsNullOrEmpty())
@@ -677,11 +689,11 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             if (!eventFilter.EventTypeName.IsNullOrEmpty())
                 predicateBuilder.And(a => a.EventType.Name.Contains(eventFilter.EventTypeName));
 
-            if (!eventFilter.Radius.Equals(null) && !eventFilter.Longitude.Equals(null) && !eventFilter.Latitude.Equals(null))
+            if (!eventFilter.Radius.Equals(0) && !eventFilter.Longitude.Equals(null) && !eventFilter.Latitude.Equals(null))
             {
                 predicateBuilder.And(a => a.Location.Longitude + eventFilter.Radius * (0.0018) > eventFilter.Longitude && a.Location.Longitude - eventFilter.Radius * (0.0018) < eventFilter.Longitude);
 
-                predicateBuilder.And(a => a.Location.Latitude + eventFilter.Radius * (0.0018)> eventFilter.Latitude && a.Location.Latitude - eventFilter.Radius * (0.0018) < eventFilter.Latitude);
+                predicateBuilder.And(a => a.Location.Latitude + eventFilter.Radius * (0.0018) > eventFilter.Latitude && a.Location.Latitude - eventFilter.Radius * (0.0018) < eventFilter.Latitude);
             }
 
             return predicateBuilder;
