@@ -63,7 +63,7 @@ namespace OrganizationTrackingApplicationApi.Application.DummyCommand
 
                 var alleventTypes = await _eventTypeRepository.GetAll();
 
-                var eventToAdded = new Event("Event " + datecount, date, GetRandomElement(allLocations.ToList()).Id, GetRandomElement(alleventTypes.ToList()).Id, GetRandomElement(allUserWithOrg).Organizator.Id, (int)new Random().NextInt64(50, 250), (int)new Random().NextInt64(150, 250));
+                var eventToAdded = new Event("Event " + datecount, date, GetRandomElement(allLocations.ToList()).Id, GetRandomElement(alleventTypes.ToList()).Id, GetRandomElement(allUserWithOrg).Organizator.Id, (int)new Random().NextInt64(50, 250), (int)new Random().NextInt64(150, 250),"Event description");
                 await _eventRepository.Insert(eventToAdded);
                 datecount++;
             }

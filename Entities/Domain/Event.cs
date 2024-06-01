@@ -18,6 +18,8 @@ namespace Entities.Domain
 
         public bool IsCompleted { get; private set; } = false;
 
+        public string EventDescription { get; private set; }
+
         public List<Ticket> Tickets { get; private set; } = new List<Ticket>();
         public List<Rules> Rules { get; private set; } = new List<Rules>();
         public List<Rating> Ratings { get; private set; } = new List<Rating>();
@@ -26,37 +28,40 @@ namespace Entities.Domain
         {
         }
 
-        public Event(string name, DateTime eventTime, Guid locationId, Guid eventTypeId, Guid organizatorId)
+        public Event(string name, DateTime eventTime, Guid locationId, Guid eventTypeId, Guid organizatorId, string eventDescription)
         {
             Name = name;
             EventTime = eventTime;
             LocationId = locationId;
             EventTypeId = eventTypeId;
             OrganizatorId = organizatorId;
+            EventDescription = eventDescription;
         }
 
-        public Event(string name, DateTime eventTime, Guid locationId, Guid eventTypeId, Guid organizatorId,int price,int ticketNumber)
+        public Event(string name, DateTime eventTime, Guid locationId, Guid eventTypeId, Guid organizatorId, int price, int ticketNumber, string eventDescription)
         {
             Name = name;
             EventTime = eventTime;
             LocationId = locationId;
             EventTypeId = eventTypeId;
             OrganizatorId = organizatorId;
+            EventDescription = eventDescription;
 
-            for(int i = 0; i < ticketNumber; i++)
+            for (int i = 0; i < ticketNumber; i++)
             {
-                Ticket t = new Ticket(price,Id);
+                Ticket t = new Ticket(price, Id);
                 Tickets.Add(t);
             }
         }
 
-        public void Update(string name, DateTime eventTime, Guid locationId, Guid eventTypeId, Guid organizatorId)
+        public void Update(string name, DateTime eventTime, Guid locationId, Guid eventTypeId, Guid organizatorId, string eventDescription)
         {
             Name = name;
             EventTime = eventTime;
             LocationId = locationId;
             EventTypeId = eventTypeId;
             OrganizatorId = organizatorId;
+            EventDescription = eventDescription;
         }
 
         public void CompleteEvent()

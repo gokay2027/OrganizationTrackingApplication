@@ -37,7 +37,7 @@ namespace OrganizationTrackingApplicationApi.Application.Command.EventCommand.Ad
 
                 DateTime eventDate = DateTime.Parse(request.EventTime, null, System.Globalization.DateTimeStyles.RoundtripKind);
 
-                var eventToBeAdded = new Event(request.EventName, eventDate, locationToBeAdded.Id, request.EventTypeId, organizator.Id, request.TicketPrice, request.TicketNumber);
+                var eventToBeAdded = new Event(request.EventName, eventDate, locationToBeAdded.Id, request.EventTypeId, organizator.Id, request.TicketPrice, request.TicketNumber,request.EventDescription);
 
                 await _eventRepository.Insert(eventToBeAdded);
 

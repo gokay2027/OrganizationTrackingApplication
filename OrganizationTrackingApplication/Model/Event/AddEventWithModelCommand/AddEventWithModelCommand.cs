@@ -10,7 +10,7 @@ namespace OrganizationTrackingApplicationApi.Model.Event.AddEventWithModelComman
 
         public string FormattedAddressName { get; set; }    
 
-        public string DetailDescription { get; set; }
+        public string EventDescription { get; set; }
 
         public string EventTime { get; set; }
 

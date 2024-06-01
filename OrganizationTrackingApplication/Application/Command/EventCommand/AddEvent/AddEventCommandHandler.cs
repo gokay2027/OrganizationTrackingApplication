@@ -23,7 +23,8 @@ namespace OrganizationTrackingApplicationApi.Application.Command.EventCommand.Ad
                 request.EventTime,
                 request.LocationId,
                 request.EventTypeId,
-                request.OrganizatorId);
+                request.OrganizatorId,
+                request.EventDescription);
 
                 eventToBeAdded.AddCreatedTicketForEvent(request.TicketNumber, request.TicketPrice);
 
