@@ -82,6 +82,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                         Name = item.Name,
                         OrganizatorName = item.Organizator.Name,
                         LocationAdress = item.Location.FormattedName,
+                        EventDescription = item.EventDescription,
                         Rules = rules
                     });
                 }
@@ -153,7 +154,8 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                             Name = item.Name,
                             OrganizatorName = item.Organizator.Name,
                             LocationAdress = item.Location.FormattedName,
-                            Rules = rules
+                            Rules = rules,
+                            EventDescription = item.EventDescription,
                         });
                     }
                     eventListModel.Message = "Events queried successfully";

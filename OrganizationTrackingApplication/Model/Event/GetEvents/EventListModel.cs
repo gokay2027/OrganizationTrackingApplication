@@ -13,7 +13,7 @@ namespace OrganizationTrackingApplicationApi.Model.Event.GetEvents
         public string Name { get; set; }
         public DateTime EventTime { get; set; }
 
-        public string EventDetail { get; set; }
+        public string EventDescription { get; set; }
         public Guid CreatorId { get; set; }
         public string CreatorNameSurname { get; set; }
         public float Longitude { get; set; }
