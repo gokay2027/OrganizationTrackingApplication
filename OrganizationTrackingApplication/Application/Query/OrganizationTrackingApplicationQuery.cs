@@ -106,7 +106,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
 
         public async Task<EventListModel> GetEventsByFilter(EventSearchModel eventFilter)
         {
-            if (eventFilter.Radius.Equals(0) &&
+            if (eventFilter.Radius.Equals(null) &&
                 eventFilter.EventName.IsNullOrEmpty() &&
                 eventFilter.Longitude.Equals(null) &&
                 eventFilter.Latitude.Equals(null) &&
