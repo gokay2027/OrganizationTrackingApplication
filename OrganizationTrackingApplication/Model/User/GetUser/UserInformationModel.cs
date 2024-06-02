@@ -9,6 +9,5 @@ namespace OrganizationTrackingApplicationApi.Model.User.GetUser
         public string Surname { get; set; }
         public int FollowerCount { get; set; }
         public int FollowCount { get; set; }
-        public List<string> EventsJoined { get; set; } = new List<string>();
     }
 }

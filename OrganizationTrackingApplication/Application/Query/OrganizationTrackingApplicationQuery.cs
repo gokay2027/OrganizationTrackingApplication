@@ -199,11 +199,6 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                     FollowerCount = user.Followers.Count(),
                 };
 
-                foreach (var ticket in user.Tickets)
-                {
-                    userInformation.EventsJoined.Add(ticket.Event.Name);
-                }
-
                 userInformation.Message = "User queried successfully";
                 userInformation.IsSuccess = true;
 
@@ -274,11 +269,6 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                 FollowCount = user.Followeds.Count(),
                 FollowerCount = user.Followers.Count(),
             };
-
-            foreach (var ticket in user.Tickets)
-            {
-                userInformation.EventsJoined.Add(ticket.Event.Name);
-            }
 
             userInformation.Message = "User queried successfully";
             userInformation.IsSuccess = true;
