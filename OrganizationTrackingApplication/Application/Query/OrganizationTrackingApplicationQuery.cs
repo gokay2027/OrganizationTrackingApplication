@@ -690,9 +690,9 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             //Buraya bakılacak sıkıntı olabilir
             if (!eventFilter.Radius.Equals(null) && !eventFilter.Longitude.Equals(null) && !eventFilter.Latitude.Equals(null))
             {
-                predicateBuilder.And(a => a.Location.Longitude + eventFilter.Radius * (0.0018) > eventFilter.Longitude && a.Location.Longitude - eventFilter.Radius * (0.0018) < eventFilter.Longitude);
+                predicateBuilder.And(a => a.Location.Longitude + eventFilter.Radius * (1/111) > eventFilter.Longitude && a.Location.Longitude - eventFilter.Radius * (1 / 111) < eventFilter.Longitude);
 
-                predicateBuilder.And(a => a.Location.Latitude + eventFilter.Radius * (0.0018) > eventFilter.Latitude && a.Location.Latitude - eventFilter.Radius * (0.0018) < eventFilter.Latitude);
+                predicateBuilder.And(a => a.Location.Latitude + eventFilter.Radius * (1/111) > eventFilter.Latitude && a.Location.Latitude - eventFilter.Radius * (1 / 111) < eventFilter.Latitude);
             }
             //Filtre doluluk kontrolü dışında getall için
             if (eventFilter.UserId.HasValue)
