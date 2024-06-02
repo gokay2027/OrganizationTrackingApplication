@@ -722,11 +722,6 @@ namespace OrganizationTrackingApplicationApi.Application.Query
             return predicateBuilder;
         }
 
-        private static bool CheckEventForUserJoint(Guid userId, Guid eventId)
-        {
-            return false;
-        }
-
         private static System.Linq.Expressions.Expression<Func<Organizator, bool>> OrganizatorFilterBuilder(OrganizatorSearchModel organizatorSearchModel)
         {
             var predicateBuilder = LinqKit.PredicateBuilder.New<Organizator>();
