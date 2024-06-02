@@ -58,7 +58,7 @@ namespace OrganizationTrackingApplicationApi.Application.Command.TicketCommand.B
                 {
                     return new BuyTicketOutputModel()
                     {
-                        IsSuccess = true,
+                        IsSuccess = false,
                         Message = "There is no ticket available"
                     };
                 }
@@ -67,7 +67,7 @@ namespace OrganizationTrackingApplicationApi.Application.Command.TicketCommand.B
             {
                 return new BuyTicketOutputModel()
                 {
-                    IsSuccess = true,
+                    IsSuccess = false,
                     Message = ex.Message
                 };
             }
