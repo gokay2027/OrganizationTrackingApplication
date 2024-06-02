@@ -55,6 +55,7 @@ namespace OrganizationTrackingApplicationApi.Application.Query
                     .Include(a => a.EventType)
                     .Include(a => a.Location)
                     .Include(a => a.Rules)
+                    .Include(a => a.Tickets)
                     .OrderBy(a => a.CreatedDate)
                     .ToList();
 

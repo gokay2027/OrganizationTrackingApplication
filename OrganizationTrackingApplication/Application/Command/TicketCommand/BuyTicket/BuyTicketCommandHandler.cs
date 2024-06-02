@@ -17,7 +17,7 @@ namespace OrganizationTrackingApplicationApi.Application.Command.TicketCommand.B
         {
             _eventRepository = eventRepository;
             _userRepository = userRepository;
-            _ticketRepository = ticketRepository;
+            _ticketRepository = ticketRepository;                                                                                                                                                                                                                                       
             _balanceRepository = balanceRepository;
         }
 
